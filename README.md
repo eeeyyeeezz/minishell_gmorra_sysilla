@@ -1,1 +1,0 @@
-# minishell_by_ncliff_and_gmorra
