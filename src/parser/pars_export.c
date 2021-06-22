@@ -1,14 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pars_export.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/27 17:23:34 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/14 13:30:59 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#/*
+#;;;;;	MAKEFILE.H
+#;;;;;	gmorra/sysilla's minishell
+#;;;;;	team created ???
+#;;;;;	team locked ???
+#*/
 
 #include "../../includes/minishell.h"
 
@@ -76,5 +71,10 @@ void				pars_export(char *line, t_struct *global)
 		check_content(str);
 		i++;
 	}
+	// while (global->pars.arg)
+	// {
+	// 	printf("ARG [%s]\n", global->pars.arg->content);
+	// 	global->pars.arg = global->pars.arg->next;
+	// }
 	global->pars.cmd = 3;
 }

@@ -1,15 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pars_line.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/08 13:39:27 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/12 18:29:12 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+#/*
+#;;;;;	MAKEFILE.H
+#;;;;;	gmorra/sysilla's minishell
+#;;;;;	team created ???
+#;;;;;	team locked ???
+#*/
 #include "../../includes/minishell.h"
 
 static	void		get_command_info(char *line, t_struct *global)
@@ -28,7 +22,7 @@ static	void		get_command_info(char *line, t_struct *global)
 	else if (!ft_strcmp(line, "env"))
 		pars_env(global->pars.first_line, global);
 	else if (!ft_strcmp(line, "pwd"))
-		global->pars.cmd = 2;
+		global->pars.cmd = 2;	
 	else if (!ft_strcmp(line, "cd"))
 		pars_cd(global->pars.first_line, global);
 	else if (!ft_strcmp(line, ""))

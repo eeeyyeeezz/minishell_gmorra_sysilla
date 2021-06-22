@@ -81,7 +81,7 @@ MARK = "U+2713"
 # /COLORS
 
 $(NAME): $(LIBFT) $(OBJ) $(HEADER) ASCII_MINISHELL
-	@$(CC) $(OBJ) $(INCLUDE) $(LIBFT) -o $(NAME) -lncurses
+	@$(CC) $(OBJ) $(INCLUDE) $(LIBFT) -o $(NAME) -lncurses]
 # @echo ${GREEN}'Compile completed!'${NORMAL}
 
 $(LIBFT):
@@ -106,7 +106,7 @@ ASCII_MINISHELL:
 	@echo '         _\///______________\///__\///__\///____\///__\///__\//////////__\///____\///____\//////////__\/////////__\/////////__'${NORMAL}
 
 RUN:
-	@gcc -g ${SRC_DIR} ${LIBFT} -lncurses -o ${NAME}
+	@gcc -g src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c ${LIBFT} -lncurses -o ${NAME}
 	@./minishell
 
 re: fclean all

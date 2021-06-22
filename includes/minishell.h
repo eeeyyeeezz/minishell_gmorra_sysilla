@@ -43,6 +43,21 @@ typedef	struct			s_history
 	struct s_history 	*prev;
 }						t_history;
 
+typedef struct s_env
+{
+	char		**sh_envp;
+	char		*sh_path;
+	char		*sh_term;
+	char		*sh_name;
+	char		*sh_lvl;
+	int			truefd0;
+	int			truefd1;
+	int			ispipe;
+	int			isb_in;
+	int			count_str;
+	int			max_chr;
+}				t_env;
+
 typedef	struct			s_struct
 {
 	char				*term_name;
@@ -105,5 +120,26 @@ void					ft_histclear(t_history **lst, void (*del)(void*));
 void					ft_histadd_back(t_history **lst, t_history *new);
 t_history				*ft_histnew(void *content);
 
+
+// LOGIC
+
+char			*ft_strndup(const char *s, size_t n);
+int				ft_strmasschr(char *what, char **where, int cmplen);
+void			ft_envp_cpy(char *envp[], t_env *buf);
+int				ft_env(char **av, t_env *sh_env);
+int				ft_echo(char **arg);
+int				ft_cd(char **argv, t_env *sh_env);
+int				str_index(char *str, char c);
+void			add_to_env(char *key, char *add, t_env *sh_envp);
+int				ft_export(char **av, t_env *env);
+int				cnt_str(char **src);
+int				cnt_chr(char **src);
+void			freemass(char **arr);
+void			ft_err(char *err);
+int				ft_unset(char **av, t_env *env);
+int				lsh_exit(char **args);
+void			shlvl(t_env *env);
+
+// \LOGIC
 
 #endif
