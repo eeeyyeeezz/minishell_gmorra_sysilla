@@ -1,14 +1,9 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/03/12 18:49:56 by gmorra            #+#    #+#              #
-#    Updated: 2021/05/21 16:49:19 by ncliff           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+#/*
+#;;;;;	MAKEFILE.H
+#;;;;;	gmorra/sysilla's minishell
+#;;;;;	team created ???
+#;;;;;	team locked ???
+#*/
 
 NAME	= minishell
 
@@ -77,22 +72,46 @@ MKDIR_P	= mkdir -p
 all: $(OUT_DIR) $(LIBFT) $(NAME)
 
 obj/%.o:	src/%.c
-	$(CC) -g $(CFLAGS) -c $< -o $@
+	@$(CC) -g $(CFLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT) $(OBJ) $(HEADER)
+# COLORS
+
+RED = "\033[0;31m"
+BLUE = "\033[0;34m"
+YELLOW = "\033[0;33m"
+WHITE = "\033[1;37m"
+GREEN = "\033[0;32m"
+PURPLE = "\033[0;35m"
+GRAY = "\033[1;30m"
+NORMAL = "\033[0m"
+MARK = "U+2713"
+
+# /COLORS
+
+$(NAME): $(LIBFT) $(OBJ) $(HEADER) ASCII_MINISHELL
 	@$(CC) $(OBJ) $(INCLUDE) $(LIBFT) -o $(NAME) -lncurses
-	@echo '$(cgreen)Good compile!$(cwhite)'
+# @echo ${GREEN}'Compile completed!'${NORMAL}
 
 $(LIBFT):
 	@cd libft && make
-	@echo '$(cgreen)Libft compile$(cwhite)'
+	@echo ${GREEN}'Libft is assembled!'${NORMAL}
 
 $(OUT_DIR):
 	@$(MKDIR_P) $@
 	@cd $(OUT_DIR) && $(MKDIR_P) $(OBJ_DIR)
 	@cd $(OUT_DIR) && cd logic && $(MKDIR_P) env cd_pwd
-	@echo '$(cgreen)$@ dir create$(cwhite)'
-	@echo "\033[1A"
+	@echo ${GREEN}'$@ dir created!'${NORMAL}
+
+ASCII_MINISHELL:
+	@echo ${RED}'__/\\\\\\\\\____________/\\\\\\\\_________________________________________/\\\\\_________________________/\\\\\\\\\\\\_____/\\\\\\\\\\\\____'
+	@echo '  _\/\\\\\\________/\\\\\\________________________________________\/\\\________________________\////\\\____\////\\\____'
+	@echo '   _\/\\\//\\\____/\\\//\\\__/\\\________________/\\\______________\/\\\___________________________\/\\\_______\/\\\____'
+	@echo '    _\/\\\\///\\\/\\\/_\/\\\_\///___/\\/\\\\\\___\///___/\\\\\\\\\\_\/\\\_____________/\\\\\\\\_____\/\\\_______\/\\\____'
+	@echo '     _\/\\\__\///\\\/___\/\\\__/\\\_\/\\\////\\\___/\\\_\/\\\//////__\/\\\\\\\\\\____/\\\/////\\\____\/\\\_______\/\\\____ '
+	@echo '      _\/\\\____\///_____\/\\\_\/\\\_\/\\\__\//\\\_\/\\\_\/\\\\\\\\\\_\/\\\/////\\\__/\\\\\\\\\\\_____\/\\\_______\/\\\____'
+	@echo '       _\/\\\_____________\/\\\_\/\\\_\/\\\___\/\\\_\/\\\_\////////\\\_\/\\\___\/\\\_\//\\///////______\/\\\_______\/\\\____'
+	@echo '        _\/\\\_____________\/\\\_\/\\\_\/\\\___\/\\\_\/\\\__/\\\\\\\\\\_\/\\\___\/\\\__\//\\\\\\\\\\__/\\\\\\\\\__/\\\\\\\\\_'
+	@echo '         _\///______________\///__\///__\///____\///__\///__\//////////__\///____\///____\//////////__\/////////__\/////////__'${NORMAL}
 
 RUN:
 	@gcc -g ${SRC_DIR} ${LIBFT} -lncurses -o ${NAME}
@@ -101,14 +120,12 @@ RUN:
 re: fclean all
 
 clean:
-	@/bin/rm -rf $(OUT_DIR)
+	@rm -rf $(OUT_DIR)
 	@cd libft && make fclean
-	@echo '$(ccred)$(OUT_DIR) delete$(cwhite)'
+	@echo ${RED}'$(OUT_DIR) clean'${NORMAL}
 
 fclean: clean
-	@/bin/rm -f $(NAME)
-	@echo '$(ccred)$(NAME) file delete$(cwhite)'
+	@rm -f $(NAME)
+	@echo ${RED}'$(NAME) clean'${NORMAL}
 
-cgreen=$(shell echo "\033[1;32m")
-ccred=$(shell echo "\033[1;31m")
-cwhite=$(shell echo "\033[1;0m")
+PHONY: re clean fclean all

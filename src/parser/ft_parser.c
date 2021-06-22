@@ -1,14 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_parser.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/19 15:32:21 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/14 14:22:40 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+;;;;;	FT_PARSER.C
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../../includes/minishell.h"
 
@@ -28,7 +23,7 @@ static	char	*enter_pressed(char *line, char *str, t_struct *global)
 			global->history = global->history->next;
 		find_redirects_pipes(line, global);		// TODO: leaks
 		pars_arguments_line(line, global);
-		lgc_choise(global);
+		// lgc_choise(global);
 		write_minishell();
 		line[0] = 0;
 		return (line);
