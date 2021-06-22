@@ -21,13 +21,13 @@ static	char			*check_dollar_info(char *str, t_struct *global)
 	j = 0;
 	i = 0;
 	env_string = 0;
-	while (global->env[i])
+	while (global->envp[i])
 	{
-		if (ft_strnstr(global->env[i], str + 1, ft_strlen(str)))
+		if (ft_strnstr(global->envp[i], str + 1, ft_strlen(str)))
 		{
-			while (global->env[i][j] != '=')
+			while (global->envp[i][j] != '=')
 				j++;
-			env_string = (char *)&global->env[i][j + 1];
+			env_string = (char *)&global->envp[i][j + 1];
 			break ;
 		}
 		i++;

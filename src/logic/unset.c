@@ -30,7 +30,8 @@ int	del_in_env(char *key, t_env *env, int index)
 		{
 			i++;
 		}
-		new_env[j] = ft_strdup(env->sh_envp[i]);
+		if (env->sh_envp[i])
+			new_env[j] = ft_strdup(env->sh_envp[i]);
 		i++;
 		j++;
 	}

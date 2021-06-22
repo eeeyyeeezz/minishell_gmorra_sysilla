@@ -9,7 +9,7 @@
 # define MINISHELL_H
 # define READLINE_LIBRARY
 
-
+# include <termcap.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
@@ -80,10 +80,12 @@ typedef struct	s_sh
 
 typedef	struct			s_struct
 {
+	// t_sh				tsh;
+	// t_env				env;
 	char				*term_name;
 	t_flags				flags;
 	t_pars				pars;
-	char				**env;
+	char				**envp;
 	t_list				*path;
 	t_history			*history;
 	int					fd;

@@ -61,7 +61,10 @@ OBJ_DIR	=	parser \
 
 MKDIR_P	= mkdir -p
 
-all: $(OUT_DIR) $(LIBFT) $(NAME)
+all:
+	@gcc -g -ltermcap -lreadline -lreadline src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c ${LIBFT} ${READLINE} -o ${NAME} -g
+#$(OUT_DIR) $(LIBFT) $(NAME)
+
 
 obj/%.o:	src/%.c
 	@$(CC) -g $(CFLAGS) -c $< -o $@

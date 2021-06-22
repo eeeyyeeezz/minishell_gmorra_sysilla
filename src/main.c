@@ -49,26 +49,6 @@ int ft_isnum(char *str)
 	return (0);
 }
 
-// int	ft_exit(char **argc)
-// {
-// 	int	ret;
-
-// 	ret = 0;
-// 	ft_putendl_fd("exit", 1);
-// 	if (argc[1])
-// 	{
-// 		if ((ft_isnum(argc[1])))
-// 		{
-// 			printf("bash: exit: %s: numeric argument required\n", argc[1]);
-// 		}
-// 		else
-// 		{
-// 			ret = ft_atoi(argc[1]);
-// 		}
-// 	}
-// 	return (ret);
-// }
-
 int lsh_num_builtins() {
 	return sizeof(builtin_str) / sizeof(char *);
 }
@@ -213,9 +193,10 @@ int lsh_execute(char **args, char **envp, t_env *env)
 		return (lsh_launch(args, env->sh_envp, env));
 }
 
+t_sh				tsh;
+
 int				main(int argc, char **argv, char **envp)
 {
-	t_sh			tsh;
 	t_env			env;
 	t_struct		global;
 	char			*line;
@@ -225,29 +206,29 @@ int				main(int argc, char **argv, char **envp)
 
 	global.fd = 1;
 	status = 1;
+	rl_catch_signals = 0;
 	line = NULL;
 	global.pars.arg = NULL;
-	global.env = envp;
+	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
 	shlvl(&env);
-	tsh.sh_lvl = ft_atoi(env.sh_lvl);
-	tsh.sh_mdepth = tsh.sh_lvl;
-	
-
+	// global.tsh.sh_lvl = ft_atoi(env.sh_lvl);
+	// global.tsh.sh_mdepth = global.tsh.sh_lvl;
 	init_all(&global);
-	while (1)
+	while (status)
 	{
-		while (status)
-		{
-			line = readline("minishell: ");
-			if (line == NULL)
-				ft_exit();
-			add_history(line);
-			args = lsh_split_line(line);
-			status = lsh_execute(args, envp, &env);
-			// ft_parser(&global, envp, &env);
-		}
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, signal_2);
+		line = readline("minishell: ");
+		if (line == NULL)
+			ft_exit();
+		add_history(line);
+		args = lsh_split_line(line);
+		status = lsh_execute(args, envp, &env);
+		free(line);
+		free(args);
+		// ft_parser(&global, envp, &env);
 	}
 	return (0);
 }
