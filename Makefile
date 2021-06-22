@@ -32,14 +32,6 @@ SRC		=	main.c \
 			parser/ft_error.c \
 			parser/ft_parser.c \
 			parser/pars_echo.c \
-			logic/logic_choice.c\
-			logic/env/env_func.c \
-			logic/env/export_func.c \
-			logic/env/export_env.c \
-			logic/env/path_pars.c \
-			logic/env/env_cp_sort.c \
-			logic/env/unset_func.c \
-			logic/cd_pwd/cd_func.c \
 			parser/pars_export.c \
 			parser/get_env_info.c\
 			parser/pars_double_quotes.c \

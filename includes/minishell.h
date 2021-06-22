@@ -46,12 +46,9 @@ typedef	struct			s_history
 typedef	struct			s_struct
 {
 	char				*term_name;
-	char				**commands;
 	t_flags				flags;
 	t_pars				pars;
-	// t_list				*list_pars;
-	char				**enf;
-	t_list				*env;
+	char				**env;
 	t_list				*path;
 	t_history			*history;
 	int					fd;
@@ -108,37 +105,5 @@ void					ft_histclear(t_history **lst, void (*del)(void*));
 void					ft_histadd_back(t_history **lst, t_history *new);
 t_history				*ft_histnew(void *content);
 
-
-
-// logic
-int		lgc_choise(t_struct *glb);
-
-t_list	*ft_lstcpy(t_list *lst);
-int		ft_export(t_struct *glb);
-
-// добавить sort.
-int		ft_env(t_struct *glb);
-int		ft_cd(t_struct *glb);
-int		ft_pwd(t_struct *glb);
-
-// Переделать
-int		ft_unset(t_struct *glb);
-
-void	path_pars_to_lst(t_struct *glb);
-char	**path_pars(t_struct *glb);
-
-void	env_sort(t_list *env);
-t_list	*ft_lstcpy(t_list *lst);
-
-char	*env_srch_str(t_struct *glb, char *str);
-int		env_add(t_struct *glb, char **env);
-t_list*	env_srch(t_struct *glb, char *str);
-t_list*	env_export(t_struct *glb, char *str);
-char**	env_to_array(t_struct *glb);
-void	env_print_exp(t_struct *glb);
-
-t_list	*env_add_back(t_struct *glb, char *str);
-
-t_list		*env_cont_join(t_struct *glb, char *str);
 
 #endif

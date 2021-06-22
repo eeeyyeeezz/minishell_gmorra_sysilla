@@ -12,6 +12,7 @@ int				main(int argc, char **argv, char **env)
 
 	global.fd = 1;
 	global.pars.arg = NULL;
+	global.env = env;
 	ft_parser(&global);
 	return (0);
 }
