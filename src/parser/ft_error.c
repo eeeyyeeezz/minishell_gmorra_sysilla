@@ -14,8 +14,8 @@
 
 void			ft_exit()
 {
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(tigetstr("ed"), 1, ft_putchar);
+	// tputs(restore_cursor, 1, ft_putchar);
+	// tputs(tigetstr("ed"), 1, ft_putchar);
 	write(1, "exit\n", 5);
 	exit(0);
 }

@@ -43,5 +43,5 @@ void	init_termios(t_struct *global)
 	term.c_lflag &= ~(ICANON);
 	tcsetattr(0, TCSANOW, &term);
 	tgetent(0, global->term_name);
-	write_minishell();
+	// write_minishell();
 }

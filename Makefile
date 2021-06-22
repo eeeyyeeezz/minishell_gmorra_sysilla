@@ -105,8 +105,11 @@ ASCII_MINISHELL:
 	@echo '        _\/\\\_____________\/\\\_\/\\\_\/\\\___\/\\\_\/\\\__/\\\\\\\\\\_\/\\\___\/\\\__\//\\\\\\\\\\__/\\\\\\\\\__/\\\\\\\\\_'
 	@echo '         _\///______________\///__\///__\///____\///__\///__\//////////__\///____\///____\//////////__\/////////__\/////////__'${NORMAL}
 
+READLINE = readline/lib/libhistory.a readline/lib/libreadline.a
+
 RUN:
-	@gcc -g src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c ${LIBFT} -lncurses -o ${NAME}
+	@gcc -g -ltermcap -lreadline -lreadline src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c ${LIBFT} ${READLINE} -o ${NAME}
+	
 	@./minishell
 
 re: fclean all

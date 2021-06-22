@@ -7,6 +7,8 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define READLINE_LIBRARY
+
 
 # include <unistd.h>
 # include <stdio.h>
@@ -17,6 +19,17 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 # include "get_next_line.h"
+# include "../readline/include/readline/chardefs.h"
+# include "../readline/include/readline/rlconf.h"
+# include "../readline/include/readline/tilde.h"
+# include "../readline/include/readline/rlstdc.h"
+# include "../readline/include/readline/history.h"
+# include "../readline/include/readline/keymaps.h"
+# include "../readline/include/readline/readline.h"
+
+#define LSH_RL_BUFSIZE 1024
+#define LSH_TOK_BUFSIZE 64
+#define LSH_TOK_DELIM " \t\r\n\a"
 
 typedef	struct 			s_flags
 {
@@ -58,6 +71,13 @@ typedef struct s_env
 	int			max_chr;
 }				t_env;
 
+typedef struct	s_sh
+{
+	int			sh_lvl;
+	int			sh_mdepth;
+}				t_sh;
+
+
 typedef	struct			s_struct
 {
 	char				*term_name;
@@ -91,7 +111,7 @@ void					ft_putstr(char *s);
 int						ft_putchar(int word);
 int						ft_issleter(char s);
 int						ft_isspaces(char word);
-void					ft_parser(t_struct *global);
+void					ft_parser(t_struct *global, char **envp, t_env *env);
 int						ft_strcmp(char *s1, char *s2);
 int						skip_cmd(char *big, char *little);
 int						ft_isalnum_new(int c);
@@ -123,6 +143,7 @@ t_history				*ft_histnew(void *content);
 
 // LOGIC
 
+char			*ft_strjoin_slash(char const *s1, char const *s2);
 char			*ft_strndup(const char *s, size_t n);
 int				ft_strmasschr(char *what, char **where, int cmplen);
 void			ft_envp_cpy(char *envp[], t_env *buf);

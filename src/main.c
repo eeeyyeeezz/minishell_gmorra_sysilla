@@ -9,6 +9,7 @@
 
 int				main(int argc, char **argv, char **envp)
 {
+	t_sh tsh;
 	t_env env;
 	t_struct global;
 
@@ -17,6 +18,9 @@ int				main(int argc, char **argv, char **envp)
 	global.env = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
-	ft_parser(&global);
+	shlvl(&env);
+	tsh.sh_lvl = ft_atoi(env.sh_lvl);
+	tsh.sh_mdepth = tsh.sh_lvl;
+	ft_parser(&global, envp, &env);
 	return (0);
 }
