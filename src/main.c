@@ -159,12 +159,12 @@ int		exec_path(char **args, char **envp)
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
 		if (lnch_pth(path_ag, args, envp))
-			{
-				flag++;
-			}
+			flag++;
 		free(path_ag);
 		i++;
 	}
+	if (flag == 0)
+		printf("minishel: %s: command not found", args[0]);
 	return (1);
 }
 
@@ -196,9 +196,10 @@ int lsh_execute(char **args, char **envp, t_env *env)
 		}
 		return (exec_path(args, env->sh_envp));
 	}
-  	else
+  	else if ((ft_strnstr(args[0], "./", 2)))
 		return (lsh_launch(args, env->sh_envp, env));
-	printf("minishel: %s: command not found", args[0]);
+	else
+		printf("minishel: %s: command not found", args[0]);
 	return (1);
 }
 
@@ -234,12 +235,30 @@ int				main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(line);
-		ft_parser(&global, line);
-		// args = lsh_split_line(line);
-		// status = lsh_execute(args, envp, &env);
-		// free(line);
-		// free(args);
+		// ft_parser(&global, line);
+		args = lsh_split_line(line);
+		status = lsh_execute(args, envp, &env);
+		// status = lsh_execute(global.pars.ft_cmd, envp, &env);
+		free(line);
+		free(args);
 		// ft_parser(&global, envp, &env);
 	}
 	return (0);
 }
+
+// Команда ls -la:
+
+// 	ft_cmd:
+// 	{
+// 		ls;
+// 	}
+
+// 	ft_arg:
+// 	{
+// 		-la;
+// 	}
+
+// 	как было бы охуенно:
+// 	{
+// 		ls, -la;
+// 	}

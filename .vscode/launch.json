@@ -1,16 +1,21 @@
 {
-	// Use IntelliSense to learn about possible attributes.
-	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	// Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+	// Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+	// Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "lldb",
+			"name": "gcc - Сборка и отладка активного файла",
+			"type": "cppdbg",
 			"request": "launch",
-			"name": "Debug",
-			"program": "${workspaceFolder}/minishell",
+			"program": "/Users/sysilla/Desktop/minishell/minishell",
 			"args": [],
-			"cwd": "${workspaceFolder}"
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": true,
+			"MIMode": "lldb",
+			"preLaunchTask": "C/C++: gcc сборка активного файла"
 		}
 	]
 }
