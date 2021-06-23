@@ -11,67 +11,18 @@
 // 	global->pars.cmd, global->pars.chr, global->pars.info_env, global->pars.first_line, global->pars.first_word,
 // 	global->pars.info);
 
-static	char	*enter_pressed(char *line, char *str, t_struct *global)
+void	enter_pressed(t_struct *global, char *line)
 {
-	if (!ft_strncmp(str, "\n", 1))
-	{
-		// printf("LINE [%s]\n", line);
-		syntax_error(line, global);
-		global->pars.first_line = line;
-		open_file_history(line, global);
-		while (global->history->next)
-			global->history = global->history->next;
-		find_redirects_pipes(line, global);		// TODO: leaks
-		pars_arguments_line(line, global);
-		// lgc_choise(global);
-		write_minishell();
-		line[0] = 0;
-		return (line);
-	}
-	return (line);
+	// printf("LINE [%s]\n", line);
+	syntax_error(line, global);
+	global->pars.first_line = line;
+	find_redirects_pipes(line, global);		// TODO: leaks
+	pars_arguments_line(line, global);
 }
-
-void			ft_parser(t_struct *global, char **envp, t_env *env)
+ 
+void			ft_parser(t_struct *global, char *line)
 {
-	// int				br;
-	// char			str[200];
-	// char			*line;
-	// char 			**args;
-	// int				status;
-
-	// status = 1;
-	// // str[0] = 0;
-	// line = NULL;
-	// init_all(global);
-	// init_termios(global);
-	// gnl_history_to_list(global);
-	// while (1)
-	// {
-	// 	// while (global->history->next)
-	// 		// global->history = global->history->next;
-	// 	// line = ft_calloc(1, sizeof(char *));
-	// 	while (status)
-	// 	{
-	// 		// signal(SIGQUIT, SIG_IGN);
-	// 		// signal(SIGINT, signal_2);		// CTRL-C
-	// 		// br = read(0, str, 100);
-	// 		// str[br] = 0;
-	// 		// line = key_hook(str, line, global);
-	// 		// if (!ft_strncmp(str, "\4", 1) && line[0] == 0)
-	// 		// 	ft_exit();
-	// 		// if (key_escape(str) && global->flags.flag != 1)
-	// 		// 	line = ft_strjoin_new(line, str);
-	// 		line = readline("minishell: ");
-	// 		if (line == NULL)
-	// 			ft_exit();
-	// 		add_history(line);
-
-	// 		// global->flags.flag = 0;
-	// 		args = lsh_split_line(line);
-	// 		status = lsh_execute(args, envp, env);
-	// 		// line = enter_pressed(line, str, global);
-	// 	}
-	// }
+	enter_pressed(global, line);
 }
 
 

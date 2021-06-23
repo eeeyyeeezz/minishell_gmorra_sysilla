@@ -9,7 +9,7 @@
 # define MINISHELL_H
 # define READLINE_LIBRARY
 
-
+# include <termcap.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
@@ -39,7 +39,9 @@ typedef	struct 			s_flags
 
 typedef	struct			s_pars {
 	t_list				*arg;
+	char				**ft_arg;
 	int					cmd;
+	char				**ft_cmd;
 	int					chr;
 	char				*info_env;
 	char				*first_line;
@@ -79,13 +81,15 @@ typedef struct	s_sh
 
 typedef	struct			s_struct
 {
-	char				*term_name;
+	// t_sh				tsh;
+	// t_env				env;
 	t_flags				flags;
 	t_pars				pars;
-	char				**env;
+	int					fd;
+	char				*term_name;
+	char				**envp;
 	t_list				*path;
 	t_history			*history;
-	int					fd;
 }						t_struct;
 
 t_pars					*pars_st_new();
@@ -110,7 +114,8 @@ void					ft_putstr(char *s);
 int						ft_putchar(int word);
 int						ft_issleter(char s);
 int						ft_isspaces(char word);
-void					ft_parser(t_struct *global, char **envp, t_env *env);
+void					enter_pressed(t_struct *global, char *line);
+void					ft_parser(t_struct *global, char *line);
 int						ft_strcmp(char *s1, char *s2);
 int						skip_cmd(char *big, char *little);
 int						ft_isalnum_new(int c);

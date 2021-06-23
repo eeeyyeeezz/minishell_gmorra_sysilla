@@ -1,19 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_termios.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/31 12:06:51 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/09 16:53:47 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#/*
+#;;;;;	INIT_TERMIOS.C
+#;;;;;	gmorra/sysilla's minishell
+#;;;;;	team created ???
+#;;;;;	team locked ???
+#*/
 
 #include "../../includes/minishell.h"
 
 void			init_all(t_struct *global)
 {
+	global->pars.ft_cmd = 0;
 	global->pars.arg = NULL;
 	// global->commands = NULL;
 	global->history = NULL;

@@ -98,25 +98,26 @@ static	char		**get_all_commands(char *line, t_struct *global)
 	commands[count] = 0;
 	characters[count_chr] = -1;
 	characters[count_chr + 1] = '\0';
-	for (int i = 0; commands[i]; i++)
-		printf("cmd [%s]\n", commands[i]);
-	for (int i = 0; characters[i]; i++)
-		printf("chr [%d]\n", characters[i]);
+	// for (int i = 0; commands[i]; i++)
+		// printf("cmd [%s]\n", commands[i]);
+	// for (int i = 0; characters[i]; i++)
+		// printf("chr [%d]\n", characters[i]);
 	// i = -1;
 	// while (characters[++i])
 	// {
 	// 	// pars_add_back(&global->pars.chr, pars_st_new(characters[i]));
 	// 	global->pars = *global->pars.next;
 	// }
-	for (int i = 0; i <= count_malloc_chr(line); i++)
-		ft_free((void *)&commands[i]);
-	ft_free((void *)&commands);
+	// for (int i = 0; i <= count_malloc_chr(line); i++)
+		// ft_free((void *)&commands[i]);
+	// ft_free((void *)&commands);
 	ft_free((void *)&characters);
-	return (NULL);
+	return (commands);
 }
 
-static	char		**fill_all_arguments(char *line)
+static	char		**fill_all_arguments(t_struct *global, char *line)
 {
+	// static	int ft_arg;
 	char	*str;
 	char	**arg;
 	int		end_fill;
@@ -125,7 +126,6 @@ static	char		**fill_all_arguments(char *line)
 	int		end;
 	int		i;
 	int		j;
-
 
 	i = 0;
 	j = 0;
@@ -158,16 +158,19 @@ static	char		**fill_all_arguments(char *line)
 		i++;
 	}
 	arg[++count] = 0;
-	for (int i = 0; arg[i]; i++)
-		printf("DVUM [%s]\n", arg[i]);
-	for (int i = 0; arg[i]; i++)
-		free(arg[i]);
-	free(arg);
-	return (NULL);
+		// for (int i = 0; global->pars.ft_arg[i]; i++)
+		// printf("FT PARS [%d] [%s]\n", ft_arg, global->pars.ft_arg[i]);
+
+	// for (int i = 0; arg[i]; i++)
+		// free(arg[i]);
+	// free(arg);			// LEAKS
+	// ft_arg++;
+	return (arg);
 }
 
 static	void		get_all_arguments(char *line, t_struct *global)
 {
+
 	char	**arg;
 	int		begin;
 	int		count;
@@ -182,7 +185,9 @@ static	void		get_all_arguments(char *line, t_struct *global)
 	{
 		while (!ft_chr(line[end]) && line[end])
 			end++;
-		fill_all_arguments((char *)&line[begin]);
+		arg = fill_all_arguments(global, (char *)&line[begin]);
+		// for (int i = 0; arg[i]; i++)
+		// 	printf("ABOBA [%s]\n", arg[i]);
 		begin = end + 1;
 		while (i != end)
 			i++;
@@ -202,8 +207,11 @@ int				pars_characters(char *line, t_struct *global)
 	if (!(encode_line = encode_lines(ft_strdup(str))))
 		return (-1);
 	ft_free((void *)&str);
-	// get_all_commands(encode_line, global);
-	get_all_arguments(encode_line, global);
+	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
+	for (int i = 0; global->pars.ft_cmd[i]; i++)
+		printf("FT_CMD [%s]\n", global->pars.ft_cmd[i]);
+	// get_all_arguments(encode_line, global);
+
 	ft_free((void *)&encode_line);
 	return (0);
 }

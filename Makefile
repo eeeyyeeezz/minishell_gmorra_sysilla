@@ -61,7 +61,10 @@ OBJ_DIR	=	parser \
 
 MKDIR_P	= mkdir -p
 
-all: $(OUT_DIR) $(LIBFT) $(NAME)
+all:
+	@gcc -g -ltermcap -lreadline -lreadline src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c ${LIBFT} ${READLINE} -o ${NAME} -g
+#$(OUT_DIR) $(LIBFT) $(NAME)
+
 
 obj/%.o:	src/%.c
 	@$(CC) -g $(CFLAGS) -c $< -o $@
@@ -81,7 +84,7 @@ MARK = "U+2713"
 # /COLORS
 
 $(NAME): $(LIBFT) $(OBJ) $(HEADER) ASCII_MINISHELL
-	@$(CC) $(OBJ) $(INCLUDE) $(LIBFT) -o $(NAME) -lncurses]
+	@$(CC) $(OBJ) $(INCLUDE) $(LIBFT) -o $(NAME) -lncurses
 # @echo ${GREEN}'Compile completed!'${NORMAL}
 
 $(LIBFT):
@@ -108,7 +111,7 @@ ASCII_MINISHELL:
 READLINE = readline/lib/libhistory.a readline/lib/libreadline.a
 
 RUN:
-	@gcc -g -ltermcap -lreadline -lreadline src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c ${LIBFT} ${READLINE} -o ${NAME}
+	@gcc -g -ltermcap -lreadline -lreadline src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c libft/*.c ${READLINE} -o ${NAME}
 	
 	@./minishell
 
