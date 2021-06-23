@@ -20,7 +20,7 @@ void	shlvl(t_env *env)
 
 	shlvl = (char *)ft_calloc(ft_strlen("SHLVL="), sizeof(char *));
 	if (!shlvl)
-		ft_err("malloc error!");
+		ft_error("malloc error!");
 	shlvl = "SHLVL=";
 	i = ft_strmasschr(shlvl, env->sh_envp, 5);
 	if (i == -1)

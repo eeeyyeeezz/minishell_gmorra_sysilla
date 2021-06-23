@@ -49,7 +49,8 @@ int ft_isnum(char *str)
 	return (0);
 }
 
-int lsh_num_builtins() {
+int	lsh_num_builtins()
+{
 	return sizeof(builtin_str) / sizeof(char *);
 }
 
@@ -86,7 +87,8 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 
 int lsh_launch(char **args, char **envp, t_env *env)
 {
-	pid_t pid, wpid;
+	pid_t pid;
+	pid_t wpid;
 	int status;	
 	pid = fork();
 	if (pid == 0) {
@@ -112,13 +114,14 @@ int lsh_launch(char **args, char **envp, t_env *env)
 
 char **lsh_split_line(char *line)
 {
-	int bufsize = LSH_TOK_BUFSIZE, position = 0;
-	char **tokens = malloc(bufsize * sizeof(char*));
-	char *token;
+	int	bufsize = LSH_TOK_BUFSIZE;
+	int	position = 0;
+	char	**tokens = malloc(bufsize * sizeof(char*));
+	char	*token;
 
 	if (!tokens)
 	{
-		fprintf(stderr, "lsh: ошибка выделения памяти\n");
+		printf("minishell: ошибка выделения памяти\n");
 		exit(1);
 	}
 	token = strtok(line, LSH_TOK_DELIM);
@@ -132,7 +135,7 @@ char **lsh_split_line(char *line)
 			tokens = realloc(tokens, bufsize * sizeof(char*));
 			if (!tokens)
 			{
-				fprintf(stderr, "lsh: ошибка выделения памяти\n");
+				printf("minishell: ошибка выделения памяти\n");
 				exit(1);
 			}
 		}	
@@ -184,13 +187,19 @@ int lsh_execute(char **args, char **envp, t_env *env)
 			if ((strcmp(args[0], builtin_str[i]) == 0) && i == 4)
 				return (ft_echo(args));
 			if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
-				ft_exit();
+			{
+				if (args[1])
+					ft_exit(args[1]);
+				ft_exit("0");
+			}
 			i++;
 		}
 		return (exec_path(args, env->sh_envp));
 	}
   	else
 		return (lsh_launch(args, env->sh_envp, env));
+	printf("minishel: %s: command not found", args[0]);
+	return (1);
 }
 
 t_sh				tsh;
@@ -212,7 +221,7 @@ int				main(int argc, char **argv, char **envp)
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
 	shlvl(&env);
-
+	
 	init_all(&global);
 	while (status)
 	{
@@ -220,7 +229,10 @@ int				main(int argc, char **argv, char **envp)
 		signal(SIGINT, signal_2);
 		line = readline("minishell: ");
 		if (line == NULL)
-			ft_exit();
+		{
+			write(1, "\e[Aminishell: exit\n", 20);
+			exit(0);
+		}
 		add_history(line);
 		ft_parser(&global, line);
 		// args = lsh_split_line(line);

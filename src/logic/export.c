@@ -17,26 +17,23 @@ char	*insert_q(char *env)
 	char	*sort_mass;
 	char	*value;
 	char	*key;
+	char	*tmp;
 	int		eq;
 
 	eq = str_index(env, '=');
-	value = ft_strdup(&env[eq + 1]);
+	tmp = ft_strdup(&env[eq + 1]);
 	if (value == NULL)
 		value = ft_strdup("\"");
 	else
-		value = ft_strjoin(value, "\"");
-	key = ft_strndup(env, eq + 1);
-	key = ft_strjoin(key, "\"");
+		value = ft_strjoin(tmp, "\"");
+	free(tmp);
+	tmp = ft_strndup(env, eq + 1);
+	key = ft_strjoin(tmp, "\"");
 	sort_mass = ft_strjoin(key, value);
 	free(value);
 	free(key);
+	free(tmp);
 	return (sort_mass);
-}
-
-void	ft_err(char *err)
-{
-	ft_putendl_fd(err, 1);
-	exit(1);
 }
 
 void	sort_mass2(char **sort_mass, int count_str)
@@ -53,9 +50,9 @@ void	sort_mass2(char **sort_mass, int count_str)
 		{
 			if ((unsigned char)(sort_mass[j][0]) - (unsigned char)(sort_mass[j + 1][0]) > 0)
 			{
-				str = ft_strdup(sort_mass[j]);	
-				sort_mass[j] = ft_strdup(sort_mass[j + 1]);
-				sort_mass[j + 1] = ft_strdup(str);
+				str = ft_strdup_clean(sort_mass[j]);	
+				sort_mass[j] = ft_strdup_clean(sort_mass[j + 1]);
+				sort_mass[j + 1] = ft_strdup_clean(str);
 			}
 			j++;
 		}
@@ -68,6 +65,7 @@ void	sort_mass2(char **sort_mass, int count_str)
 		ft_putendl_fd(sort_mass[i], 1);
 		i++;
 	}
+	freemass(sort_mass);
 }
 
 void	sort_mass1(t_env *env)
@@ -103,11 +101,41 @@ void	freemass(char **arr)
 	arr = NULL;
 }
 
+int ft_isnu(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] <= '9' && s[i] >= '0')
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
+
+void	export_plus(char *av, t_env *env, int index_eq)
+{
+	char	*key;
+	char	*tmp;
+
+	tmp = ft_strndup(av, index_eq - 1);
+	if (!tmp || !(ft_isnu(tmp)))
+		printf("minishell: export: `%s': not a valid identifier\n", key);
+	key = ft_strjoin(tmp, "=");
+	add_to_env_plus(key, &av[index_eq + 1], env);
+	free(key);
+	free(tmp);
+}
+
 int	ft_export(char **av, t_env *env)
 {
 	int		i;
 	int		index_eq;
 	char	*key;
+	char	*tmp;
 
 	i = 1;
 	if (!av[1])
@@ -119,17 +147,24 @@ int	ft_export(char **av, t_env *env)
 		while (av[i])
 		{
 			index_eq = str_index(av[i], '=');
-			key = ft_strndup(av[i], index_eq + 1);
-			if (!key)
-				ft_err("ivalid key");
+			if (av[i][index_eq - 1] == '+')
+				export_plus(av[i], env, index_eq);
 			else
 			{
-				if (!(ft_strchr(av[i], '=')))
+				tmp = ft_strndup(av[i], index_eq);
+				if (!tmp || !(ft_isnu(tmp)))
+					printf("minishell: export: `%s': not a valid identifier\n", key);
+				else
 				{
-					key = ft_strjoin(key, "=");
-					add_to_env(key, "", env);
+					key = ft_strjoin(tmp, "=");
+					if (!(ft_strchr(av[i], '=')))
+					{
+						add_to_env(key, "", env);
+					}
+					add_to_env(key, &av[i][index_eq + 1], env);
 				}
-				add_to_env(key, &av[i][index_eq + 1], env);
+				free(tmp);
+				free(key);
 			}
 			i++;
 		}

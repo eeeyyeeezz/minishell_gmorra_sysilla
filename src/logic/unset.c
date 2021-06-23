@@ -21,7 +21,7 @@ int	del_in_env(char *key, t_env *env, int index)
 	env->count_str = cnt_str(env->sh_envp);
 	new_env = (char **)ft_calloc((env->count_str - 1) + 2, sizeof(char *));
 	if (!new_env)
-		ft_err("malloc error");
+		ft_error("malloc error");
 	i = 0;
 	j = 0;
 	while (i < env->count_str)
@@ -64,7 +64,7 @@ int	ft_unset(char **av, t_env *env)
 
 	i = 1;
 	if (!av[1])
-		ft_err("empty key");
+		ft_error("empty key");
 	while (av[i])
 	{
 		index = find_key_in_env(av[i], env);
