@@ -229,7 +229,10 @@ int				main(int argc, char **argv, char **envp)
 		signal(SIGINT, signal_2);
 		line = readline("minishell: ");
 		if (line == NULL)
-			ft_exit("0");
+		{
+			write(1, "\e[Aminishell: exit\n", 20);
+			exit(0);
+		}
 		add_history(line);
 		args = lsh_split_line(line);
 		status = lsh_execute(args, envp, &env);

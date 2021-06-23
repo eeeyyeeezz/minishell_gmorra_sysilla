@@ -162,6 +162,9 @@ void			ft_err(char *err);
 int				ft_unset(char **av, t_env *env);
 int				lsh_exit(char **args);
 void			shlvl(t_env *env);
+void			add_to_env_plus(char *key, char *add, t_env *env);
+char			*ft_strdup_clean(char *s1);
+char			*ft_strjoin_clean(char *s1, char *s2);
 
 // \LOGIC
 

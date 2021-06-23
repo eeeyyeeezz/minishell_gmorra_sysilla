@@ -49,7 +49,7 @@ void	add_to_env2(char **envp, char *add, t_env *env)
 		i++;
 	buf = (char **)ft_calloc(i + 2, sizeof(char *));
 	if (!buf)
-		ft_err("errrrore");
+		ft_error("errrrore");
 	j = -1;
 	while (++j < i)
 		buf[j] = envp[j];
@@ -57,6 +57,30 @@ void	add_to_env2(char **envp, char *add, t_env *env)
 	free(envp);
 	ft_envp_cpy(buf, env);
 	freemass(buf);
+}
+
+void	add_to_env_plus(char *key, char *add, t_env *env)
+{
+	int		i;
+	int		cmplen;
+	char	*newelem;
+	char	*tmp;
+
+	cmplen = ft_strlen(key);
+	i = ft_strmasschr(key, env->sh_envp, cmplen);
+	if (i == -1)
+	{
+		newelem = ft_strjoin(key, add);
+		add_to_env2(env->sh_envp, newelem, env);
+		free(newelem);
+	}
+	else
+	{
+		tmp = ft_strdup(env->sh_envp[i]);
+		free(env->sh_envp[i]);
+		env->sh_envp[i] = ft_strjoin(tmp, add);
+		free(tmp);
+	}
 }
 
 void	add_to_env(char *key, char *add, t_env *env)
