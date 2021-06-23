@@ -1,9 +1,9 @@
-#/*
-#;;;;;	MAKEFILE.H
-#;;;;;	gmorra/sysilla's minishell
-#;;;;;	team created ???
-#;;;;;	team locked ???
-#*/
+/*
+;;;;;	MAKEFILE.H
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -39,7 +39,6 @@ typedef	struct 			s_flags
 
 typedef	struct			s_pars {
 	t_list				*arg;
-	// char				**execve_args;
 	int					cmd;
 	int					chr;
 	char				*info_env;

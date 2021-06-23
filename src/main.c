@@ -222,7 +222,6 @@ int				main(int argc, char **argv, char **envp)
 	char 			**args;
 	int				status;
 
-
 	global.fd = 1;
 	status = 1;
 	line = NULL;
@@ -234,7 +233,6 @@ int				main(int argc, char **argv, char **envp)
 	tsh.sh_lvl = ft_atoi(env.sh_lvl);
 	tsh.sh_mdepth = tsh.sh_lvl;
 	
-
 	init_all(&global);
 	while (1)
 	{
@@ -244,8 +242,8 @@ int				main(int argc, char **argv, char **envp)
 			if (line == NULL)
 				ft_exit();
 			add_history(line);
-			args = lsh_split_line(line);
-			status = lsh_execute(args, envp, &env);
+			// args = lsh_split_line(line);
+			// status = lsh_execute(args, envp, &env);
 			// ft_parser(&global, envp, &env);
 		}
 	}
