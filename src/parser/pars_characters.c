@@ -170,12 +170,12 @@ static	char		**fill_all_arguments(t_struct *global, char *line)
 
 static	void		get_all_arguments(char *line, t_struct *global)
 {
-
-	char	**arg;
-	int		begin;
-	int		count;
-	int		end;
-	int		i;
+	static	int ft_arg;
+	char		**arg;
+	int			begin;
+	int			count;
+	int			end;
+	int			i;
 
 	i = 0;
 	end = 0;
@@ -186,16 +186,27 @@ static	void		get_all_arguments(char *line, t_struct *global)
 		while (!ft_chr(line[end]) && line[end])
 			end++;
 		arg = fill_all_arguments(global, (char *)&line[begin]);
-		// for (int i = 0; arg[i]; i++)
-		// 	printf("ABOBA [%s]\n", arg[i]);
+		for (int i = 0; arg[i]; i++)
+			global->pars.ft_arg[ft_arg++] = arg[i];
 		begin = end + 1;
 		while (i != end)
 			i++;
 		end++;
 	}
+	global->pars.ft_arg[ft_arg] = NULL;
 }
 
-int				pars_characters(char *line, t_struct *global)
+static int		count_twodimarray(t_struct *global)
+{
+	int i;
+
+	i = 0;
+	while (global->pars.ft_cmd[i])
+		i++;
+	return (i);
+}
+
+int				pars_characters(t_struct *global, char *line)
 {
 	int		i;
 	char	*str;
@@ -208,10 +219,10 @@ int				pars_characters(char *line, t_struct *global)
 		return (-1);
 	ft_free((void *)&str);
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
-	for (int i = 0; global->pars.ft_cmd[i]; i++)
-		printf("FT_CMD [%s]\n", global->pars.ft_cmd[i]);
-	// get_all_arguments(encode_line, global);
-
+	global->pars.ft_arg = malloc(sizeof(char *) * count_twodimarray(global));	
+	get_all_arguments(encode_line, global);
+	// for (int i = 0; global->pars.ft_arg[i]; i++)
+		// printf("FT_ARGS [%s]\n", global->pars.ft_arg[i]);
 	ft_free((void *)&encode_line);
 	return (0);
 }

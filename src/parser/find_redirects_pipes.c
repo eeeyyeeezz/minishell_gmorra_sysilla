@@ -14,5 +14,5 @@
 
 void			find_redirects_pipes(char *line, t_struct *global)
 {
-	pars_characters(line, global);
+	pars_characters(global, line);
 }
