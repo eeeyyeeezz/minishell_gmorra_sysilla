@@ -218,6 +218,17 @@ int				pars_characters(t_struct *global, char *line)
 	if (!(encode_line = encode_lines(ft_strdup(str))))
 		return (-1);
 	ft_free((void *)&str);
+	if (global->pars.ft_cmd)
+	{
+		write(1, "ABOBAAAAAA", 10);
+		for (int i = 0; global->pars.ft_arg[i]; i++)
+			ft_free((void *)&global->pars.ft_arg[i]);
+		ft_free((void *)&global->pars.ft_arg);
+		for (int i = 0; global->pars.ft_cmd[i]; i++)
+			ft_free((void *)&global->pars.ft_cmd[i]);
+		ft_free((void *)&global->pars.ft_cmd);
+
+	}
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
 	global->pars.ft_arg = malloc(sizeof(char *) * count_twodimarray(global));	
 	get_all_arguments(encode_line, global);

@@ -205,6 +205,8 @@ int lsh_execute(char **args, char **envp, t_env *env)
 
 t_sh				tsh;
 
+
+
 int				main(int argc, char **argv, char **envp)
 {
 	t_env			env;
@@ -235,16 +237,63 @@ int				main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(line);
-		// ft_parser(&global, line);
-		args = lsh_split_line(line);
-		status = lsh_execute(args, envp, &env);
-		// status = lsh_execute(global.pars.ft_cmd, envp, &env);
-		free(line);
-		free(args);
-		// ft_parser(&global, envp, &env);
+		ft_parser(&global, line);
+		// for (int i = 0; global.pars.ft_arg[i]; i++)
+			// status = lsh_execute(global.pars.ft_arg, envp, &env);
+			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
+		// args = lsh_split_line(line);
+		// for (int i = 0; global.pars.ft_arg[i]; i++)
+		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
+		status = lsh_execute(global.pars.ft_arg, envp, &env);
+		// free(line);
+		// free(args);
 	}
 	return (0);
 }
+
+
+
+
+// int				main(int argc, char **argv, char **envp)
+// {
+// 	t_env			env;
+// 	t_struct		global;
+// 	char			*line;
+// 	char 			**args;
+// 	int				status;
+
+// 	global.fd = 1;
+// 	status = 1;
+// 	rl_catch_signals = 0;
+// 	line = NULL;
+// 	global.pars.arg = NULL;
+// 	global.envp = envp;
+// 	ft_bzero(&env, sizeof(env));
+// 	ft_envp_cpy(envp, &env);
+// 	shlvl(&env);
+	
+// 	init_all(&global);
+// 	while (status)
+// 	{
+// 		signal(SIGQUIT, SIG_IGN);
+// 		signal(SIGINT, signal_2);
+// 		line = readline("minishell: ");
+// 		if (line == NULL)
+// 		{
+// 			write(1, "\e[Aminishell: exit\n", 20);
+// 			exit(0);
+// 		}
+// 		add_history(line);
+// 		// ft_parser(&global, line);
+// 		args = lsh_split_line(line);
+// 		status = lsh_execute(args, envp, &env);
+// 		// status = lsh_execute(global.pars.ft_cmd, envp, &env);
+// 		free(line);
+// 		free(args);
+// 		// ft_parser(&global, envp, &env);
+// 	}
+// 	return (0);
+// }
 
 // Команда ls -la:
 
