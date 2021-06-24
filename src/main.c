@@ -54,6 +54,12 @@ int	lsh_num_builtins()
 	return sizeof(builtin_str) / sizeof(char *);
 }
 
+/*
+	WUNTRACED - означает возврат управления и для остановленных (но не отслеживаемых) дочерних процессов, о статусе которых еще не было сообщено. Статус для отслеживаемых остановленных подпроцессов также обеспечивается без этой опции.
+	WIFEXITED(status) - не равно нулю, если дочерний процесс успешно завершился.
+	WIFSIGNALED(status) - возвращает истинное значение, если дочерний процесс завершился из-за необработанного сигнала.
+*/
+
 int lnch_pth(char *path_ag, char **args, char **envp)
 {
 	pid_t	pid;
@@ -74,7 +80,7 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 	}
 	else if (pid < 0) {
 		// Ошибка при форкинге
-		perror("lsh");
+		printf("%s", strerror(errno));
 	} else {
 		// Родительский процесс
 		do {
@@ -102,14 +108,14 @@ int lsh_launch(char **args, char **envp, t_env *env)
 		exit(EXIT_FAILURE);
 	} else if (pid < 0) {
 		// Ошибка при форкинге
-		perror("lsh");
+		printf("%s", strerror(errno));
 	} else {
 		// Родительский процесс
 		do {
 		  wpid = waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}	
-	return 1;
+	return 3;
 }
 
 char **lsh_split_line(char *line)
@@ -165,7 +171,7 @@ int		exec_path(char **args, char **envp)
 	}
 	if (flag == 0)
 		printf("minishel: %s: command not found", args[0]);
-	return (1);
+	return (3);
 }
 
 int lsh_execute(char **args, char **envp, t_env *env)
@@ -174,7 +180,7 @@ int lsh_execute(char **args, char **envp, t_env *env)
 
  	if (args[0] == NULL)
 	{
- 	  return 1;
+ 	  return (2);
  	}
 	if (!(ft_strnstr(args[0], "./", 2)))
 	{
@@ -198,14 +204,8 @@ int lsh_execute(char **args, char **envp, t_env *env)
 	}
   	else if ((ft_strnstr(args[0], "./", 2)))
 		return (lsh_launch(args, env->sh_envp, env));
-	else
-		printf("minishel: %s: command not found", args[0]);
 	return (1);
 }
-
-t_sh				tsh;
-
-
 
 int				main(int argc, char **argv, char **envp)
 {
@@ -237,14 +237,16 @@ int				main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(line);
-		ft_parser(&global, line);
+		// ft_parser(&global, line);
+		// for (int i = 0; global.pars.ft_arg[i]; i++)
+		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
 		// for (int i = 0; global.pars.ft_arg[i]; i++)
 			// status = lsh_execute(global.pars.ft_arg, envp, &env);
 			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-		// args = lsh_split_line(line);
-		// for (int i = 0; global.pars.ft_arg[i]; i++)
-		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-		status = lsh_execute(global.pars.ft_arg, envp, &env);
+		args = lsh_split_line(line);
+		status = lsh_execute(args, envp, &env);
+		if (status == 1)
+			printf("minishel: %s: command not found\n", args[0]);
 		// free(line);
 		// free(args);
 	}
