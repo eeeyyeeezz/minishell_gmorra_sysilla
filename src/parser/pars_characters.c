@@ -170,7 +170,7 @@ static	char		**fill_all_arguments(t_struct *global, char *line)
 
 static	void		get_all_arguments(char *line, t_struct *global)
 {
-	static	int ft_arg;
+	static	int ft_arg;			// FT_ARG NEPRAVILNO ZANULYYAYU!!!!!
 	char		**arg;
 	int			begin;
 	int			count;
@@ -193,7 +193,8 @@ static	void		get_all_arguments(char *line, t_struct *global)
 			i++;
 		end++;
 	}
-	global->pars.ft_arg[ft_arg] = NULL;
+	printf("FT ARG [%d]\n", ft_arg);
+	global->pars.ft_arg[ft_arg] = 0;
 }
 
 static int		count_twodimarray(t_struct *global)

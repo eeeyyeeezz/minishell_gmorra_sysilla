@@ -111,7 +111,7 @@ ASCII_MINISHELL:
 READLINE = readline/lib/libhistory.a readline/lib/libreadline.a
 
 RUN:
-	@gcc -g -ltermcap -lreadline -lreadline src/main.c src/parser/*.c src/get_next_line/*.c src/logic/*.c libft/*.c ${READLINE} -o ${NAME}
+	@gcc -g -ltermcap -lreadline -lreadline src/main.c src/lsh_exec.c src/parser/*.c src/get_next_line/*.c src/logic/*.c libft/*.c ${READLINE} -o ${NAME}
 	
 	@./minishell
 
