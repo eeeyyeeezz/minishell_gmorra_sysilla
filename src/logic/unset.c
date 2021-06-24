@@ -74,5 +74,5 @@ int	ft_unset(char **av, t_env *env)
 		}
 		i++;
 	}
-	return (1);
+	return (3);
 }
