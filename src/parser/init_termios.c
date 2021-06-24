@@ -9,7 +9,7 @@
 
 void			init_all(t_struct *global)
 {
-	global->pars.ft_cmd = 0;
+	global->pars.ft_cmd = NULL;
 	global->pars.arg = NULL;
 	// global->commands = NULL;
 	global->history = NULL;
@@ -19,6 +19,7 @@ void			init_all(t_struct *global)
 	global->pars.first_word = NULL;
 	global->pars.cmd = -1;
 	global->pars.chr = -1;
+	global->flags.ft_arg = 0;
 	global->flags.flag = 0;
 	global->term_name = "xterm-256color";
 }

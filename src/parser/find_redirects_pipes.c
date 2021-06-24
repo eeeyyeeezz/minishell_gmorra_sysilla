@@ -12,7 +12,8 @@
 
 #include "../../includes/minishell.h"
 
-void			find_redirects_pipes(char *line, t_struct *global)
+void			find_redirects_pipes(t_struct *global, char *line)
 {
+	global->flags.ft_arg = 0;
 	pars_characters(global, line);
 }

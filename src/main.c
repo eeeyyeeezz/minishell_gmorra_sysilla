@@ -238,13 +238,8 @@ int				main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		ft_parser(&global, line);
-		// for (int i = 0; global.pars.ft_arg[i]; i++)
-			// status = lsh_execute(global.pars.ft_arg, envp, &env);
-			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
 		// args = lsh_split_line(line);
-		// for (int i = 0; global.pars.ft_arg[i]; i++)
-		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-		status = lsh_execute(global.pars.ft_arg, envp, &env);
+		// status = lsh_execute(global.pars.ft_arg, envp, &env);
 		// free(line);
 		// free(args);
 	}

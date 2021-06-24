@@ -34,6 +34,7 @@
 typedef	struct 			s_flags
 {
 	int					flag;
+	int					ft_arg;
 }						t_flags;
 
 
@@ -133,7 +134,7 @@ char					*ft_strjoin_new(char *s1, char *s2);
 char					*ft_strjoin_char(char *s1, char s2);
 void					pars_env(char *line, t_struct *global);
 int						pars_characters(t_struct *global, char *line);
-void					find_redirects_pipes(char *line, t_struct *global);
+void					find_redirects_pipes(t_struct *global, char *line);
 int						ft_ft_strnstr(char *big, char *little);
 void					pars_echo(char *line, t_struct *global);
 void					pars_export(char *line, t_struct *global);
