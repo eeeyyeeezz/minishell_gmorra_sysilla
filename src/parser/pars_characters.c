@@ -180,29 +180,16 @@ static	void		get_all_arguments(char *line, t_struct *global)
 			end++;
 		arg = fill_all_arguments(global, (char *)&line[begin]);
 		// for (int i = 0; arg[i]; i++)
-		// 	printf("DVUM [%s]\n", arg[i]);
+			// printf("DRUGOY i [%d]\n", i);
+			// printf("DVUM [%s]\n", arg[i]);
 		array_to_struct(global, arg);
 		begin = end + 1;
 		while (i != end)
 			i++;
 		end++;
 	}
-	// if (arg)			// в случае ничего в строке зайдет?
-	// {
-	// 	if (arg[1] == NULL)
-	// 	{
-	// 		free(arg);
-	// 	}
-	// 	for (int i = 0; arg[i]; i++)
-	// 	{
-	// 		free(arg[i]);
-	// 		arg[i] = NULL;
-	// 	}
-	// 	free(arg);
-	// 	arg = NULL;
-	// }
 	printf("ZANUL [%d]\n", global->flags.ft_arg);
-	global->pars.ft_arg[global->flags.ft_arg] = NULL;
+	global->pars.ft_arg[global->flags.ft_arg] = 0;
 }
 
 static int		count_twodimarray(t_struct *global)
@@ -257,15 +244,18 @@ int				pars_characters(t_struct *global, char *line)
 		return (-1);
 	ft_free((void *)&str);
 	// free_ft_arg(global);
-	// free_ft_cmd(global);	
+	free_ft_cmd(global);	
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
 	global->pars.ft_arg = malloc(sizeof(char *) * count_twodimarray(global) + 1);
+	printf("PAMYAT [%d]\n", count_twodimarray(global) + 1);
 	if (!global->pars.ft_arg)
 		ft_error("Malloc Error!\n");	
-	printf("twodim [%d]\n", count_twodimarray(global) + 1);
+	// printf("twodim [%d]\n", count_twodimarray(global) + 1);
 	get_all_arguments(encode_line, global);
-	for (int i = 0; global->pars.ft_arg[i]; i++)
-		printf("FT_ARGS [%s]\n", global->pars.ft_arg[i]);
-	ft_free((void *)&encode_line);
+	// for (int i = 0; global->pars.ft_arg[i]; i++)
+	// 	printf("I) [%d]\n", i);
+	// for (int i = 0; global->pars.ft_arg[i]; i++)
+	// 	printf("ARGS [%s]\n", global->pars.ft_arg[i]);
+	// ft_free((void *)&encode_line);
 	return (0);
 }

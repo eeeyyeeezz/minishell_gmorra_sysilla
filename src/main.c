@@ -69,9 +69,9 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 	pid = fork();
 	if (pid == 0) {
 		// Дочерний процесс
-		// printf("PATH [%s]\n", path_ag);
-		// for (int i = 0; args[i]; i++)
-		// 	printf("ARGS [%s]\n", args[i]);
+		
+		for (int i = 0; args[i]; i++)
+			printf("ARGUMENTY [%s] PATH [%s]\n", args[i], path_ag);
 		if (execve(path_ag, args, envp) == -1)
 		{
 			strerror(1);
@@ -239,10 +239,9 @@ int				main(int argc, char **argv, char **envp)
 		add_history(line);
 		ft_parser(&global, line);
 		// for (int i = 0; global.pars.ft_arg[i]; i++)
-		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
+		// 	printf("I) [%d]\n", i);
 		// for (int i = 0; global.pars.ft_arg[i]; i++)
-			// status = lsh_execute(global.pars.ft_arg, envp, &env);
-			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
+		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
 		// args = lsh_split_line(line);
 		status = lsh_execute(global.pars.ft_arg, envp, &env);
 		// if (status == 1)

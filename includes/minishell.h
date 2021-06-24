@@ -12,6 +12,7 @@
 # include <termcap.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <errno.h>
 # include <string.h>
 # include <stdlib.h>
 # include <curses.h>
