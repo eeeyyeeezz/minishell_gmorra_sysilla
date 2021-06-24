@@ -16,8 +16,12 @@ void	enter_pressed(t_struct *global, char *line)
 	// printf("LINE [%s]\n", line);
 	syntax_error(line, global);
 	global->pars.first_line = line;
-	find_redirects_pipes(line, global);		// TODO: leaks
-	pars_arguments_line(line, global);
+	find_redirects_pipes(global, line);		// TODO: leaks
+	// for (int i = 0; global->pars.ft_arg[i]; i++)
+		// printf("ARGS [%s]\n", global->pars.ft_arg[i]);
+	// for (int i = 0; global->pars.ft_cmd[i]; i++)
+	// 	printf("CMD [%s]\n", global->pars.ft_cmd[i]);
+	// pars_arguments_line(line, global);
 }
  
 void			ft_parser(t_struct *global, char *line)

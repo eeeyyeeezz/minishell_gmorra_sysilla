@@ -244,16 +244,16 @@ int				main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(line);
-		// ft_parser(&global, line);
+		ft_parser(&global, line);
 		// for (int i = 0; global.pars.ft_arg[i]; i++)
 		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
 		// for (int i = 0; global.pars.ft_arg[i]; i++)
 			// status = lsh_execute(global.pars.ft_arg, envp, &env);
 			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-		args = lsh_split_line(line);
-		status = lsh_execute(args, envp, &env);
-		if (status == 1)
-			printf("minishel: %s: command not found\n", args[0]);
+		// args = lsh_split_line(line);
+		status = lsh_execute(global.pars.ft_arg, envp, &env);
+		// if (status == 1)
+		// 	printf("minishel: %s: command not found\n", args[0]);
 		// free(line);
 		// free(args);
 	}

@@ -4,6 +4,8 @@
 #;;;;;	team created ???
 #;;;;;	team locked ???
 #*/
+
+
 #include "../../includes/minishell.h"
 
 static	void		get_command_info(char *line, t_struct *global)
@@ -28,7 +30,8 @@ static	void		get_command_info(char *line, t_struct *global)
 	else if (!ft_strcmp(line, ""))
 		;
 	else
-		printf("%s: command not found \n" , line);
+		;
+		// printf("%s: command not found \n" , line);
 }
 
 char		*skip_quote(char *line, char *str, int *i, char quote)
