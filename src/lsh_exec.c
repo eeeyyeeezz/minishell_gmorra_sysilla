@@ -142,6 +142,7 @@ int		exec_path(char **args, char **envp)
 		free(path_ag);
 		i++;
 	}
+	freemass(path);
 	if (flag == 0)
 		printf("minishel: %s: command not found", args[0]);
 	return (3);

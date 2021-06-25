@@ -214,6 +214,51 @@ void	signal_2(int sig)
 	rl_redisplay();
 }
 
+// int				main(int argc, char **argv, char **envp)
+// {
+// 	t_env			env;
+// 	t_struct		global;
+// 	char			*line;
+// 	char 			**args;
+// 	int				status;
+
+// 	global.fd = 1;
+// 	status = 1;
+// 	rl_catch_signals = 0;
+// 	line = NULL;
+// 	global.pars.arg = NULL;
+// 	global.envp = envp;
+// 	ft_bzero(&env, sizeof(env));
+// 	ft_envp_cpy(envp, &env);
+// 	shlvl(&env);						// тут leak
+// 	init_all(&global);
+// 	while (status)
+// 	{
+// 		signal(SIGQUIT, SIG_IGN);
+// 		signal(SIGINT, signal_2);
+// 		line = readline("minishell: ");
+// 		if (line == NULL)
+// 		{
+// 			write(1, "\e[Aminishell: exit\n", 20);
+// 			break;
+// 		}
+// 		add_history(line);
+// 		// ft_parser(&global, line);
+// 		// for (int i = 0; global.pars.ft_arg[i]; i++)
+// 		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
+// 		// for (int i = 0; global.pars.ft_arg[i]; i++)
+// 			// status = lsh_execute(global.pars.ft_arg, envp, &env);
+// 			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
+// 		args = lsh_split_line(line);
+// 		status = lsh_execute(args, envp, &env);
+// 		// if (status == 1)
+// 		// 	printf("minishel: %s: command not found\n", args[0]);
+// 		free(line);
+// 		free(args);
+// 	}
+// 	return (0);
+// }
+
 int				main(int argc, char **argv, char **envp)
 {
 	t_env			env;
@@ -230,44 +275,36 @@ int				main(int argc, char **argv, char **envp)
 	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
-	shlvl(&env);
-	
+	shlvl(&env);						// тут leak
 	init_all(&global);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, signal_2);
+	ft_putnbr_fd(getpid(), 1);
+	line = readline("minishell: ");
 	while (status)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, signal_2);
-		line = readline("minishell: ");
+		// signal(SIGQUIT, SIG_IGN);
+		// signal(SIGINT, signal_2);
 		if (line == NULL)
-		{
-			write(1, "\e[Aminishell: exit\n", 20);
-			exit(0);
-		}
+			break;
 		add_history(line);
-		ft_parser(&global, line);
+		// ft_parser(&global, line);
 		// for (int i = 0; global.pars.ft_arg[i]; i++)
 		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
 		// for (int i = 0; global.pars.ft_arg[i]; i++)
 			// status = lsh_execute(global.pars.ft_arg, envp, &env);
 			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-		// args = lsh_split_line(line);
-		int i = 0;
-		// while (global.pars.ft_arg[i])
-		// {
-			// ft_putendl_fd(global.pars.ft_arg[i], 1);
-			// i++;
-		// }
-		
-		status = lsh_execute(global.pars.ft_arg, envp, &env);
-		// if (status == 1)
-		// 	printf("minishel: %s: command not found\n", args[0]);
-		// free(line);
-		// free(args);
+		args = lsh_split_line(line);
+		status = lsh_execute(args, envp, &env);
+		line = readline("minishell: ");
+		if (status == 1)
+			printf("minishel: %s: command not found\n", args[0]);
+		free(args);
 	}
+	free(line);
+	write(1, "\e[Aminishell: exit\n", 20);
 	return (0);
 }
-
-
 
 
 // int				main(int argc, char **argv, char **envp)
