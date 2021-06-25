@@ -10,6 +10,7 @@
 # define READLINE_LIBRARY
 
 # include <termcap.h>
+# include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <errno.h>
@@ -168,6 +169,7 @@ void			shlvl(t_env *env);
 void			add_to_env_plus(char *key, char *add, t_env *env);
 char			*ft_strdup_clean(char *s1);
 char			*ft_strjoin_clean(char *s1, char *s2);
+int				lsh_execute(char **args, char **envp, t_env *env);
 
 // \LOGIC
 
