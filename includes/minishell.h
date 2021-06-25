@@ -45,6 +45,7 @@ typedef	struct			s_pars {
 	char				**ft_arg;
 	int					cmd;
 	char				**ft_cmd;
+	int					*pipis;
 	int					chr;
 	char				*info_env;
 	char				*first_line;

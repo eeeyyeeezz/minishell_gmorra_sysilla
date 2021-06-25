@@ -347,3 +347,4 @@ asdasdasasd
 unset aboba ; echo '$USER' ; cat Makefilels 323 < echo 228"asdsa;;;>>"
 echo 'lol' ; unset aboba ; echo '$USER' ; cat Makefilels 323 < echo 228"asdsa;;;>>"
 cat Makefile
+pwd ; cat -e > t1 | cat Makefile ; pwd | ls ; chmod +x | cat -e

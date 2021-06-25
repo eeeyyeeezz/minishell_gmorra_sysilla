@@ -60,18 +60,52 @@ static	char	*find_chr_commands(char *line)			// LEAKS
 	return (str);
 }
 
+static	void		count_pipes(t_struct *global, int *line)
+{
+	int	count;
+	int	pipis;
+	int	i;
+
+	i = -1;
+	count = 0;
+	while (line[++i])
+	{
+		if (line[i] == 2)
+			count++;
+	}
+	global->pars.pipis = malloc(sizeof(int) * count + 1);
+	if (!global->pars.pipis)
+		ft_error("Malloc Error!\n");
+	global->pars.pipis[0] = count;
+	i = -1;
+	pipis = 1;
+	if (count != 0)
+	{
+		while (line[++i])
+		{
+			if (line[i] == 2)
+				global->pars.pipis[pipis++] = i + 1;
+		}
+	}
+	if (count == 0)
+		pipis = 0;
+	global->pars.pipis[pipis] = '\0';
+	printf("lolcount [%d] pipis [%d]\n", count, pipis);
+	for (int i = 0; global->pars.pipis[i]; i++)
+		printf("PIPIS)) [%d]\n", global->pars.pipis[i]);
+}
 
 static	char		**get_all_commands(char *line, t_struct *global)
 {
 	int			i;
 	int			count;
 	int			count_chr;
+	char		**commands;
 	int			*characters;
-	char		**commands;  
+
 	i = 0;
 	count = 0;
 	count_chr = 0;
-	// COUNT MALLOC CHAR NEPRAVILNO CHTITAET NO POCHEMUTO VSE OK???
 	if (!(commands = malloc(sizeof(char *) * count_malloc_chr(line) + 1)))		// leaks??
  		return (NULL);
 	if (!(characters = malloc(sizeof(int) * count_malloc_chr(line) + 1)))
@@ -97,8 +131,8 @@ static	char		**get_all_commands(char *line, t_struct *global)
 	commands[count] = 0;
 	characters[count_chr] = -1;
 	characters[count_chr + 1] = '\0';
-	free(characters);
-	characters = NULL;
+	count_pipes(global, characters);
+	ft_free((void *)&characters);
 	return (commands);
 }
 
