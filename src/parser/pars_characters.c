@@ -97,12 +97,8 @@ static	char		**get_all_commands(char *line, t_struct *global)
 	commands[count] = 0;
 	characters[count_chr] = -1;
 	characters[count_chr + 1] = '\0';
-	// for (int i = 0; commands[i]; i++)
-		// printf("cmd [%s]\n", commands[i]);
-	// for (int i = 0; characters[i]; i++)
-		// printf("chr [%d]\n", characters[i]);
-	// i = -1;
-	ft_free((void *)&characters);
+	free(characters);
+	characters = NULL;
 	return (commands);
 }
 
@@ -145,7 +141,7 @@ static	char		**fill_all_arguments(t_struct *global, char *line)
 		str[j] = '\0';
 		if (str[0])
 			arg[++count] = ft_strdup(str);			// leaks
-		free(str);
+		ft_free((void *)&str);
 		i++;
 	}
 	arg[++count] = 0;
@@ -157,7 +153,6 @@ static	void		array_to_struct(t_struct *global, char **arg)
 	for (int i = 0; arg[i]; i++)
 	{
 		global->pars.ft_arg[global->flags.ft_arg] = arg[i];		// leaks ??
-		// printf("C4ET4IK [%d] [%s] [%s]\n", global->flags.ft_arg, arg[i], global->pars.ft_arg[global->flags.ft_arg]);
 		global->flags.ft_arg++;
 	}
 }
@@ -179,16 +174,13 @@ static	void		get_all_arguments(char *line, t_struct *global)
 		while (!ft_chr(line[end]) && line[end])
 			end++;
 		arg = fill_all_arguments(global, (char *)&line[begin]);
-		// for (int i = 0; arg[i]; i++)
-			// printf("DRUGOY i [%d]\n", i);
-			// printf("DVUM [%s]\n", arg[i]);
 		array_to_struct(global, arg);
+		ft_free((void *)&arg);			// boom?
 		begin = end + 1;
 		while (i != end)
 			i++;
 		end++;
 	}
-	printf("ZANUL [%d]\n", global->flags.ft_arg);
 	global->pars.ft_arg[global->flags.ft_arg] = 0;
 }
 
@@ -202,35 +194,6 @@ static int		count_twodimarray(t_struct *global)
 	return (i);
 }
 
-static	void	free_ft_arg(t_struct *global)
-{
-	if (global->pars.ft_arg)
-	{
-		for (int i = 0; global->pars.ft_arg[i] != NULL; i++)
-			printf("STROKA [%s]\n", global->pars.ft_arg[i]);
-		write(1, "ARG FREE\n", 9);
-		for (int i = 0; global->pars.ft_arg[i] != NULL; i++)
-		{
-			// printf("ARGS [%s]\n", global->pars.ft_arg[i]);
-			free(global->pars.ft_arg[i]);
-			write(1, "ok\n", 3);
-		}
-		free(global->pars.ft_arg);
-	}
-}
-
-static	void	free_ft_cmd(t_struct *global)
-{
-	if (global->pars.ft_cmd)
-	{
-		write(1, "CMD FREE\n", 9);
-		for (int i = 0; global->pars.ft_cmd[i]; i++)
-			ft_free((void *)&global->pars.ft_cmd[i]);
-		ft_free((void *)&global->pars.ft_cmd);
-	}
-}
-
-
 int				pars_characters(t_struct *global, char *line)
 {
 	int		i;
@@ -241,21 +204,13 @@ int				pars_characters(t_struct *global, char *line)
 	if (!(str = ft_strdup(line)))				// leaks??
 		return (-1);
 	if (!(encode_line = encode_lines(ft_strdup(str))))
-		return (-1);
+		ft_error("Malloc Error!\n");
 	ft_free((void *)&str);
-	// free_ft_arg(global);
-	free_ft_cmd(global);	
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
-	global->pars.ft_arg = malloc(sizeof(char *) * count_twodimarray(global) + 1);
-	printf("PAMYAT [%d]\n", count_twodimarray(global) + 1);
+	global->pars.ft_arg = malloc(sizeof(char *) * 100);
 	if (!global->pars.ft_arg)
 		ft_error("Malloc Error!\n");	
-	// printf("twodim [%d]\n", count_twodimarray(global) + 1);
 	get_all_arguments(encode_line, global);
-	// for (int i = 0; global->pars.ft_arg[i]; i++)
-	// 	printf("I) [%d]\n", i);
-	// for (int i = 0; global->pars.ft_arg[i]; i++)
-	// 	printf("ARGS [%s]\n", global->pars.ft_arg[i]);
-	// ft_free((void *)&encode_line);
+	ft_free((void *)&encode_line);
 	return (0);
 }

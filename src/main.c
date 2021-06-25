@@ -7,116 +7,12 @@
 
 #include "../includes/minishell.h"
 
-// void	signal_2(int sig)
-// {
-// 	write(1, "\n", 1);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-
-// char *builtin_str[] = {
-// 	"cd",
-// 	"export",
-// 	"unset",
-// 	"env",
-// 	"echo",
-// 	"exit"
-// };
-
-// int (*builtin_func[]) (char **, t_env *env) = {
-// 	&ft_cd,
-// 	&ft_export,
-// 	&ft_unset,
-// 	&ft_env
-// };
-
-// int ft_isnum(char *str)
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (str[i])
-// 	{
-// 		if (!(str[i] <= '9' && str[i] >= '0'))
-// 			j++;
-// 		i++;
-// 	}
-// 	if (j != 0)
-// 		return (1);
-// 	return (0);
-// }
-
-// int	lsh_num_builtins()
-// {
-// 	return sizeof(builtin_str) / sizeof(char *);
-// }
-
-// /*
-// 	WUNTRACED - означает возврат управления и для остановленных (но не отслеживаемых) дочерних процессов, о статусе которых еще не было сообщено. Статус для отслеживаемых остановленных подпроцессов также обеспечивается без этой опции.
-// 	WIFEXITED(status) - не равно нулю, если дочерний процесс успешно завершился.
-// 	WIFSIGNALED(status) - возвращает истинное значение, если дочерний процесс завершился из-за необработанного сигнала.
-// */
-
-// int lnch_pth(char *path_ag, char **args, char **envp)
-// {
-// 	pid_t	pid;
-// 	pid_t	wpid;
-// 	int		status;
-
-// 	pid = fork();
-// 	if (pid == 0) {
-// 		// Дочерний процесс
-// 		// printf("PATH [%s]\n", path_ag);
-// 		// for (int i = 0; args[i]; i++)
-// 		// 	printf("ARGS [%s]\n", args[i]);
-// 		if (execve(path_ag, args, envp) == -1)
-// 		{
-// 			strerror(1);
-// 		}
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	else if (pid < 0) {
-// 		// Ошибка при форкинге
-// 		printf("%s", strerror(errno));
-// 	} else {
-// 		// Родительский процесс
-// 		do {
-// 			wpid = waitpid(pid, &status, WUNTRACED);
-// 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-// int lsh_launch(char **args, char **envp, t_env *env)
-// {
-// 	pid_t pid;
-// 	pid_t wpid;
-// 	int status;	
-// 	pid = fork();
-// 	if (pid == 0) {
-// 		// Дочерний процесс
-// 		if (execve(args[0], args, envp) == -1)
-// 		{
-// 			printf("zsh: no such file or directory: %s\n", args[0]);
-// 			strerror(1);
-// 		}
-// 		shlvl(env);
-// 		exit(EXIT_FAILURE);
-// 	} else if (pid < 0) {
-// 		// Ошибка при форкинге
-// 		printf("%s", strerror(errno));
-// 	} else {
-// 		// Родительский процесс
-// 		do {
-// 		  wpid = waitpid(pid, &status, WUNTRACED);
-// 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-// 	}	
-// 	return 3;
-// }
+void	signal_2(int sig)
+{
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
 char **lsh_split_line(char *line)
 {
@@ -151,11 +47,14 @@ char **lsh_split_line(char *line)
 	return tokens;
 }
 
-void	signal_2(int sig)
+static	void	free_ft_arg(t_struct *global)
 {
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	if (global->pars.ft_arg)
+	{
+		for (int i = 0; global->pars.ft_arg[i] != NULL; i++)
+			ft_free((void *)&global->pars.ft_arg[i]);
+		ft_free((void *)&global->pars.ft_arg);
+	}
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -187,20 +86,51 @@ int				main(int argc, char **argv, char **envp)
 		if (line == NULL)
 			break;
 		add_history(line);
-		// ft_parser(&global, line);
-		// for (int i = 0; global.pars.ft_arg[i]; i++)
-		// 	printf("I) [%d]\n", i);
-		// for (int i = 0; global.pars.ft_arg[i]; i++)
-			// status = lsh_execute(global.pars.ft_arg, envp, &env);
-			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-		args = lsh_split_line(line);
-		status = lsh_execute(args, envp, &env);
+		ft_parser(&global, line);
+		// args = lsh_split_line(line);
+		status = lsh_execute(global.pars.ft_arg, envp, &env);
 		line = readline("minishell: ");
 		if (status == 1)
 			printf("minishel: %s: command not found\n", args[0]);
-		free(args);
+		ft_free((void *)&line);
+		// free_ft_cmd(&global);
+		free_ft_arg(&global);
 	}
 	free(line);
 	write(1, "\e[Aminishell: exit\n", 20);
 	return (0);
 }
+
+// int main()
+// {
+// 	global.fd = 1;
+// 	status = 1;
+// 	rl_catch_signals = 0;
+// 	line = NULL;
+// 	global.pars.arg = NULL;
+// 	global.envp = envp;
+// 	ft_bzero(&env, sizeof(env));
+// 	ft_envp_cpy(envp, &env);
+// 	// shlvl(&env);
+	
+// 	init_all(&global);
+// 	while (status)
+// 	{
+// 		signal(SIGQUIT, SIG_IGN);
+// 		signal(SIGINT, signal_2);
+// 		line = readline("minishell: ");
+// 		if (line == NULL)
+// 		{
+// 			write(1, "\e[Aminishell: exit\n", 20);
+// 			exit(0);	
+// 		}
+// 		add_history(line);
+// 		ft_parser(&global, line);
+// 		// args = lsh_split_line(line);
+// 		status = lsh_execute(global.pars.ft_arg, envp, &env);
+// 		ft_free((void *)&line);
+// 		free_ft_cmd(&global);
+// 		free_ft_arg(&global);
+// 	}
+// 	return (0);
+// }

@@ -50,7 +50,6 @@ typedef	struct			s_pars {
 	char				*first_line;
 	char				*first_word;
 	char				*info;
-	struct s_pars		*next;
 }						t_pars;
 
 typedef	struct			s_history
