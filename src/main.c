@@ -151,113 +151,12 @@ char **lsh_split_line(char *line)
 	return tokens;
 }
 
-// int		exec_path(char **args, char **envp)
-// {
-// 	char	**path;
-// 	char	*path_ag;
-// 	int		i;
-// 	int		flag;
-	
-// 	path = ft_split(getenv("PATH"), ':');
-// 	i = 0;
-// 	flag = 0;
-// 	while (path[i])
-// 	{	
-// 		path_ag = ft_strjoin_slash(path[i], args[0]);
-// 		if (lnch_pth(path_ag, args, envp))
-// 			flag++;
-// 		free(path_ag);
-// 		i++;
-// 	}
-// 	if (flag == 0)
-// 		printf("minishel: %s: command not found", args[0]);
-// 	return (3);
-// }
-
-// int lsh_execute(char **args, char **envp, t_env *env)
-// {
-//  	int i;
-
-//  	if (args[0] == NULL)
-// 	{
-//  	  return (2);
-//  	}
-// 	if (!(ft_strnstr(args[0], "./", 2)))
-// 	{
-// 		i = 0;
-		
-// 		while (i < lsh_num_builtins())
-// 		{
-// 			if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
-// 				return (*builtin_func[i])(args, env);
-// 			if ((strcmp(args[0], builtin_str[i]) == 0) && i == 4)
-// 				return (ft_echo(args));
-// 			if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
-// 			{
-// 				if (args[1])
-// 					ft_exit(args[1]);
-// 				ft_exit("0");
-// 			}
-// 			i++;
-// 		}
-// 		return (exec_path(args, env->sh_envp));
-// 	}
-//   	else if ((ft_strnstr(args[0], "./", 2)))
-// 		return (lsh_launch(args, env->sh_envp, env));
-// 	return (1);
-// }
-
 void	signal_2(int sig)
 {
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
 }
-
-// int				main(int argc, char **argv, char **envp)
-// {
-// 	t_env			env;
-// 	t_struct		global;
-// 	char			*line;
-// 	char 			**args;
-// 	int				status;
-
-// 	global.fd = 1;
-// 	status = 1;
-// 	rl_catch_signals = 0;
-// 	line = NULL;
-// 	global.pars.arg = NULL;
-// 	global.envp = envp;
-// 	ft_bzero(&env, sizeof(env));
-// 	ft_envp_cpy(envp, &env);
-// 	shlvl(&env);						// тут leak
-// 	init_all(&global);
-// 	while (status)
-// 	{
-// 		signal(SIGQUIT, SIG_IGN);
-// 		signal(SIGINT, signal_2);
-// 		line = readline("minishell: ");
-// 		if (line == NULL)
-// 		{
-// 			write(1, "\e[Aminishell: exit\n", 20);
-// 			break;
-// 		}
-// 		add_history(line);
-// 		// ft_parser(&global, line);
-// 		// for (int i = 0; global.pars.ft_arg[i]; i++)
-// 		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-// 		// for (int i = 0; global.pars.ft_arg[i]; i++)
-// 			// status = lsh_execute(global.pars.ft_arg, envp, &env);
-// 			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
-// 		args = lsh_split_line(line);
-// 		status = lsh_execute(args, envp, &env);
-// 		// if (status == 1)
-// 		// 	printf("minishel: %s: command not found\n", args[0]);
-// 		free(line);
-// 		free(args);
-// 	}
-// 	return (0);
-// }
 
 int				main(int argc, char **argv, char **envp)
 {
@@ -305,22 +204,3 @@ int				main(int argc, char **argv, char **envp)
 	write(1, "\e[Aminishell: exit\n", 20);
 	return (0);
 }
-
-
-
-// Команда ls -la:
-
-// 	ft_cmd:
-// 	{
-// 		ls;
-// 	}
-
-// 	ft_arg:
-// 	{
-// 		-la;
-// 	}
-
-// 	как было бы охуенно:
-// 	{
-// 		ls, -la;
-// 	}

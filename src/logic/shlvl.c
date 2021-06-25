@@ -18,7 +18,7 @@ void	shlvl(t_env *env)
 	int		lvl;
 	char	*shlvl;
 
-	shlvl = (char *)ft_calloc(ft_strlen("SHLVL="), sizeof(char *));
+	shlvl = (char *)ft_calloc(ft_strlen("SHLVL="), sizeof(char));
 	if (!shlvl)
 		ft_error("malloc error!");
 	shlvl = "SHLVL=";
