@@ -47,8 +47,16 @@ char **lsh_split_line(char *line)
 	return tokens;
 }
 
-static	void	free_ft_arg(t_struct *global)
+static	void	free_all(t_struct *global, char *line)
 {
+	ft_free((void *)&line);
+
+	if (global->pars.ft_cmd)
+	{
+		for (int i = 0; global->pars.ft_cmd[i]; i++)
+			ft_free((void *)&global->pars.ft_cmd[i]);
+		ft_free((void *)&global->pars.ft_cmd);
+	}
 	if (global->pars.ft_arg)
 	{
 		for (int i = 0; global->pars.ft_arg[i] != NULL; i++)
@@ -73,7 +81,7 @@ int				main(int argc, char **argv, char **envp)
 	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
-	shlvl(&env);						// тут leak
+	// shlvl(&env);						// тут leak
 	init_all(&global);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
@@ -81,56 +89,19 @@ int				main(int argc, char **argv, char **envp)
 	line = readline("minishell: ");
 	while (line)
 	{
-		// signal(SIGQUIT, SIG_IGN);
-		// signal(SIGINT, signal_2);
 		if (line == NULL)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
 		// args = lsh_split_line(line);
 		status = lsh_execute(global.pars.ft_arg, envp, &env);
-		line = readline("minishell: ");
 		if (status == 1)
 			printf("minishel: %s: command not found\n", args[0]);
-		ft_free((void *)&line);
-		// free_ft_cmd(&global);
-		free_ft_arg(&global);
+		free_all(&global, line);
+		line = readline("minishell: ");
 	}
-	free(line);
+	if (line)
+		ft_free((void *)&line);
 	write(1, "\e[Aminishell: exit\n", 20);
 	return (0);
 }
-
-// int main()
-// {
-// 	global.fd = 1;
-// 	status = 1;
-// 	rl_catch_signals = 0;
-// 	line = NULL;
-// 	global.pars.arg = NULL;
-// 	global.envp = envp;
-// 	ft_bzero(&env, sizeof(env));
-// 	ft_envp_cpy(envp, &env);
-// 	// shlvl(&env);
-	
-// 	init_all(&global);
-// 	while (status)
-// 	{
-// 		signal(SIGQUIT, SIG_IGN);
-// 		signal(SIGINT, signal_2);
-// 		line = readline("minishell: ");
-// 		if (line == NULL)
-// 		{
-// 			write(1, "\e[Aminishell: exit\n", 20);
-// 			exit(0);	
-// 		}
-// 		add_history(line);
-// 		ft_parser(&global, line);
-// 		// args = lsh_split_line(line);
-// 		status = lsh_execute(global.pars.ft_arg, envp, &env);
-// 		ft_free((void *)&line);
-// 		free_ft_cmd(&global);
-// 		free_ft_arg(&global);
-// 	}
-// 	return (0);
-// }
