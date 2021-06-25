@@ -164,10 +164,6 @@ static	void		array_to_struct(t_struct *global, char **arg)
 
 static	void		get_all_arguments(char *line, t_struct *global)
 {
-<<<<<<< HEAD
-	static	int ft_arg;			// FT_ARG NEPRAVILNO ZANULYYAYU!!!!!
-=======
->>>>>>> 479a6df151031226d4228a264d081f1f320b82ed
 	char		**arg;
 	int			begin;
 	int			count;
@@ -191,10 +187,6 @@ static	void		get_all_arguments(char *line, t_struct *global)
 			i++;
 		end++;
 	}
-<<<<<<< HEAD
-	printf("FT ARG [%d]\n", ft_arg);
-	global->pars.ft_arg[ft_arg] = 0;
-=======
 	// if (arg)			// в случае ничего в строке зайдет?
 	// {
 	// 	if (arg[1] == NULL)
@@ -209,9 +201,8 @@ static	void		get_all_arguments(char *line, t_struct *global)
 	// 	free(arg);
 	// 	arg = NULL;
 	// }
-	printf("ZANUL [%d]\n", global->flags.ft_arg);
+	// printf("ZANUL [%d]\n", global->flags.ft_arg);
 	global->pars.ft_arg[global->flags.ft_arg] = NULL;
->>>>>>> 479a6df151031226d4228a264d081f1f320b82ed
 }
 
 static int		count_twodimarray(t_struct *global)
@@ -271,7 +262,7 @@ int				pars_characters(t_struct *global, char *line)
 	global->pars.ft_arg = malloc(sizeof(char *) * count_twodimarray(global) + 1);
 	if (!global->pars.ft_arg)
 		ft_error("Malloc Error!\n");	
-	printf("twodim [%d]\n", count_twodimarray(global) + 1);
+	// printf("twodim [%d]\n", count_twodimarray(global) + 1);
 	get_all_arguments(encode_line, global);
 	for (int i = 0; global->pars.ft_arg[i]; i++)
 		printf("FT_ARGS [%s]\n", global->pars.ft_arg[i]);

@@ -251,6 +251,13 @@ int				main(int argc, char **argv, char **envp)
 			// status = lsh_execute(global.pars.ft_arg, envp, &env);
 			// printf("ARGS [%s]\n", global.pars.ft_arg[i]);
 		// args = lsh_split_line(line);
+		int i = 0;
+		// while (global.pars.ft_arg[i])
+		// {
+			// ft_putendl_fd(global.pars.ft_arg[i], 1);
+			// i++;
+		// }
+		
 		status = lsh_execute(global.pars.ft_arg, envp, &env);
 		// if (status == 1)
 		// 	printf("minishel: %s: command not found\n", args[0]);
