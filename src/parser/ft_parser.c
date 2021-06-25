@@ -17,10 +17,6 @@ void	enter_pressed(t_struct *global, char *line)
 	syntax_error(line, global);
 	global->pars.first_line = line;
 	find_redirects_pipes(global, line);		// TODO: leaks
-	// for (int i = 0; global->pars.ft_arg[i]; i++)
-		// printf("ARGS [%s]\n", global->pars.ft_arg[i]);
-	// for (int i = 0; global->pars.ft_cmd[i]; i++)
-	// 	printf("CMD [%s]\n", global->pars.ft_cmd[i]);
 	// pars_arguments_line(line, global);
 }
  

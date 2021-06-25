@@ -70,8 +70,8 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 	if (pid == 0) {
 		// Дочерний процесс
 		
-		for (int i = 0; args[i]; i++)
-			printf("ARGUMENTY [%s] PATH [%s]\n", args[i], path_ag);
+		// for (int i = 0; args[i]; i++)
+		// 	printf("ARGUMENTY [%s] PATH [%s]\n", args[i], path_ag);
 		if (execve(path_ag, args, envp) == -1)
 		{
 			strerror(1);
@@ -167,8 +167,10 @@ int		exec_path(char **args, char **envp)
 		if (lnch_pth(path_ag, args, envp))
 			flag++;
 		free(path_ag);
+		path_ag = NULL;
 		i++;
 	}
+	freemass(path);
 	if (flag == 0)
 		printf("minishel: %s: command not found", args[0]);
 	return (3);
@@ -207,6 +209,27 @@ int lsh_execute(char **args, char **envp, t_env *env)
 	return (1);
 }
 
+
+static	void	free_ft_arg(t_struct *global)
+{
+	if (global->pars.ft_arg)
+	{
+		for (int i = 0; global->pars.ft_arg[i] != NULL; i++)
+			ft_free((void *)&global->pars.ft_arg[i]);
+		ft_free((void *)&global->pars.ft_arg);
+	}
+}
+
+static	void	free_ft_cmd(t_struct *global)
+{
+	if (global->pars.ft_cmd)
+	{
+		for (int i = 0; global->pars.ft_cmd[i]; i++)
+			ft_free((void *)&global->pars.ft_cmd[i]);
+		ft_free((void *)&global->pars.ft_cmd);
+	}
+}
+
 int				main(int argc, char **argv, char **envp)
 {
 	t_env			env;
@@ -223,7 +246,7 @@ int				main(int argc, char **argv, char **envp)
 	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
-	shlvl(&env);
+	// shlvl(&env);
 	
 	init_all(&global);
 	while (status)
@@ -234,24 +257,26 @@ int				main(int argc, char **argv, char **envp)
 		if (line == NULL)
 		{
 			write(1, "\e[Aminishell: exit\n", 20);
-			exit(0);
+			exit(0);	
 		}
 		add_history(line);
 		ft_parser(&global, line);
-		// for (int i = 0; global.pars.ft_arg[i]; i++)
-		// 	printf("I) [%d]\n", i);
-		// for (int i = 0; global.pars.ft_arg[i]; i++)
-		// 	printf("ARGS [%s]\n", global.pars.ft_arg[i]);
 		// args = lsh_split_line(line);
 		status = lsh_execute(global.pars.ft_arg, envp, &env);
-		// if (status == 1)
-		// 	printf("minishel: %s: command not found\n", args[0]);
-		// free(line);
-		// free(args);
+		ft_free((void *)&line);
+		free_ft_cmd(&global);
+		free_ft_arg(&global);
 	}
 	return (0);
 }
 
+// if (global.pars.ft_arg)
+// {
+// 	write(1, "it's free arg yea\n", 18 );
+// 	for (int i = 0; global.pars.ft_arg[i]; i++)
+// 		ft_free((void *)&global.pars.ft_arg[i]);
+// 	ft_free((void *)&global.pars.ft_arg);
+// }
 
 
 
@@ -295,20 +320,3 @@ int				main(int argc, char **argv, char **envp)
 // 	}
 // 	return (0);
 // }
-
-// Команда ls -la:
-
-// 	ft_cmd:
-// 	{
-// 		ls;
-// 	}
-
-// 	ft_arg:
-// 	{
-// 		-la;
-// 	}
-
-// 	как было бы охуенно:
-// 	{
-// 		ls, -la;
-// 	}
