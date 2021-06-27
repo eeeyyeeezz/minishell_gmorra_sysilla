@@ -57,7 +57,7 @@ int					pars_single_quotes(char *line, t_struct *global)
 		str[i++] = line[begin++];
 	str[i] = '\0';
 	global->pars.info = ft_strjoin_new(global->pars.info, str);
-	free(str);				// LEAKS
+	ft_free((void *)&str);				// LEAKS
 	return (i + 2);
 }
 
@@ -82,7 +82,7 @@ void				pars_info(char *line, t_struct *global, int malloc_count)
 		}
 	}
 	ft_write("eto info [", global->pars.info, "]\n");
-	free(global->pars.info);
+	// free(global->pars.info);		// ????
 }
 
 void				find_info_echo(char *line, t_struct *global)

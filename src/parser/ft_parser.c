@@ -11,13 +11,19 @@
 // 	global->pars.cmd, global->pars.chr, global->pars.info_env, global->pars.first_line, global->pars.first_word,
 // 	global->pars.info);
 
+static	void get_two_to_three(t_struct *global)
+{
+	
+}
+
 void	enter_pressed(t_struct *global, char *line)
 {
 	// printf("LINE [%s]\n", line);
 	syntax_error(line, global);
 	global->pars.first_line = line;
 	find_redirects_pipes(global, line);		// TODO: leaks
-	// pars_arguments_line(line, global);
+	get_two_to_three(global);
+	pars_arguments_line(line, global);
 }
  
 void			ft_parser(t_struct *global, char *line)

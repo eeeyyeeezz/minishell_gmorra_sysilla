@@ -12,7 +12,6 @@ void			init_all(t_struct *global)
 	global->pars.ft_cmd = NULL;
 	global->pars.ft_arg = NULL;
 	global->pars.pipis = NULL;
-	global->pars.arg = NULL;
 	// global->commands = NULL;
 	global->history = NULL;
 	global->pars.first_line = NULL;

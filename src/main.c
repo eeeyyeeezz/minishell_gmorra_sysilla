@@ -79,7 +79,6 @@ int				main(int argc, char **argv, char **envp)
 	status = 1;
 	rl_catch_signals = 0;
 	line = NULL;
-	global.pars.arg = NULL;
 	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
