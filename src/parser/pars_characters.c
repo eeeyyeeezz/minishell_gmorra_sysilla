@@ -12,6 +12,20 @@
 
 #include "../../includes/minishell.h"
 
+char		*skip_quote(char *line, char *str, int *i, char quote)
+{
+	int		quote_end;
+
+	(*i)++;
+	quote_end = *i;
+	while (line[quote_end] != quote)
+		quote_end++;
+	while (*i != quote_end)
+		str = ft_strjoin_char(str, line[(*i)++]);			// boom
+	(*i)++;
+	return (str);
+}
+
 static	int		count_malloc_chr(char *line)
 {
 	int			malloc_count;

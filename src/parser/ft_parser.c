@@ -23,7 +23,7 @@ void	enter_pressed(t_struct *global, char *line)
 	global->pars.first_line = line;
 	find_redirects_pipes(global, line);		// TODO: leaks
 	get_two_to_three(global);
-	pars_arguments_line(line, global);
+	// pars_arguments_line(line, global);
 }
  
 void			ft_parser(t_struct *global, char *line)
