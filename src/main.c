@@ -65,8 +65,8 @@ static	void	free_all(t_struct *global, char *line)
 	}
 	if (global->pars.pipis)
 		ft_free((void *)&global->pars.pipis);
-	for (int i = 0; global->pars.dirty_array[i]; i++)
-		ft_free((void *)&global->pars.dirty_array[i]);
+	// for (int i = 0; global->pars.dirty_array[i]; i++)		// ft arg free oder?
+	// 	ft_free((void *)&global->pars.dirty_array[i]);
 	ft_free((void *)&global->pars.dirty_array);
 }
 
@@ -103,11 +103,14 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
-		// args = lsh_split_line(line);
-		// status = lsh_execute(global.pars.ft_arg, envp, &env);
+		// for (int i = 0; global.pars.dirty_array[i]; i++)
+		// {
+		// 	for (int j = 0; global.pars.dirty_array[i][j]; j++)
+		// 		printf("DD [%s]\n", global.pars.dirty_array[i][j]);
+		// 	printf("SPACE\n");
+		// }
 		pipeline(global.pars.dirty_array);
 		signal(SIGINT, signal_2);
-
 		free_all(&global, line);
 		line = readline("minishell: ");
 	}
