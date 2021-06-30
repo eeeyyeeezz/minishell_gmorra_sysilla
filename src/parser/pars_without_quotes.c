@@ -1,14 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pars_without_quotes.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/29 18:01:48 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/03 15:16:10 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+;;;;;	MAKEFILE.H
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../../includes/minishell.h"
 
@@ -39,7 +34,8 @@ int						pars_without_quotes(char *line, t_struct *global)
 	char			*str;
 
 	i = 0;
-	count = check_count(global->pars.first_line);
+	count = 5;
+	// count = check_count(global->pars.first_line);
 	end = i;
 	if (count > 0)
 	{
@@ -58,8 +54,8 @@ int						pars_without_quotes(char *line, t_struct *global)
 			if (str[i] == '$' && str[i + 1] != '$')
 				str = pars_dollar_sign(str, global);
 		}
-		global->pars.info = ft_strjoin_new(global->pars.info, str);
-		free(str);
+		// global->pars.info = ft_strjoin_new(global->pars.info, str);
+		ft_free((void *)&str);
 	}
 	// printf("eto end [%d]\n", end);
 	return (end);

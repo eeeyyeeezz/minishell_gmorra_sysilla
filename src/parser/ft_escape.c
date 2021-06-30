@@ -23,7 +23,7 @@ int			key_escape(char *str)
 		return (0);
 }
 
-int			chr_to_int(char s, char next)
+int			chr_to_int(char s, char next)			// ADD DOUBLE LEFT REDIRECT
 {
 	if (s == ';')
 		return (1);
@@ -33,7 +33,7 @@ int			chr_to_int(char s, char next)
 		return (3);
 	else if (s == '>' && next == '>')
 		return (5);
-	else if (s == '>' && next != '>')
+	else if (s == '>' && next != '>')			
 		return (4);
 	return (-1);
 }

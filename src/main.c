@@ -65,6 +65,9 @@ static	void	free_all(t_struct *global, char *line)
 	}
 	if (global->pars.pipis)
 		ft_free((void *)&global->pars.pipis);
+	for (int i = 0; global->pars.dirty_array[i]; i++)
+		ft_free((void *)&global->pars.dirty_array[i]);
+	ft_free((void *)&global->pars.dirty_array);
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -86,7 +89,6 @@ int				main(int argc, char **argv, char **envp)
 	init_all(&global);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
-	ft_putnbr_fd(getpid(), 1);
 	line = readline("minishell: ");
 	while (line)
 	{

@@ -1,14 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pars_characters.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/07 16:24:56 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/19 15:04:20 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+;;;;;	MAKEFILE.H
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../../includes/minishell.h"
 
@@ -104,21 +99,23 @@ static	void		count_pipes(t_struct *global, int *line)
 	if (count == 0)
 		pipis = 0;
 	global->pars.pipis[pipis] = '\0';
-	printf("lolcount [%d] pipis [%d]\n", count, pipis);
-	for (int i = 0; global->pars.pipis[i]; i++)
-		printf("PIPIS)) [%d]\n", global->pars.pipis[i]);
+	// printf("lolcount [%d] pipis [%d]\n", count, pipis);
+	// for (int i = 0; global->pars.pipis[i]; i++)
+		// printf("PIPIS)) [%d]\n", global->pars.pipis[i]);
 }
 
 static	char		**get_all_commands(char *line, t_struct *global)
 {
 	int			i;
 	int			count;
+	int			count_cmd;
 	int			count_chr;
 	char		**commands;
 	int			*characters;
 
 	i = 0;
 	count = 0;
+	count_cmd = 0;
 	count_chr = 0;
 	if (!(commands = malloc(sizeof(char *) * count_malloc_chr(line) + 1)))		// leaks??
  		return (NULL);
@@ -205,41 +202,51 @@ static	void		array_to_struct(t_struct *global, char **arg)
 	}
 }
 
+static	void		array_to_three(t_struct *global, char **arg)
+{
+	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
+	if (d_flag < count_twodimarray(global->pars.ft_cmd))
+		global->pars.dirty_array[d_flag++] = arg;	
+	else 
+		d_flag = 0;
+}
+
 static	void		get_all_arguments(char *line, t_struct *global)
 {
-	char		**arg;
-	int			begin;
-	int			count;
-	int			end;
-	int			i;
+	char			**arg;
+	int				begin;
+	int				count;
+	int				end;
+	int				i;
 
 	i = 0;
 	end = 0;
 	count = 0;
 	begin = 0;
+	d_flag = 0;
+	global->pars.dirty_array = malloc(sizeof(char ***) * 3);
+	for (int i = 0; i < count_twodimarray(global->pars.ft_cmd); i++)
+		global->pars.dirty_array = malloc(sizeof(char **) * 3);
 	while (line[i])
 	{
 		while (!ft_chr(line[end]) && line[end])
 			end++;
 		arg = fill_all_arguments(global, (char *)&line[begin]);
+		array_to_three(global, arg);
 		array_to_struct(global, arg);
-		ft_free((void *)&arg);			// boom?
 		begin = end + 1;
 		while (i != end)
 			i++;
 		end++;
 	}
+	for (int i = 0; global->pars.dirty_array[i]; i++)
+	{
+		// printf("I)) [%d]\n", i);
+		for (int j = 0; global->pars.dirty_array[i][j]; j++)
+			printf("DIRTY)) [%s]\n", global->pars.dirty_array[i][j]);
+		printf("SPACE\n");
+	}
 	global->pars.ft_arg[global->flags.ft_arg] = 0;
-}
-
-static int		count_twodimarray(t_struct *global)
-{
-	int i;
-
-	i = 0;
-	while (global->pars.ft_cmd[i])
-		i++;
-	return (i);
 }
 
 int				pars_characters(t_struct *global, char *line)
@@ -250,7 +257,7 @@ int				pars_characters(t_struct *global, char *line)
 
 	i = -1;
 	if (!(str = ft_strdup(line)))				// leaks??
-		return (-1);
+		ft_error("Malloc Error!\n");	
 	if (!(encode_line = encode_lines(ft_strdup(str))))
 		ft_error("Malloc Error!\n");
 	ft_free((void *)&str);
