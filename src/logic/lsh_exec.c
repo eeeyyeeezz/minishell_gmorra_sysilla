@@ -54,13 +54,12 @@ void	chld_sig(void)
 int lnch_pth(char *path_ag, char **args, char **envp)
 {
 	pid_t	pid;
-	pid_t	wpid;
 	int		status;
 
 	pid = fork();
-	if (pid == 0) {
+	if (pid == 0)
+	{
 		// Дочерний процесс
-
 		chld_sig();
 		if (execve(path_ag, args, envp) == -1)
 		{
@@ -91,7 +90,6 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 int lsh_launch(char **args, char **envp, t_env *env)
 {
 	pid_t pid;
-	pid_t wpid;
 	int status;	
 	pid = fork();
 	if (pid == 0) {

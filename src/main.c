@@ -74,6 +74,7 @@ int				main(int argc, char **argv, char **envp)
 	char			*line;
 	char 			**args;
 	int				status;
+	char 			***megamass;
 
 	global.fd = 1;
 	status = 1;
@@ -84,9 +85,14 @@ int				main(int argc, char **argv, char **envp)
 	ft_envp_cpy(envp, &env);
 	// shlvl(&env);						// тут leak
 	init_all(&global);
+	char *ls[] = {"ls", "-al", NULL};
+	char *rev[] = {"rev", NULL};
+	char *nl[] = {"nl", NULL};
+	char *cat[] = {"cat", "-e", NULL};
+	char **cmd[] = {ls, rev, nl, cat, NULL};
+	env.cn = 3;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
-	ft_putnbr_fd(getpid(), 1);
 	line = readline("minishell: ");
 	while (line)
 	{
@@ -95,7 +101,9 @@ int				main(int argc, char **argv, char **envp)
 		add_history(line);
 		ft_parser(&global, line);
 		// args = lsh_split_line(line);
-		status = lsh_execute(global.pars.ft_arg, envp, &env);
+		// status = lsh_execute(global.pars.ft_arg, envp, &env);
+		pipeline(cmd);
+		signal(SIGINT, signal_2);
 		if (status == 1)
 			printf("minishel: %s: command not found\n", args[0]);
 		free_all(&global, line);

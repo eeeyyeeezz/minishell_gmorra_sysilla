@@ -66,7 +66,9 @@ typedef struct s_env
 	char		*sh_term;
 	char		*sh_name;
 	char		*sh_lvl;
-	int			truefd0;
+	int			cn;
+	int			pip;
+	int			truefd[2];
 	int			truefd1;
 	int			ispipe;
 	int			isb_in;
@@ -83,8 +85,6 @@ typedef struct	s_sh
 
 typedef	struct			s_struct
 {
-	// t_sh				tsh;
-	// t_env				env;
 	t_flags				flags;
 	t_pars				pars;
 	int					fd;
@@ -170,6 +170,8 @@ void			add_to_env_plus(char *key, char *add, t_env *env);
 char			*ft_strdup_clean(char *s1);
 char			*ft_strjoin_clean(char *s1, char *s2);
 int				lsh_execute(char **args, char **envp, t_env *env);
+void			start_pipe(int *fd, t_env *env);
+void			pipeline(char ***cmd);
 
 // \LOGIC
 
