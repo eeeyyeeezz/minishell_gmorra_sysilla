@@ -39,8 +39,6 @@ void			pars_cd(char *line, t_struct *global)
 	printf("ETO STR [%s]\n", str);
 	// if (global->pars.info != NULL)
 		// free(global->pars.info);
-	global->pars.info = str;
-	// free(str);			// LEAKS??
-	global->pars.cmd = 1;
+	// ft_free((void *)&str);			// LEAKS??
 	// printf("eto na cd [%s]\n", str);
 }

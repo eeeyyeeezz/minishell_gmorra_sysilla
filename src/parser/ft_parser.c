@@ -7,22 +7,21 @@
 
 #include "../../includes/minishell.h"
 
-// printf("cmd [%d]\nchr [%d]\ninfo env [%s]\nfirst line [%s]\nfirst word [%s]\ninfo [%s]\n", 
-// 	global->pars.cmd, global->pars.chr, global->pars.info_env, global->pars.first_line, global->pars.first_word,
-// 	global->pars.info);
 
-static	void get_two_to_three(t_struct *global)
+int		count_twodimarray(char **array)
 {
-	
+	int i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }
 
 void	enter_pressed(t_struct *global, char *line)
 {
-	// printf("LINE [%s]\n", line);
 	syntax_error(line, global);
-	global->pars.first_line = line;
 	find_redirects_pipes(global, line);		// TODO: leaks
-	get_two_to_three(global);
 	// pars_arguments_line(line, global);
 }
  
@@ -31,6 +30,7 @@ void			ft_parser(t_struct *global, char *line)
 	enter_pressed(global, line);
 }
 
+// echo "Hello cat -e !" | cat -e
 
 // ./ ПАРСИНГ
 // echo ";";";";";";"

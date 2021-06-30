@@ -9,17 +9,11 @@
 
 void			init_all(t_struct *global)
 {
+	global->pars.dirty_array = NULL;
 	global->pars.ft_cmd = NULL;
 	global->pars.ft_arg = NULL;
 	global->pars.pipis = NULL;
-	// global->commands = NULL;
 	global->history = NULL;
-	global->pars.first_line = NULL;
-	global->pars.info = NULL;
-	global->pars.info_env = NULL;
-	global->pars.first_word = NULL;
-	global->pars.cmd = -1;
-	global->pars.chr = -1;
 	global->flags.ft_arg = 0;
 	global->flags.flag = 0;
 	global->term_name = "xterm-256color";

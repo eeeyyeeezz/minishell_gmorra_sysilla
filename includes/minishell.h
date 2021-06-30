@@ -33,23 +33,22 @@
 #define LSH_TOK_BUFSIZE 64
 #define LSH_TOK_DELIM " \t\r\n\a"
 
+static int		d_flag;
+
 typedef	struct 			s_flags
 {
 	int					flag;
 	int					ft_arg;
+	int					ft_cmd;
 }						t_flags;
 
 
 typedef	struct			s_pars {
+	char				***dirty_array;
+	char				***args;
 	char				**ft_arg;
-	int					cmd;
 	char				**ft_cmd;
 	int					*pipis;
-	int					chr;
-	char				*info_env;
-	char				*first_line;
-	char				*first_word;
-	char				*info;
 }						t_pars;
 
 typedef	struct			s_history
@@ -95,6 +94,7 @@ typedef	struct			s_struct
 }						t_struct;
 
 t_pars					*pars_st_new();
+int						count_twodimarray(char **array);
 int						ft_isalnum_cd(int c);
 void					pars_add_back(t_pars **lst, t_pars *new);
 void					pars_unset(char *line, t_struct *global);
