@@ -239,13 +239,12 @@ static	void		get_all_arguments(char *line, t_struct *global)
 			i++;
 		end++;
 	}
-	for (int i = 0; global->pars.dirty_array[i]; i++)
-	{
-		// printf("I)) [%d]\n", i);
-		for (int j = 0; global->pars.dirty_array[i][j]; j++)
-			printf("DIRTY)) [%s]\n", global->pars.dirty_array[i][j]);
-		printf("SPACE\n");
-	}
+	// for (int i = 0; global->pars.dirty_array[i]; i++)
+	// {
+	// 	for (int j = 0; global->pars.dirty_array[i][j]; j++)
+	// 		printf("DIRTY)) [%s]\n", global->pars.dirty_array[i][j]);
+	// 	printf("SPACE\n");
+	// }
 	global->pars.ft_arg[global->flags.ft_arg] = 0;
 }
 
