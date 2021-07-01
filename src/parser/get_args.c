@@ -18,6 +18,7 @@ static	void		array_to_struct(t_struct *global, char **arg)
 
 static	void		array_to_three(t_struct *global, char **arg)
 {
+	// printf("STATIC [%d] CTDA [%d]\n", d_flag, count_twodimarray(global->pars.ft_cmd));
 	if (d_flag < count_twodimarray(global->pars.ft_cmd))
 		global->pars.dirty_array[d_flag++] = arg;
 	else 
@@ -38,6 +39,8 @@ int		count_malloc_chr(char *line)
 		if (ft_chr(line[i]))
 			malloc_count++;
 		if (line[i] == '>' && line[i + 1] == '>')
+			i++;
+		if (line[i] == '<' && line[i + 1] == '<')
 			i++;
 	}
 	malloc_count++;			// why not???
@@ -136,6 +139,8 @@ char		**get_all_commands(char *line, t_struct *global)
 			characters[count_chr] = chr_to_int(line[i], line[i + 1]);
 			if (chr_to_int(line[i], line[i + 1]) == 5)
 				i++;
+			if (chr_to_int(line[i], line[i + 1]) == 6)
+				i++;
 			count_chr++;
 		}
 		i++;
@@ -143,11 +148,12 @@ char		**get_all_commands(char *line, t_struct *global)
 	commands[count] = 0;
 	characters[count_chr] = -1;
 	characters[count_chr + 1] = '\0';
+	// for (int i = 0; characters[i]; i++)
+	// 	printf("chr lol [%d]\n", characters[i]);
 	count_pipes(global, characters);
 	ft_free((void *)&characters);
 	return (commands);
 }
-
 
 char		**fill_all_arguments(t_struct *global, char *line)
 {
@@ -166,7 +172,7 @@ char		**fill_all_arguments(t_struct *global, char *line)
 	count = -1;
 	end_fill = 0;
 	while (!ft_chr(line[end_fill]) && line[end_fill])
-		end_fill++;
+		end_fill++;	
 	if (!(arg = malloc(sizeof(char *) * count_arguments(line, 0) + 1)))
 		ft_error("Malloc Error\n");
 	while (i < end_fill)
@@ -206,21 +212,38 @@ void		get_all_arguments(char *line, t_struct *global)
 	count = 0;
 	begin = 0;
 	d_flag = 0;
-	global->pars.dirty_array = malloc(sizeof(char ***) * 10);
+	global->pars.dirty_array = malloc(sizeof(char ***) * 20);
 	for (int i = 0; i < count_twodimarray(global->pars.ft_cmd); i++)
-		global->pars.dirty_array = malloc(sizeof(char **) * 10);
+		global->pars.dirty_array[i] = malloc(sizeof(char **) * 20);
 	while (line[i])
 	{
+		if ((line[end] == '<' && line[end - 1] == '<') || 
+		(line[end] == '>' && line[end - 1] == '>'))
+			end+= 2;
 		while (!ft_chr(line[end]) && line[end])
 			end++;
+		// printf("BEGIN [%d] end [%d]\n", begin, end);
 		arg = fill_all_arguments(global, (char *)&line[begin]);
+		// for (int i = 0; arg[i]; i++)
+		// 	printf("arg [%s]\n", arg[i]);
+		// printf("SPACE\n");
 		array_to_three(global, arg);
 		array_to_struct(global, arg);
-		begin = end + 1;
+		if ((line[end] == '<' && line[end + 1] == '<') || 
+		(line[end] == '>' && line[end + 1] == '>'))
+			begin = end + 2;
+		else
+			begin = end + 1;
 		while (i != end)
 			i++;
 		end++;
 	}
 	global->pars.ft_arg[global->flags.ft_arg] = 0;
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
+	// for (int i = 0; global->pars.dirty_array[i]; i++)
+	// {
+	// 	for (int j = 0; global->pars.dirty_array[i][j]; j++)
+	// 		printf("DIRTY [%s]\n", global->pars.dirty_array[i][j]);
+	// 	printf("SPACE\n");
+	// }
 }

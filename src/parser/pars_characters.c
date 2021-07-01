@@ -21,10 +21,26 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 	return (str);
 }
 
+
+static	void	encode_arg(t_struct *global)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	j = -1;
+	while (global->pars.dirty_array[++i])
+		decode_lines(global->pars.dirty_array[i]);
+}
+
 static	void	get_clean(t_struct *global)
 {
-	
-
+	// for (int i = 0; global->pars.dirty_array[i]; i++)
+	// {
+	// 	for (int j = 0; global->pars.dirty_array[i][j]; j++)
+	// 		printf("DIRTY [%s]\n", global->pars.dirty_array[i][j]);
+	// 	printf("SPACE\n");
+	// }
 
 }
 
@@ -45,6 +61,7 @@ int				pars_characters(t_struct *global, char *line)
 	if (!global->pars.ft_arg)
 		ft_error("Malloc Error!\n");	
 	get_all_arguments(encode_line, global);
+	// encode_arg(global);
 	get_clean(global);
 	ft_free((void *)&encode_line);
 	return (0);
