@@ -1,20 +1,20 @@
 #include "../../includes/minishell.h"
 
-char *builtin_str[] = {
-	"cd",
-	"export",
-	"unset",
-	"env",
-	"echo",
-	"exit"
-};
-
-int (*builtin_func[]) (char **, t_env *env) = {
-	&ft_cd,
-	&ft_export,
-	&ft_unset,
-	&ft_env
-};
+// char *builtin_str[] = {
+	// "cd",
+	// "export",
+	// "unset",
+	// "env",
+	// "echo",
+	// "exit"
+// };
+// 
+// int (*builtin_func[]) (char **, t_env *env) = {
+	// &ft_cd,
+	// &ft_export,
+	// &ft_unset,
+	// &ft_env
+// };
 
 int ft_isnum(char *str)
 {
@@ -34,10 +34,10 @@ int ft_isnum(char *str)
 	return (0);
 }
 
-int	lsh_num_builtins()
-{
-	return sizeof(builtin_str) / sizeof(char *);
-}
+// int	lsh_num_builtins()
+// {
+	// return sizeof(builtin_str) / sizeof(char *);
+// }
 
 /*
 	WUNTRACED - означает возврат управления и для остановленных (но не отслеживаемых) дочерних процессов, о статусе которых еще не было сообщено. Статус для отслеживаемых остановленных подпроцессов также обеспечивается без этой опции.
@@ -146,35 +146,35 @@ int		exec_path(char **args, char **envp)
 	return (3);
 }
 
-int lsh_execute(char **args, char **envp, t_env *env)
-{
- 	int i;
-
- 	if (args[0] == NULL)
-	{
- 	  return (2);
- 	}
-	if (!(ft_strnstr(args[0], "./", 2)))
-	{
-		i = 0;
-		// 
-		while (i < lsh_num_builtins())
-		{
-			if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
-				return (*builtin_func[i])(args, env);
-			if ((strcmp(args[0], builtin_str[i]) == 0) && i == 4)
-				return (ft_echo(args));
-			if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
-			{
-				if (args[1])
-					ft_exit(args[1]);
-				ft_exit("0");
-			}
-			i++;
-		}
-		return (exec_path(args, env->sh_envp));
-	}
-  	else if ((ft_strnstr(args[0], "./", 2)))
-		return (lsh_launch(args, env->sh_envp, env));
-	return (1);
-}
+// int lsh_execute(char **args, char **envp, t_env *env)
+// {
+ 	// int i;
+// 
+ 	// if (args[0] == NULL)
+	// {
+ 	//   return (2);
+ 	// }
+	// if (!(ft_strnstr(args[0], "./", 2)))
+	// {
+		// i = 0;
+		
+		// while (i < lsh_num_builtins())
+		// {
+			// if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
+				// return (*builtin_func[i])(args, env);
+			// if ((strcmp(args[0], builtin_str[i]) == 0) && i == 4)
+				// return (ft_echo(args));
+			// if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
+			// {
+				// if (args[1])
+					// ft_exit(args[1]);
+				// ft_exit("0");
+			// }
+			// i++;
+		// }
+		// return (exec_path(args, env->sh_envp));
+	// }
+  	// else if ((ft_strnstr(args[0], "./", 2)))
+		// return (lsh_launch(args, env->sh_envp, env));
+	// return (1);
+// }

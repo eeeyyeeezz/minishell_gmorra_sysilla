@@ -61,6 +61,7 @@ void	start_pipe(t_env *env, char **args)
 			close_pipes(env);
 			lsh_execute_pipe(args, env->sh_envp, env);							//тут обработка базовыых фд, наличия команд, и запук execve
 		}
+		
 	}
 	
 }

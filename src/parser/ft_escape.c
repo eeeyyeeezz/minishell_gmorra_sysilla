@@ -29,7 +29,9 @@ int			chr_to_int(char s, char next)			// ADD DOUBLE LEFT REDIRECT
 		return (1);
 	else if (s == '|')
 		return (2);
-	else if (s == '<')
+	else if (s == '<' && next == '<')
+		return (6);
+	else if (s == '<' && next != '<')
 		return (3);
 	else if (s == '>' && next == '>')
 		return (5);

@@ -96,6 +96,8 @@ typedef	struct			s_struct
 }						t_struct;
 
 t_pars					*pars_st_new();
+char					*find_chr_commands(char *line);
+int						count_malloc_chr(char *line);
 int						count_twodimarray(char **array);
 int						ft_isalnum_cd(int c);
 void					pars_add_back(t_pars **lst, t_pars *new);
@@ -136,6 +138,10 @@ void					syntax_error(char *line, t_struct *global);
 char					*ft_strjoin_new(char *s1, char *s2);
 char					*ft_strjoin_char(char *s1, char s2);
 void					pars_env(char *line, t_struct *global);
+void					count_pipes(t_struct *global, int *line);
+char					**fill_all_arguments(t_struct *global, char *line);
+char					**get_all_commands(char *line, t_struct *global);
+void					get_all_arguments(char *line, t_struct *global);
 int						pars_characters(t_struct *global, char *line);
 void					find_redirects_pipes(t_struct *global, char *line);
 int						ft_ft_strnstr(char *big, char *little);
@@ -173,7 +179,7 @@ char			*ft_strdup_clean(char *s1);
 char			*ft_strjoin_clean(char *s1, char *s2);
 int				lsh_execute(char **args, char **envp, t_env *env);
 void			start_pipe(t_env *env, char **args);
-void			pipeline(char ***cmd);
+void			pipeline(char ***cmd, t_env *env);
 void			chld_sig(void);
 int				lsh_execute_pipe(char **args, char **envp, t_env *env);
 int				exec_path(char **args, char **envp);

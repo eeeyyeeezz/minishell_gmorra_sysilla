@@ -100,6 +100,6 @@ char			*pars_dollar_sign(char *str, t_struct *global)
 	tmp = env_string;
 	env_string = check_dollar_info(env_string, global);
 	new_string = change_string_with_env(str, env_string, begin, end);
-	free(tmp);
+	ft_free((void *)&tmp);
 	return (new_string);
 }

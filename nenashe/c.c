@@ -48,12 +48,12 @@ pipeline(char ***cmd)
 int
 main(int argc, char *argv[])
 {
-	// char *ls[] = {"ls", "-al", NULL};
-	// char *rev[] = {"rev", NULL};
-	// char *nl[] = {"nl", NULL};
-	char *cat[] = {"cat", NULL};
-	char *echo[] = {"echo", "ddd", NULL};
-	char **cmd[] = {cat, echo, NULL};
+	char *ls[] = {"ls", "-al", NULL};
+	char *rev[] = {"nl", NULL};
+	char *nl[] = {"rev", NULL};
+	// char *cat[] = {"cat", NULL};
+	// char *echo[] = {"echo", "ddd", NULL};
+	char **cmd[] = {ls, rev, NULL};
 
 	pipeline(cmd);
 	return (0);
