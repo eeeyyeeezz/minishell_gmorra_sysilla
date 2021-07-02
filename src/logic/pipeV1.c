@@ -12,20 +12,55 @@
 
 #include "../../includes/minishell.h"
 
-void	start_pipe(int *fd, t_env *env)
+void	close_pipes(t_env *env)
 {
-    pipe(fd);
-    dup2(STDOUT_FILENO, fd[1]);
-    close(STDOUT_FILENO);
-    dup2(fd[1], STDIN_FILENO);
+	int	i;
+
+	i = 0;
+	while (i < env->cn)
+	{
+		close(env->fd[i][0]);
+		close(env->fd[i][1]);
+	}
 }
 
-void    mid_pipe(int *fd, t_env *env)
+static void	assoc_pipes(int it, t_env *env)
 {
-
+	if (it < env->cn - 1)
+		dup2(env->fd[it][1], 1);
+	if (it > 0)
+		dup2(env->fd[it - 1][0], 0);
+	else
+		dup2(env->basefd1, STDOUT_FILENO);
 }
 
-void    end_pipe(int *fd, t_env *env)
+void	init_pipes(t_env *env)
 {
-    
+	int	i;
+	i = 0;
+	while (i < env->cn)
+	{
+		pipe(env->fd[i]);
+		i++;
+	}
+}
+
+void	start_pipe(t_env *env, char **args)
+{
+	int	i;
+
+	init_pipes(env);
+	i = 0;
+	while (i < env->cn)
+	{
+		env->pid[i] = fork();
+		if (env->pid == 1)		//child
+		{
+			chld_sig();
+			assoc_pipes(i, env);
+			close_pipes(env);
+			lsh_execute_pipe(args, env->sh_envp, env);							//тут обработка базовыых фд, наличия команд, и запук execve
+		}
+	}
+	
 }

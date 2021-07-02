@@ -224,9 +224,9 @@ static	void		get_all_arguments(char *line, t_struct *global)
 	count = 0;
 	begin = 0;
 	d_flag = 0;
-	global->pars.dirty_array = malloc(sizeof(char ***) * 3);
+	global->pars.dirty_array = malloc(sizeof(char ***) * 10);
 	for (int i = 0; i < count_twodimarray(global->pars.ft_cmd); i++)
-		global->pars.dirty_array = malloc(sizeof(char **) * 3);
+		global->pars.dirty_array = malloc(sizeof(char **) * 10);
 	while (line[i])
 	{
 		while (!ft_chr(line[end]) && line[end])

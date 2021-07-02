@@ -65,9 +65,9 @@ static	void	free_all(t_struct *global, char *line)
 	}
 	if (global->pars.pipis)
 		ft_free((void *)&global->pars.pipis);
-	for (int i = 0; global->pars.dirty_array[i]; i++)
-		ft_free((void *)&global->pars.dirty_array[i]);
-	ft_free((void *)&global->pars.dirty_array);
+	// for (int i = 0; global->pars.dirty_array[i]; i++)
+	// 	ft_free((void *)&global->pars.dirty_array[i]);
+	// ft_free((void *)&global->pars.dirty_array);
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -105,7 +105,9 @@ int				main(int argc, char **argv, char **envp)
 		ft_parser(&global, line);
 		// args = lsh_split_line(line);
 		// status = lsh_execute(global.pars.ft_arg, envp, &env);
-		pipeline(global.pars.dirty_array);
+		// pipeline(global.pars.dirty_array);
+		for (int i = 0; cmd[i] != NULL; i++)
+			start_pipe()
 		signal(SIGINT, signal_2);
 
 		free_all(&global, line);

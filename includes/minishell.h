@@ -67,8 +67,10 @@ typedef struct s_env
 	char		*sh_lvl;
 	int			cn;
 	int			pip;
-	int			truefd[2];
-	int			truefd1;
+	int			fd[100][2];
+	int			basefd1;
+	int			basefd2;
+	int			pid[100];
 	int			ispipe;
 	int			isb_in;
 	int			count_str;
@@ -170,8 +172,13 @@ void			add_to_env_plus(char *key, char *add, t_env *env);
 char			*ft_strdup_clean(char *s1);
 char			*ft_strjoin_clean(char *s1, char *s2);
 int				lsh_execute(char **args, char **envp, t_env *env);
-void			start_pipe(int *fd, t_env *env);
+void			start_pipe(t_env *env, char **args);
 void			pipeline(char ***cmd);
+void			chld_sig(void);
+int				lsh_execute_pipe(char **args, char **envp, t_env *env);
+int				exec_path(char **args, char **envp);
+int				lsh_num_builtins();
+int 			ft_isnum(char *str);
 
 // \LOGIC
 
