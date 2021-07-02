@@ -1,14 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_env_info.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/03 15:04:20 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/05 18:03:14 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+;;;;;	GET_ENV_INFO.C
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../../includes/minishell.h"
 
@@ -23,9 +18,9 @@ static	char			*check_dollar_info(char *str, t_struct *global)
 	env_string = 0;
 	while (global->envp[i])
 	{
-		if (ft_strnstr(global->envp[i], str + 1, ft_strlen(str)))
+		if (ft_strnstr(global->env.sh_envp[i], str + 1, ft_strlen(str)))
 		{
-			while (global->envp[i][j] != '=')
+			while (global->env.sh_envp[i][j] != '=')
 				j++;
 			env_string = (char *)&global->envp[i][j + 1];
 			break ;

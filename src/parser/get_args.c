@@ -7,6 +7,22 @@
 
 #include "../../includes/minishell.h"
 
+char		*skip_quote(char *line, char *str, int *i, char quote)
+{
+	int		quote_end;
+
+	(*i)++;
+	quote_end = *i;
+	while (line[quote_end] != quote && line[quote_end])
+		quote_end++;
+	if (!line[quote_end])
+		ft_error("Syntax Error! Quotes not closed\n");
+	while (*i != quote_end)
+		str = ft_strjoin_char(str, line[(*i)++]);			// boom
+	(*i)++;
+	return (str);
+}
+
 static	void		array_to_struct(t_struct *global, char **arg)
 {
 	for (int i = 0; arg[i]; i++)
@@ -222,11 +238,7 @@ void		get_all_arguments(char *line, t_struct *global)
 			end+= 2;
 		while (!ft_chr(line[end]) && line[end])
 			end++;
-		// printf("BEGIN [%d] end [%d]\n", begin, end);
 		arg = fill_all_arguments(global, (char *)&line[begin]);
-		// for (int i = 0; arg[i]; i++)
-		// 	printf("arg [%s]\n", arg[i]);
-		// printf("SPACE\n");
 		array_to_three(global, arg);
 		array_to_struct(global, arg);
 		if ((line[end] == '<' && line[end + 1] == '<') || 
@@ -240,10 +252,4 @@ void		get_all_arguments(char *line, t_struct *global)
 	}
 	global->pars.ft_arg[global->flags.ft_arg] = 0;
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
-	// for (int i = 0; global->pars.dirty_array[i]; i++)
-	// {
-	// 	for (int j = 0; global->pars.dirty_array[i][j]; j++)
-	// 		printf("DIRTY [%s]\n", global->pars.dirty_array[i][j]);
-	// 	printf("SPACE\n");
-	// }
 }
