@@ -1,15 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pars_double_quotes.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <ncliff@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/24 14:33:08 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/05 19:25:03 by ncliff           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+/*
+;;;;;	PARS_DOUBLE_QUOTES.C
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 #include "../../includes/minishell.h"
 
 static	void			check_escape(char *line)
@@ -21,11 +15,8 @@ static	void			check_escape(char *line)
 	while (line[++i])
 	{
 		num = 0;
-		while (line[i] == 92)
-		{
+		while (line[i++] == 92)
 			num++;
-			i++;
-		}
 		if (line[i] == '\"')
 			break ;
 		if (num == 3)
@@ -67,13 +58,13 @@ int						pars_double_quotes(char *line, t_struct *global)
 		str[i++] = line[begin++];
 	}
 	str[i] = '\0';
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '$' && str[i + 1] != '$')
-			str = pars_dollar_sign(str, global);
-	}
-	// global->pars.info = ft_strjoin_new(global->pars.info, str);
+	// i = -1;
+	// while (str[++i])
+	// {
+	// 	if (str[i] == '$' && str[i + 1] != '$')
+	// 		str = pars_dollar_sign(str, global);
+	// }
+	global->pars.info = ft_strjoin_new(global->pars.info, str);
 	ft_free((void *)&str);
 	return (i + plus_i + 2);
 }

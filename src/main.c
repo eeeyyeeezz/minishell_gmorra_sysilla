@@ -65,8 +65,8 @@ static	void	free_all(t_struct *global, char *line)
 	}
 	if (global->pars.pipis)
 		ft_free((void *)&global->pars.pipis);
-	// for (int i = 0; global->pars.dirty_array[i]; i++)		// ft arg free oder?
-	// 	ft_free((void *)&global->pars.dirty_array[i]);
+	for (int i = 0; global->pars.dirty_array[i]; i++)		// ft arg free oder?
+		ft_free((void *)&global->pars.dirty_array[i]);
 	ft_free((void *)&global->pars.dirty_array);
 }
 
@@ -117,3 +117,7 @@ int				main(int argc, char **argv, char **envp)
 	write(1, "\e[Aminishell: exit\n", 20);
 	return (0);
 }
+
+
+// """"""ls""'' -la | cat "-e"
+// "\\\" - segfault

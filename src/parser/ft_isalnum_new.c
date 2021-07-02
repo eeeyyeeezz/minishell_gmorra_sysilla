@@ -14,7 +14,7 @@
 
 int		ft_isspaces(char word)
 {
-	if (word == ' ')
+	if (word == ' ' || word == '	')
 		return (1);
 	return (0);
 }

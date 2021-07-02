@@ -48,15 +48,14 @@ int						pars_without_quotes(char *line, t_struct *global)
 			i++;
 		}
 		str[i] = '\0';
-		i = -1;
-		while (str[++i])
-		{
-			if (str[i] == '$' && str[i + 1] != '$')
-				str = pars_dollar_sign(str, global);
-		}
-		// global->pars.info = ft_strjoin_new(global->pars.info, str);
+		// i = -1;
+		// while (str[++i])
+		// {
+		// 	if (str[i] == '$' && str[i + 1] != '$')
+		// 		str = pars_dollar_sign(str, global);
+		// }
+		global->pars.info = ft_strjoin_new(global->pars.info, str);
 		ft_free((void *)&str);
 	}
-	// printf("eto end [%d]\n", end);
 	return (end);
 }
