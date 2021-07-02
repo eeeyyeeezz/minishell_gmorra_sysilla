@@ -23,6 +23,8 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 	return (str);
 }
 
+
+
 static	void		array_to_struct(t_struct *global, char **arg)
 {
 	for (int i = 0; arg[i]; i++)
@@ -171,6 +173,33 @@ char		**get_all_commands(char *line, t_struct *global)
 	return (commands);
 }
 
+static	int		get_true_end(char *line)
+{
+	int	i;
+
+	i = 1;
+	if (line[0] == '\'')
+	{
+		printf("LINE SUKA [%s]\n", line);
+		while (line[i] != '\'' && line[i])
+			i++;
+		if (!line[i])
+			ft_error("Chel)\n");
+		else	
+			return (i);
+	}
+	else if (line[0] == '\"')
+	{
+		while (line[i] != '\"' && line[i])
+			i++;
+		if (!line[i])
+			ft_error("Double Chel)\n");
+		else	
+			return (i);
+	}
+	return (0);
+}
+
 char		**fill_all_arguments(t_struct *global, char *line)
 {
 	char	*str;
@@ -198,8 +227,17 @@ char		**fill_all_arguments(t_struct *global, char *line)
 		begin = i;
 		while (ft_isalnum_new(line[i]) || line[i] == '\''
 		|| line[i] == '\"' || line[i] < 0)
+		{
+			if (line[i] == '\'' || line[i] == '\"')
+			{
+				end += get_true_end((char *)&line[i]) + i;
+				i = end;
+				break ;
+			}
 			i++;
-		end = i;
+		}
+		if (end < i)
+			end = i;
 		if (!(str = malloc(sizeof(char) * (end - begin) + 1)))
 			return (NULL);
 		j = 0;

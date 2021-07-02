@@ -7,18 +7,6 @@
 
 #include "../../includes/minishell.h"
 
-void			init_all(t_struct *global)
-{
-	global->pars.dirty_array = NULL;
-	global->pars.ft_cmd = NULL;
-	global->pars.ft_arg = NULL;
-	global->pars.pipis = NULL;
-	global->history = NULL;
-	global->flags.ft_arg = 0;
-	global->flags.flag = 0;
-	global->term_name = "xterm-256color";
-}
-
 void	write_minishell()
 {
 	write(1, "\033[1;33m$\033[1;32mminishell: \033[0m", 30);
