@@ -103,13 +103,11 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
-		// for (int i = 0; global.pars.dirty_array[i]; i++)
-		// {
-		// 	for (int j = 0; global.pars.dirty_array[i][j]; j++)
-		// 		printf("DD [%s]\n", global.pars.dirty_array[i][j]);
-		// 	printf("SPACE\n");
-		// }
-		pipeline(global.pars.dirty_array);
+		// args = lsh_split_line(line);
+		// status = lsh_execute(global.pars.ft_arg, envp, &env);
+		pipeline(global.pars.dirty_array, &env);
+		// for (int i = 0; cmd[i] != NULL; i++)
+			// start_pipe(&env, cmd[i]);
 		signal(SIGINT, signal_2);
 		free_all(&global, line);
 		line = readline("minishell: ");
