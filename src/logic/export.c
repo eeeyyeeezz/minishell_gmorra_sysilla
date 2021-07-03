@@ -169,5 +169,5 @@ int	ft_export(char **av, t_env *env)
 			i++;
 		}
 	}
-	return (3);
+	return (0);
 }

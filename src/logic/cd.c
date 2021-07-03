@@ -19,7 +19,6 @@ int	ch_dir(char *av, char **env, t_env *envp)
 	if (!res)
 	{
 		getcwd(dir, 255);
-		ft_putstr_fd(dir, 1);
 		add_to_env("PWD=", dir, envp);
 	}
 	return (0);

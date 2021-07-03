@@ -187,6 +187,7 @@ int				lsh_execute_pipe(char **args, char **envp, t_env *env);
 int				exec_path(char **args, char **envp);
 int				lsh_num_builtins();
 int 			ft_isnum(char *str);
+int				bildin(char **args, t_env *env);
 
 // \LOGIC
 

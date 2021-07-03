@@ -23,5 +23,5 @@ int	ft_env(char **av, t_env *env)
 		ft_putendl_fd(env->sh_envp[i], 1);
 		i++;
 	}
-	return (3);
+	return (0);
 }

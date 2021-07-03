@@ -24,14 +24,13 @@ int	lsh_num_builtins()
 int	bildin(char **args, t_env *env)
 {
 	int	i;
+	// int	j;
 
 	i = 0;
 	while (i < 6)
 	{
 		if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
 		{
-			for (int i = 0; args[i]; i++)
-				printf("LOLCD [%s]\n", args[i]);
 			(*builtin_func[i])(args, env);
 			return (1);
 		}
@@ -105,6 +104,7 @@ void pipeline(char ***cmd, t_env *env)
 					printf("zsh: no such file or directory: %s\n", (*cmd)[0]);
 					strerror(1);
 				}
+				shlvl(env);
 			}				
 			exit(1);
 		}

@@ -146,35 +146,20 @@ int		exec_path(char **args, char **envp)
 	return (3);
 }
 
-// int lsh_execute(char **args, char **envp, t_env *env)
-// {
- 	// int i;
-// 
- 	// if (args[0] == NULL)
-	// {
- 	//   return (2);
- 	// }
-	// if (!(ft_strnstr(args[0], "./", 2)))
-	// {
-		// i = 0;
-		
-		// while (i < lsh_num_builtins())
-		// {
-			// if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
-				// return (*builtin_func[i])(args, env);
-			// if ((strcmp(args[0], builtin_str[i]) == 0) && i == 4)
-				// return (ft_echo(args));
-			// if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
-			// {
-				// if (args[1])
-					// ft_exit(args[1]);
-				// ft_exit("0");
-			// }
-			// i++;
-		// }
-		// return (exec_path(args, env->sh_envp));
-	// }
-  	// else if ((ft_strnstr(args[0], "./", 2)))
-		// return (lsh_launch(args, env->sh_envp, env));
-	// return (1);
-// }
+int lsh_execute(char **args, char **envp, t_env *env)
+{
+ 	int i;
+
+ 	if (args[0] == NULL)
+	{
+ 	  return (2);
+ 	}
+	if (!(ft_strnstr(args[0], "./", 2)))
+	{
+		bildin(args, env);
+		return (exec_path(args, env->sh_envp));
+	}
+  	else if ((ft_strnstr(args[0], "./", 2)))
+		return (lsh_launch(args, env->sh_envp, env));
+	return (1);
+}

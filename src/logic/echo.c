@@ -71,5 +71,5 @@ int	ft_echo(char **arg)
 	{
 		ft_putendl_fd(arg[i], 1);
 	}	
-	return (3);
+	return (0);
 }

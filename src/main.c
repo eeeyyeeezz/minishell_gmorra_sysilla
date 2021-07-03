@@ -86,7 +86,7 @@ int				main(int argc, char **argv, char **envp)
 	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
-	// shlvl(&env);						// тут leak
+	shlvl(&env);						// тут leak
 	init_all(&global);
 	char *ls[] = {"ls", "-al", NULL};
 	char *rev[] = {"rev", NULL};
@@ -103,19 +103,22 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
-		// args = lsh_split_line(line);
-		// status = lsh_execute(global.pars.ft_arg, envp, &env);
-		pipeline(global.pars.dirty_array, &env);
-		// for (int i = 0; cmd[i] != NULL; i++)
-			// start_pipe(&env, cmd[i]);
-		signal(SIGINT, signal_2);
-		free_all(&global, line);
+		if (!global.pars.dirty_array[0])
+			free_all(&global, line);
+		else
+		{
+			if (global.pars.dirty_array[1] == NULL)
+				lsh_execute(global.pars.dirty_array[0], envp, &env);
+			else
+				pipeline(global.pars.dirty_array, &env);
+			signal(SIGINT, signal_2);
+			free_all(&global, line);
+		}
 		line = readline("minishell: ");
 	}
 	if (line)
 		ft_free((void *)&line);
-	write(1, "\e[Aminishell: exit\n", 20);
-	return (0);
+	write(1, "\e[Aminishell: exit\n", 20);	return (0);
 }
 
 
