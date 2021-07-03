@@ -124,3 +124,5 @@ int				main(int argc, char **argv, char **envp)
 
 // """"""ls""'' -la | cat "-e"
 // "\\\" - segfault
+// echo "asdasd""" - segfault	
+// echo "asdasd1223""asdsd" - double free

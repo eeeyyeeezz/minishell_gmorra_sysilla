@@ -20,10 +20,7 @@ static	void		single_quote_check_error(char *line)
 			num++;
 	}
 	if (num % 2 != 0)
-	{
-		ft_error("Syntax error. Quotes not closed\n");
-		exit(0);
-	}
+		ft_error("Syntax error. Single quotes not closed\n");
 }
 
 static	int					pars_single_quotes(char *line, t_struct *global)
@@ -87,37 +84,32 @@ static	void				find_info(char *line, t_struct *global)
 
 	i = -1;
 	double_quote = 0;
-	// printf("line lol [%s]\n", line);
+	printf("line lol [%s]\n", line);
 	while (line[++i])
 	{
-		if (line[i] == 34)			// || line[i] == 39 убрать позже || убрал
+		if (line[i] == '\"')			// || line[i] == 39 убрать позже || убрал
 			double_quote++;
 	}
 	if (double_quote % 2 != 0)
-			ft_error("Syntax error. Quotes not closed\n");
+			ft_error("Syntax error. Double quotes not closed\n");
 	else
 		pars_info(line, global);
 }
 
 void	get_clean(t_struct *global, char **arg)
 {
-	int j;
 	int i;
 
 	i = -1;
 	while (arg[++i])
 	{
-		j = 0;
 		global->pars.info = malloc(1);
 		global->pars.info[0] = 0;
-		while (ft_isspaces(arg[i][j]))
-			j++;
-		find_info((char *)&arg[i][j], global);
+		find_info(arg[i], global);
 		if (arg[i])
 			ft_free((void *)&arg[i]);
 		arg[i] = ft_strdup(global->pars.info);
 		ft_free((void *)&global->pars.info);
-		// printf("STR! [%s]\n", arg[i]);
 	}
 }
 
