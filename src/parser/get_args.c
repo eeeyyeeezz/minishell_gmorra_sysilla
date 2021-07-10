@@ -298,6 +298,6 @@ void		get_all_arguments(char *line, t_struct *global)
 
 
 // ЕСЛИ В КАВЫЧКАХ ПРОБЕЛ ВИСНЕТ
-// 'echo'"" 123 << "cat" "-e" - huynya
+// 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol
 // 'echo' 123  >> t1 - tozhe
 // "ec""ho" 123 -- sega
