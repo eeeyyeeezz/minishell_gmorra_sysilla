@@ -47,12 +47,12 @@ int				pars_characters(t_struct *global, char *line)
 		ft_error("Malloc Error!\n");	
 	get_all_arguments(encode_line, global);
 	encode_arg(global);
-	// for (int i = 0; global->pars.dirty_array[i]; i++)
-	// {
-	// 	for (int j = 0; global->pars.dirty_array[i][j]; j++)
-	// 		printf("ABOBA [%s]\n", global->pars.dirty_array[i][j]);
-	// 	printf("SPACE \n");
-	// }
+	for (int i = 0; global->pars.dirty_array[i]; i++)
+	{
+		for (int j = 0; global->pars.dirty_array[i][j]; j++)
+			printf("ABOBA [%s]\n", global->pars.dirty_array[i][j]);
+		printf("SPACE \n");
+	}
 	// for (int i = 0; global->pars.dirty_array[i]; i++)
 	// 	get_clean(global, global->pars.dirty_array[i]);
 	ft_free((void *)&encode_line);
