@@ -29,6 +29,16 @@ static	void	encode_arg(t_struct *global)
 		decode_lines(global->pars.dirty_array[i]);
 }
 
+void			print_aboba(char ***arg, char *str)
+{
+	for (int i = 0; arg[i]; i++)
+	{
+		for (int j = 0; arg[i][j]; j++)
+			printf("%s [%s]\n", str, arg[i][j]);
+		printf("SPACE \n");
+	}
+}
+
 int				pars_characters(t_struct *global, char *line)
 {
 	int		i;
@@ -42,19 +52,14 @@ int				pars_characters(t_struct *global, char *line)
 		ft_error("Malloc Error!\n");
 	ft_free((void *)&str);
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
-	global->pars.ft_arg = malloc(sizeof(char *) * 100);
+	global->pars.ft_arg = malloc(sizeof(char *) * 50);
 	if (!global->pars.ft_arg)
 		ft_error("Malloc Error!\n");	
 	get_all_arguments(encode_line, global);
 	encode_arg(global);
+	print_aboba(global->pars.dirty_array, "ABOBA");
 	// for (int i = 0; global->pars.dirty_array[i]; i++)
-	// {
-	// 	for (int j = 0; global->pars.dirty_array[i][j]; j++)
-	// 		printf("ABOBA [%s]\n", global->pars.dirty_array[i][j]);
-	// 	printf("SPACE \n");
-	// }
-	// for (int i = 0; global->pars.dirty_array[i]; i++)
-	// 	get_clean(global, global->pars.dirty_array[i]);
+		// change_dollar_args(global, global->pars.dirty_array[i]);
 	ft_free((void *)&encode_line);
 	return (0);
 }

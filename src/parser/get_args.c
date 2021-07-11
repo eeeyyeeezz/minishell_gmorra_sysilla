@@ -7,7 +7,7 @@
 
 #include "../../includes/minishell.h"
 
-int			skip_quote_i(char *line, char quote)
+static int			skip_quote_i(char *line, char quote)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 
 	(*i)++;
 	quote_end = *i;
-	printf("LINE [%s] and i [%d]\n", line, *i);
+	// printf("LINE [%s] and i [%d]\n", line, *i);
 	while (line[quote_end] != quote && line[quote_end])
 		quote_end++;
 	if (!line[quote_end])
@@ -242,15 +242,13 @@ char		**fill_all_arguments(t_struct *global, char *line)
 		while (!ft_isspaces(line[i]) && line[i])
 		{
 			if (line[i] == '\'' || line[i] == '\"')
-				i += skip_quote_i(line, line[0]);
+				i += skip_quote_i((char *)&line[i], line[i]);
 			i++;
 		}
+		// printf("END SPACES [%s] -1 [%c]\n", (char *)&line[i], line[i - 1]);
 		i++;
 	}
 	arg[++count] = 0;
-	for (int i = 0; arg[i]; i++)
-		printf("argSS!! [%s] count [%d]\n", arg[i], count);
-	printf("SPACE\n");
 	return (arg);
 }
 
@@ -290,8 +288,16 @@ void		get_all_arguments(char *line, t_struct *global)
 		end++;
 	}
 	global->pars.ft_arg[global->flags.ft_arg] = 0;
+	// for (int i = 0; global->pars.ft_arg[i]; i++)
+	// 	printf("lol chto eto [%s]\n", global->pars.ft_arg[i]);
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
+// ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e"
+
+// 'e''cho'"" a""b""o""ba "cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
+// "c""at" '-e' >> " lol mda " | pipeline visnet 
 // ЕСЛИ В КАВЫЧКАХ ПРОБЕЛ ВИСНЕТ
-// 'echo'"" 123 << "cat" "-e" - huynya
+// 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol
+// 'echo' 123  >> t1 - tozhe
+// "ec""ho" 123 -- sega

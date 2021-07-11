@@ -5,6 +5,8 @@
 ;;;;;	team locked ???
 */
 
+#include "../../includes/minishell.h"
+
 char	*quote_encode(char *line, int *i, char quote)
 {
 	int	save;
@@ -27,6 +29,7 @@ char	*quote_encode(char *line, int *i, char quote)
 			line[save] = -4;
 		save++;
 	}
+	// printf("END [%d]\n", *i);
 	(*i)++;
 	return (line);
 }
@@ -36,13 +39,19 @@ char	*encode_lines(char *line)
 	int		end;
 	int		i;
 
-	i = -1;
-	while (line[++i])
+	i = 0;
+	while (line[i])
 	{
 		if (line[i] == '\'')
 			line = quote_encode(line, &i, '\'');
-		else if (line[i] == '\"')
+		if (line[i] == '\"')
 			line = quote_encode(line, &i, '\"');
+		if (line[i] == '\'')
+			line = quote_encode(line, &i, '\'');
+		if (line[i] == '\"')
+			line = quote_encode(line, &i, '\"');
+		i++;
+		// printf("LINE OT i [%c]\n", line[i]);
 	}
 	return (line);
 }
