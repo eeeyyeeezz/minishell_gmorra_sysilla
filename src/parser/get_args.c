@@ -7,12 +7,23 @@
 
 #include "../../includes/minishell.h"
 
+static int			skip_quote_i(char *line, char quote)
+{
+	int	i;
+
+	i = 1;
+	while (line[i] && line[i] != quote)
+		i++;
+	return (i);
+}
+
 char		*skip_quote(char *line, char *str, int *i, char quote)
 {
 	int		quote_end;
 
 	(*i)++;
 	quote_end = *i;
+	// printf("LINE [%s] and i [%d]\n", line, *i);
 	while (line[quote_end] != quote && line[quote_end])
 		quote_end++;
 	if (!line[quote_end])
@@ -36,7 +47,6 @@ static	void		array_to_struct(t_struct *global, char **arg)
 
 static	void		array_to_three(t_struct *global, char **arg)
 {
-	// printf("STATIC [%d] CTDA [%d]\n", d_flag, count_twodimarray(global->pars.ft_cmd));
 	if (d_flag < count_twodimarray(global->pars.ft_cmd))
 		global->pars.dirty_array[d_flag++] = arg;
 	else 
@@ -80,7 +90,11 @@ char	*find_chr_commands(char *line)			// LEAKS
 		i++;
 	end = i;
 	while (!ft_isspaces(line[end]) && !ft_chr(line[end]) && line[end])
+	{
+		if (line[end] == '\'' || line[end] == '\"')
+			end += skip_quote_i((char *)&line[end], line[end]);
 		end++;
+	}
 	while (i != end)
 	{
 		if (line[i] == '\"')
@@ -166,8 +180,8 @@ char		**get_all_commands(char *line, t_struct *global)
 	commands[count] = 0;
 	characters[count_chr] = -1;
 	characters[count_chr + 1] = '\0';
-	// for (int i = 0; characters[i]; i++)
-	// 	printf("chr lol [%d]\n", characters[i]);
+	// for (int i = 0; commands[i]; i++)
+	// 	printf("cmd lol [%s]\n", commands[i]);
 	count_pipes(global, characters);
 	ft_free((void *)&characters);
 	return (commands);
@@ -204,7 +218,6 @@ char		**fill_all_arguments(t_struct *global, char *line)
 {
 	char	*str;
 	char	**arg;
-	int		end_fill;
 	int		count;
 	int		begin;
 	int		end;
@@ -215,38 +228,24 @@ char		**fill_all_arguments(t_struct *global, char *line)
 	j = 0;
 	str = 0;
 	count = -1;
-	end_fill = 0;
-	while (!ft_chr(line[end_fill]) && line[end_fill])
-		end_fill++;	
 	if (!(arg = malloc(sizeof(char *) * count_arguments(line, 0) + 1)))
 		ft_error("Malloc Error\n");
-	while (i < end_fill)
+	while (!ft_chr(line[i]) && line[i])
 	{
 		while (ft_isspaces(line[i]) && line[i])
 			i++;
-		begin = i;
-		while (ft_isalnum_new(line[i]) || line[i] == '\''
-		|| line[i] == '\"' || line[i] < 0)
+		if (line[i])
+		{
+			arg[++count] = find_chr_commands((char *)&line[i]);
+			// printf("OBAMA [%s] i [%d]\n", arg[count], i);
+		}
+		while (!ft_isspaces(line[i]) && line[i])
 		{
 			if (line[i] == '\'' || line[i] == '\"')
-			{
-				end += get_true_end((char *)&line[i]) + i;
-				i = end;
-				break ;
-			}
+				i += skip_quote_i((char *)&line[i], line[i]);
 			i++;
 		}
-		if (end < i)
-			end = i;
-		if (!(str = malloc(sizeof(char) * (end - begin) + 1)))
-			return (NULL);
-		j = 0;
-		while (begin != end)
-			str[j++] = line[begin++];
-		str[j] = '\0';
-		if (str[0])
-			arg[++count] = ft_strdup(str);			// leaks
-		ft_free((void *)&str);
+		// printf("END SPACES [%s] -1 [%c]\n", (char *)&line[i], line[i - 1]);
 		i++;
 	}
 	arg[++count] = 0;
@@ -289,5 +288,16 @@ void		get_all_arguments(char *line, t_struct *global)
 		end++;
 	}
 	global->pars.ft_arg[global->flags.ft_arg] = 0;
+	// for (int i = 0; global->pars.ft_arg[i]; i++)
+	// 	printf("lol chto eto [%s]\n", global->pars.ft_arg[i]);
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
-}
+}		
+
+// ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e"
+
+// 'e''cho'"" a""b""o""ba "cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
+// "c""at" '-e' >> " lol mda " | pipeline visnet 
+// ЕСЛИ В КАВЫЧКАХ ПРОБЕЛ ВИСНЕТ
+// 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol
+// 'echo' 123  >> t1 - tozhe
+// "ec""ho" 123 -- sega
