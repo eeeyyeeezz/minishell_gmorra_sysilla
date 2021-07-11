@@ -25,7 +25,6 @@ void			init_all(t_struct *global)
 {
 	global->pars.dirty_array = NULL;
 	global->pars.ft_cmd = NULL;
-	global->pars.ft_arg = NULL;
 	global->pars.pipis = NULL;
 	global->history = NULL;
 	global->flags.ft_arg = 0;

@@ -29,7 +29,6 @@ char	*quote_encode(char *line, int *i, char quote)
 			line[save] = -4;
 		save++;
 	}
-	// printf("END [%d]\n", *i);
 	(*i)++;
 	return (line);
 }
@@ -42,16 +41,15 @@ char	*encode_lines(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'')
-			line = quote_encode(line, &i, '\'');
-		if (line[i] == '\"')
+		while (line[i] == '\'')
+			line = quote_encode(line, &i, '\'');	
+		while (line[i] == '\"')
 			line = quote_encode(line, &i, '\"');
-		if (line[i] == '\'')
+		while (line[i] == '\'')
 			line = quote_encode(line, &i, '\'');
-		if (line[i] == '\"')
+		while (line[i] == '\"')
 			line = quote_encode(line, &i, '\"');
 		i++;
-		// printf("LINE OT i [%c]\n", line[i]);
 	}
 	return (line);
 }
