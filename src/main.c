@@ -71,6 +71,15 @@ static	void	free_all(t_struct *global, char *line)
 	}
 }
 
+void			print_double(char **arg, char *str)
+{
+	int i;
+	
+	i = -1;
+	while (arg[++i])
+		printf("%s [%s]\n", str, arg[i]);
+}
+
 int				main(int argc, char **argv, char **envp)
 {
 	t_env			env;

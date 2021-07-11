@@ -97,6 +97,7 @@ typedef	struct			s_struct
 }						t_struct;
 
 t_pars					*pars_st_new();
+void					print_double(char **arg, char *str);
 void					print_aboba(char ***arg, char *str);
 char					*find_chr_commands(char *line);
 int						count_malloc_chr(char *line);

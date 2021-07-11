@@ -180,6 +180,8 @@ char		**get_all_commands(char *line, t_struct *global)
 	commands[count] = 0;
 	characters[count_chr] = -1;
 	characters[count_chr + 1] = '\0';
+	// for (int i = 0; characters[i]; i++)
+	// 	printf("PIPISI))) [%d]\n", characters[i]);
 	// for (int i = 0; commands[i]; i++)
 	// 	printf("cmd lol [%s]\n", commands[i]);
 	count_pipes(global, characters);
@@ -236,6 +238,7 @@ char		**fill_all_arguments(t_struct *global, char *line)
 			i++;
 		if (line[i])
 		{
+			// printf("po4emu guyzz [%s] [%i]\n", (char *)&line[i], i);
 			arg[++count] = find_chr_commands((char *)&line[i]);
 			// printf("OBAMA [%s] i [%d]\n", arg[count], i);
 		}
@@ -243,11 +246,14 @@ char		**fill_all_arguments(t_struct *global, char *line)
 		{
 			if (line[i] == '\'' || line[i] == '\"')
 				i += skip_quote_i((char *)&line[i], line[i]);
+			// printf("VILET? [%d]\n", i);
 			i++;
 		}
 		i++;
 	}
 	arg[++count] = 0;
+	printf("\n");
+	// print_double(arg, "Double");
 	return (arg);
 }
 
