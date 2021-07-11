@@ -49,25 +49,26 @@ char **lsh_split_line(char *line)
 
 static	void	free_all(t_struct *global, char *line)
 {
-	ft_free((void *)&line);
-
+	if (line)
+		ft_free((void *)&line);
 	if (global->pars.ft_cmd)
 	{
 		for (int i = 0; global->pars.ft_cmd[i]; i++)
 			ft_free((void *)&global->pars.ft_cmd[i]);
 		ft_free((void *)&global->pars.ft_cmd);
 	}
-	if (global->pars.ft_arg)
-	{
-		for (int i = 0; global->pars.ft_arg[i] != NULL; i++)
-			ft_free((void *)&global->pars.ft_arg[i]);
-		ft_free((void *)&global->pars.ft_arg);
-	}
 	if (global->pars.pipis)
 		ft_free((void *)&global->pars.pipis);
-	for (int i = 0; global->pars.dirty_array[i]; i++)		// ft arg free oder?
-		ft_free((void *)&global->pars.dirty_array[i]);
-	ft_free((void *)&global->pars.dirty_array);
+	if (global->pars.dirty_array)
+	{
+		for (int i = 0; global->pars.dirty_array[i]; i++)
+		{
+			for (int j = 0; global->pars.dirty_array[i][j]; j++)
+				ft_free((void *)&global->pars.dirty_array[i][j]);
+			ft_free((void *)&global->pars.dirty_array[i]);
+		}
+		ft_free((void *)&global->pars.dirty_array);
+	}
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -118,11 +119,12 @@ int				main(int argc, char **argv, char **envp)
 	}
 	if (line)
 		ft_free((void *)&line);
-	write(1, "\e[Aminishell: exit\n", 20);	return (0);
+	write(1, "\e[Aminishell: exit\n", 20);	
+	return (0);
 }
 
-
+// global->pars.ft_arg = NULL; | double free
 // """"""ls""'' -la | cat "-e"
 // "\\\" - segfault
-// echo "asdasd""" - segfault	
-// echo "asdasd1223""asdsd" - double free
+// echo "asdasd""" - segfault	| no
+// echo "asdasd1223""asdsd" - double free | no

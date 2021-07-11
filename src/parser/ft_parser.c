@@ -52,9 +52,6 @@ int				pars_characters(t_struct *global, char *line)
 		ft_error("Malloc Error!\n");
 	ft_free((void *)&str);
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
-	global->pars.ft_arg = malloc(sizeof(char *) * 50);
-	if (!global->pars.ft_arg)
-		ft_error("Malloc Error!\n");	
 	get_all_arguments(encode_line, global);
 	encode_arg(global);
 	print_aboba(global->pars.dirty_array, "ABOBA");
@@ -76,22 +73,8 @@ void			ft_parser(t_struct *global, char *line)
 // echo "Hello cat -e !" | cat -e
 
 // ./ ПАРСИНГ
-// echo ";";";";";";"
-// лики на долларах
-// echo $USERasdasdasdasd $"HOME" - sega
-// лишняя инфа в долларе сега надо сделоть
-// echo "$USER asd " сега с пробелом в конце??? || все гуд
-// экранировнаие работает ПО ДРУГОМУ!!!!!!! немного по другому
-// echo ""123"" pizda vse zavisaet || vse ok
-// !!! OBNULIT FIRST WORD!!! || да обнулен
-// экранирование БЕЗ кавычек echo \' = ' мда
+// echo ";";";";";"
 // 2) $ без кавычек и в кавычках
 // 4) ЗАЩИТИТЬ МАЛЛОКИ !!!!!!!!!!!
 // 5) echo ''asd''22 зависает (вай?) || не зависает другие приколы || не зависает
-// 6) exit 123 = echo $? = 123
-// || exit echo $? = 0
-// || exit asdasd echo $? = 255
-// || exit 123 456 = не выйдет echo $? = 1
-// 7) "command not found" 127
 // 9) После ошибок снова выходить в печать
-// 10) export пробел s null parametrs

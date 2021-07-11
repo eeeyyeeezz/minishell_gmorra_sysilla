@@ -36,14 +36,14 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 
 
 
-static	void		array_to_struct(t_struct *global, char **arg)
-{
-	for (int i = 0; arg[i]; i++)
-	{
-		global->pars.ft_arg[global->flags.ft_arg] = arg[i];		// leaks ??
-		global->flags.ft_arg++;
-	}
-}
+// static	void		array_to_struct(t_struct *global, char **arg)
+// {
+// 	for (int i = 0; arg[i]; i++)
+// 	{
+// 		global->pars.ft_arg[global->flags.ft_arg] = arg[i];		// leaks ??
+// 		global->flags.ft_arg++;
+// 	}
+// }
 
 static	void		array_to_three(t_struct *global, char **arg)
 {
@@ -245,7 +245,6 @@ char		**fill_all_arguments(t_struct *global, char *line)
 				i += skip_quote_i((char *)&line[i], line[i]);
 			i++;
 		}
-		// printf("END SPACES [%s] -1 [%c]\n", (char *)&line[i], line[i - 1]);
 		i++;
 	}
 	arg[++count] = 0;
@@ -265,9 +264,7 @@ void		get_all_arguments(char *line, t_struct *global)
 	count = 0;
 	begin = 0;
 	d_flag = 0;
-	global->pars.dirty_array = malloc(sizeof(char ***) * 20);
-	for (int i = 0; i < count_twodimarray(global->pars.ft_cmd); i++)
-		global->pars.dirty_array[i] = malloc(sizeof(char **) * 20);
+	global->pars.dirty_array = malloc(sizeof(char ***) * 30);
 	while (line[i])
 	{
 		if ((line[end] == '<' && line[end - 1] == '<') || 
@@ -277,7 +274,6 @@ void		get_all_arguments(char *line, t_struct *global)
 			end++;
 		arg = fill_all_arguments(global, (char *)&line[begin]);
 		array_to_three(global, arg);
-		array_to_struct(global, arg);
 		if ((line[end] == '<' && line[end + 1] == '<') || 
 		(line[end] == '>' && line[end + 1] == '>'))
 			begin = end + 2;
@@ -287,17 +283,14 @@ void		get_all_arguments(char *line, t_struct *global)
 			i++;
 		end++;
 	}
-	global->pars.ft_arg[global->flags.ft_arg] = 0;
-	// for (int i = 0; global->pars.ft_arg[i]; i++)
-	// 	printf("lol chto eto [%s]\n", global->pars.ft_arg[i]);
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
 // ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e"
 
-// 'e''cho'"" a""b""o""ba "cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
+// 'e''cho'"" a""b""o""ba '$KAVO'"cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
 // "c""at" '-e' >> " lol mda " | pipeline visnet 
 // ЕСЛИ В КАВЫЧКАХ ПРОБЕЛ ВИСНЕТ
-// 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol
+// 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol | fixed
 // 'echo' 123  >> t1 - tozhe
 // "ec""ho" 123 -- sega
