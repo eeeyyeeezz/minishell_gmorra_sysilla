@@ -62,11 +62,8 @@ int	ex_path(char **args, t_env *env)
 	flag = -1;
 	while (path[i])
 	{	
-		printf("IMM HEEERE\n");
 		path_ag = ft_strjoin_slash(path[i], args[0]);
 		flag = execve(path_ag, args, env->sh_envp);
-		if (flag == -1)
-			printf("lol 228\n");
 		free(path_ag);
 		if (flag != -1)
 			return (0);
@@ -111,8 +108,10 @@ void pipeline(char ***cmd, t_env *env)
 			else if (!bildin(&(*cmd)[0], env) && !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
 			{
 				// execvp((*cmd)[0], *cmd);
-				int e = ex_path(&(*cmd)[0], env);
-				printf("                    %d\n", e);
+				// int e = ex_path(&(*cmd)[0], env);
+				// printf("                    %d\n", e);
+				if (ex_path(&(*cmd)[0], env))
+					printf("minishell: %s command not found\n", (*cmd)[0]);
 			}
 			// else if (ft_strnstr(&(*cmd)[0][0], "./", 2))
 			// {
