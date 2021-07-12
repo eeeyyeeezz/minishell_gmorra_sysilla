@@ -33,19 +33,19 @@
 #define LSH_TOK_BUFSIZE 64
 #define LSH_TOK_DELIM " \t\r\n\a"
 
-static int		d_flag;
 
 typedef	struct 			s_flags
 {
 	int					flag;
 	int					ft_arg;
 	int					ft_cmd;
+	int					d_flag;
 }						t_flags;
 
 
 typedef	struct			s_pars {
 	char				***dirty_array;
-	char				***args;
+	// char				***args;
 	char				**ft_cmd;
 	char				*info;
 	int					*pipis;

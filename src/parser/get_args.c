@@ -18,7 +18,7 @@ static int			skip_quote_i(char *line, char quote)
 }
 
 char		*skip_quote(char *line, char *str, int *i, char quote)
-{
+{	
 	int		quote_end;
 
 	(*i)++;
@@ -34,23 +34,12 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 	return (str);
 }
 
-
-
-// static	void		array_to_struct(t_struct *global, char **arg)
-// {
-// 	for (int i = 0; arg[i]; i++)
-// 	{
-// 		global->pars.ft_arg[global->flags.ft_arg] = arg[i];		// leaks ??
-// 		global->flags.ft_arg++;
-// 	}
-// }
-
 static	void		array_to_three(t_struct *global, char **arg)
 {
-	if (d_flag < count_twodimarray(global->pars.ft_cmd))
-		global->pars.dirty_array[d_flag++] = arg;
+	if (global->flags.d_flag < count_twodimarray(global->pars.ft_cmd))
+		global->pars.dirty_array[global->flags.d_flag++] = arg;
 	else 
-		d_flag = 0;
+		global->flags.d_flag = 0;
 }
 
 int		count_malloc_chr(char *line)
@@ -73,6 +62,35 @@ int		count_malloc_chr(char *line)
 	}
 	malloc_count++;			// why not???
 	return (malloc_count);
+}
+
+static	void	skip_single_quote(char *line, int *i)
+{
+	*i += 1;
+
+	while (line[*i] != '\'')
+		*i += 1;
+}
+
+static	void	double_quotes_dollar(char *line, char *str, int *i)
+{
+
+}
+
+static	void	get_dollar(char *line, char *str, int end)
+{
+	int		i;
+	int		flag;
+
+	i = -1;
+	flag = -1;
+	while (line[++i] != end)
+	{
+		while (line[i] == '\'')
+			skip_single_quote(line, &i);
+		while (line[i] == '\"')
+			double_quotes_dollar(line, str, &i);
+	}	
 }
 
 char	*find_chr_commands(char *line)			// LEAKS
@@ -104,6 +122,7 @@ char	*find_chr_commands(char *line)			// LEAKS
 		else
 			str = ft_strjoin_char(str, line[i++]);
 	}
+	// get_dollar(line, str, end);
 	return (str);
 }
 
@@ -265,7 +284,7 @@ void		get_all_arguments(char *line, t_struct *global)
 	end = 0;
 	count = 0;
 	begin = 0;
-	d_flag = 0;
+	global->flags.d_flag = 0;
 	global->pars.dirty_array = malloc(sizeof(char ***) * 30);
 	while (line[i])
 	{
