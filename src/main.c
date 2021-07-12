@@ -124,7 +124,7 @@ int				main(int argc, char **argv, char const **envp)
 			signal(SIGINT, signal_2);
 			free_all(&global, line);
 		}
-		line = readline("minishell $ ");
+		line = readline("minishell: ");
 	}
 	if (line)
 		ft_free((void *)&line);

@@ -24,10 +24,9 @@ int	lsh_num_builtins()
 int	bildin(char **args, t_env *env)
 {
 	int	i;
-	// int	j;
 
-	i = 0;
-	while (i < 6)
+	i = -1;
+	while (++i < 6)
 	{
 		if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
 		{
@@ -42,10 +41,10 @@ int	bildin(char **args, t_env *env)
 		if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
 		{
 			if (args[1])
-				ft_exit(args[1]);
-			ft_exit("0");
+				return (ft_exit(args));
+			else
+				return (ft_exit(NULL));
 		}
-		i++;
 	}
 	return (0);
 }

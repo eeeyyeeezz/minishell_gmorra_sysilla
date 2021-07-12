@@ -105,7 +105,7 @@ int						count_twodimarray(char **array);
 int						ft_isalnum_cd(int c);
 void					pars_add_back(t_pars **lst, t_pars *new);
 void					pars_unset(char *line, t_struct *global);
-void					ft_exit();
+int						ft_exit(char **ret);
 int						ft_chr(char s);
 void					write_minishell();
 int						chr_to_int(char s, char next);
