@@ -232,6 +232,8 @@ char		**fill_all_arguments(t_struct *global, char *line)
 	count = -1;
 	if (!(arg = malloc(sizeof(char *) * count_arguments(line, 0) + 1)))
 		ft_error("Malloc Error\n");
+	// for (int i = 0; line[i]; i++)
+	// 	printf("LOL END [%d]\n", i);
 	while (!ft_chr(line[i]) && line[i])
 	{
 		while (ft_isspaces(line[i]) && line[i])
@@ -242,11 +244,11 @@ char		**fill_all_arguments(t_struct *global, char *line)
 			arg[++count] = find_chr_commands((char *)&line[i]);
 			// printf("OBAMA [%s] i [%d]\n", arg[count], i);
 		}
-		while (!ft_isspaces(line[i]) && line[i])
+		while (line[i + 1] && !ft_isspaces(line[i]))
 		{
 			if (line[i] == '\'' || line[i] == '\"')
 				i += skip_quote_i((char *)&line[i], line[i]);
-			// printf("VILET? [%d]\n", i);
+			// printf("VILET? [%d] [%s]\n", i, (char *)&line[i]);
 			i++;
 		}
 		i++;
