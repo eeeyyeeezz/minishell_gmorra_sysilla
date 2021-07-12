@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_envp_cpy(char *envp[], t_env *buf)
+void	ft_envp_cpy(char *envp[], t_env *env)
 {
 	int		i;
 	char	**envp_cpy;
@@ -30,12 +30,12 @@ void	ft_envp_cpy(char *envp[], t_env *buf)
 		if (!ft_strncmp(envp[i], "PATH=", 5))
 			path = &envp_cpy[i][5];
 		else if (!ft_strncmp(envp[i], "TERM=", 5))
-			buf->sh_term = &envp_cpy[i][5];
+			env->sh_term = &envp_cpy[i][5];
 		else if (!ft_strncmp(envp[i], "SHLVL=", 6))
-			buf->sh_lvl = &envp_cpy[i][6];
+			env->sh_lvl = &envp_cpy[i][6];
 	}
-	buf->sh_envp = envp_cpy;
-	buf->sh_path = path;
+	env->sh_envp = envp_cpy;
+	env->sh_path = path;
 }
 
 void	add_to_env2(char **envp, char *add, t_env *env)
@@ -54,7 +54,7 @@ void	add_to_env2(char **envp, char *add, t_env *env)
 	while (++j < i)
 		buf[j] = envp[j];
 	buf[j] = ft_strdup(add);
-	free(envp);
+	ft_free((void *)&envp);
 	ft_envp_cpy(buf, env);
 	freemass(buf);
 }

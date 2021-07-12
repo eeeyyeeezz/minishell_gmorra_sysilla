@@ -252,7 +252,6 @@ char		**fill_all_arguments(t_struct *global, char *line)
 		i++;
 	}
 	arg[++count] = 0;
-	printf("\n");
 	// print_double(arg, "Double");
 	return (arg);
 }
