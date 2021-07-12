@@ -26,8 +26,8 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 	// printf("LINE [%s] and i [%d]\n", line, *i);
 	while (line[quote_end] != quote && line[quote_end])
 		quote_end++;
-	if (!line[quote_end])
-		ft_error("Syntax Error! Quotes not closed\n");
+	// if (!line[quote_end])
+		// ft_error("Syntax Error! Quotes not closed\n");
 	while (*i != quote_end)
 		str = ft_strjoin_char(str, line[(*i)++]);			// boom
 	(*i)++;
@@ -232,29 +232,23 @@ char		**fill_all_arguments(t_struct *global, char *line)
 	count = -1;
 	if (!(arg = malloc(sizeof(char *) * count_arguments(line, 0) + 1)))
 		ft_error("Malloc Error\n");
-	// for (int i = 0; line[i]; i++)
-	// 	printf("LOL END [%d]\n", i);
 	while (!ft_chr(line[i]) && line[i])
 	{
 		while (ft_isspaces(line[i]) && line[i])
 			i++;
 		if (line[i])
 		{
-			// printf("po4emu guyzz [%s] [%i]\n", (char *)&line[i], i);
 			arg[++count] = find_chr_commands((char *)&line[i]);
-			// printf("OBAMA [%s] i [%d]\n", arg[count], i);
 		}
 		while (line[i + 1] && !ft_isspaces(line[i]))
 		{
 			if (line[i] == '\'' || line[i] == '\"')
 				i += skip_quote_i((char *)&line[i], line[i]);
-			printf("VILET? [%d] [%s]\n", i, (char *)&line[i]);
 			i++;
 		}
 		i++;
 	}
 	arg[++count] = 0;
-	printf("\n");
 	// print_double(arg, "Double");
 	return (arg);
 }
@@ -294,6 +288,10 @@ void		get_all_arguments(char *line, t_struct *global)
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
+// export - double free
+
+ 
+// " || ' - seg | no
 // ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e"
 
 // 'e''cho'"" a""b""o""ba '$KAVO'"cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "

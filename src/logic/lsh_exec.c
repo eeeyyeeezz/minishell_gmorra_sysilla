@@ -84,6 +84,8 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 			return (0);
 		return (1);
 	}
+	printf("SMEEEERT ABOBA'\n");
+	return (0);
 }
 
 int lsh_launch(char **args, char **envp, t_env *env)
@@ -118,6 +120,8 @@ int lsh_launch(char **args, char **envp, t_env *env)
 		if (WEXITSTATUS(status) == 0)
 			return (0);
 	}
+	printf("SMEEEERT'\n");
+	return (0);
 }
 
 int		exec_path(char **args, char **envp)
