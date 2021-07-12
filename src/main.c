@@ -96,7 +96,7 @@ int				main(int argc, char **argv, char **envp)
 	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
-	shlvl(&env);						// тут leak
+	// shlvl(&env);						// тут leak
 	init_all(&global);
 	char *ls[] = {"ls", "-al", NULL};
 	char *rev[] = {"rev", NULL};
