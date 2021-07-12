@@ -163,7 +163,7 @@ t_history				*ft_histnew(void *content);
 char			*ft_strjoin_slash(char const *s1, char const *s2);
 char			*ft_strndup(const char *s, size_t n);
 int				ft_strmasschr(char *what, char **where, int cmplen);
-void			ft_envp_cpy(char *envp[], t_env *buf);
+void			ft_envp_cpy(const char *envp[], t_env *buf);
 int				ft_env(char **av, t_env *sh_env);
 int				ft_echo(char **arg);
 int				ft_cd(char **argv, t_env *sh_env);
@@ -189,6 +189,7 @@ int				exec_path(char **args, char **envp);
 int				lsh_num_builtins();
 int 			ft_isnum(char *str);
 int				bildin(char **args, t_env *env);
+char			*ft_strmasschr_char(char *what, char **where, int cmplen);
 
 // \LOGIC
 

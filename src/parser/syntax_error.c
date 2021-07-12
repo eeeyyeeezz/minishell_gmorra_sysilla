@@ -32,6 +32,27 @@ void			init_all(t_struct *global)
 	global->term_name = "xterm-256color";
 }
 
+static	void		check_error_quotes(char *line, int *i, char quote)
+{
+	*i += 1;
+
+	while (line[*i] != quote && line[*i])
+		*i += 1;
+	if (!line[*i])
+		ft_error("Aboba Error! Quotes not closed!\n");
+}
+
+static	void		check_quotes(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == '\"' || line[i] == '\'')
+			check_error_quotes(line, &i, line[i]);
+	}
+}
 
 void				syntax_error(char *line, t_struct *global)
 {
@@ -41,6 +62,7 @@ void				syntax_error(char *line, t_struct *global)
 	if (line[0] == ';' || line[0] == '|' ||
 	line[ft_strlen(line) - 1] == '|')
 		ft_error("Syntax error\n");
+	check_quotes(line);
 	while (line[++i])
 	{
 		if (line[i] == '\"')

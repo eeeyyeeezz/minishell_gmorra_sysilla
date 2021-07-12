@@ -28,14 +28,16 @@ int	ft_cd(char **argv, t_env *sh_env)
 {
 	char	*home;
 
-	home = getenv("HOME");
+	// home = getenv("HOME");
+	home = ft_strmasschr_char("HOME", sh_env->sh_envp, 4);
 	if (!home)
 	{
 		ft_putendl_fd("minishell: cd: HOME not set", 1);
+		return(2);
 	}
 	if (!argv[1])
 	{
-		ch_dir(home, sh_env->sh_envp, sh_env);
+		ch_dir(&home[5], sh_env->sh_envp, sh_env);
 		return (1);
 	}
 	if (argv[2])
@@ -45,5 +47,5 @@ int	ft_cd(char **argv, t_env *sh_env)
 		return (2);
 	}
 	ch_dir(argv[1], sh_env->sh_envp, sh_env);
-	return (3);
+	return (0);
 }

@@ -80,7 +80,7 @@ void			print_double(char **arg, char *str)
 		printf("%s [%s]\n", str, arg[i]);
 }
 
-int				main(int argc, char **argv, char **envp)
+int				main(int argc, char **argv, char const **envp)
 {
 	t_env			env;
 	t_struct		global;
@@ -106,7 +106,7 @@ int				main(int argc, char **argv, char **envp)
 	env.cn = 3;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
-	line = readline("minishell $ ");
+	line = readline("minishell: ");
 	while (line)
 	{
 		if (line == NULL)
