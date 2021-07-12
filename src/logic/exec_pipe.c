@@ -55,17 +55,21 @@ int	ex_path(char **args, t_env *env)
 	char	**path;
 	char	*path_ag;
 	int		i;
+	int		flag;
 
 	path = ft_split(getenv("PATH"), ':');
 	i = 0;
+	flag = -1;
 	while (path[i])
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
-		execve(path_ag, args, env->sh_envp);
+		flag = execve(path_ag, args, env->sh_envp);
 		free(path_ag);
+		if (flag != -1)
+			return (0);
 		i++;
 	}
-	return(0);
+	return (1);
 }
 
 void pipeline(char ***cmd, t_env *env)
@@ -92,20 +96,32 @@ void pipeline(char ***cmd, t_env *env)
 				dup2(fd[1], 1);
 			}
 			close(fd[0]);
-			if (!bildin(&(*cmd)[0], env) && !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
-			{
-				// execvp((*cmd)[0], *cmd);
-				ex_path(&(*cmd)[0], env);
-			}
-			else
+			if (ft_strnstr(&(*cmd)[0][0], "./", 2))
 			{
 				if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)
 				{
-					printf("zsh: no such file or directory: %s\n", (*cmd)[0]);
+					printf("minishell: no such file or directory: %s\n", (*cmd)[0]);
 					strerror(1);
 				}
 				shlvl(env);
-			}				
+			}
+			else if (!bildin(&(*cmd)[0], env) && !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
+			{
+				// execvp((*cmd)[0], *cmd);
+				// int e = ex_path(&(*cmd)[0], env);
+				// printf("                    %d\n", e);
+				if (ex_path(&(*cmd)[0], env))
+					printf("minishell: %s command not found\n", (*cmd)[0]);
+			}
+			// else if (ft_strnstr(&(*cmd)[0][0], "./", 2))
+			// {
+			// 	if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)
+			// 	{
+			// 		printf("minishell: no such file or directory: %s\n", (*cmd)[0]);
+			// 		strerror(1);
+			// 	}
+			// 	shlvl(env);
+			// }
 			exit(1);
 		}
 		else

@@ -29,6 +29,10 @@ int	ft_cd(char **argv, t_env *sh_env)
 	char	*home;
 
 	home = getenv("HOME");
+	if (!home)
+	{
+		ft_putendl_fd("minishell: cd: HOME not set", 1);
+	}
 	if (!argv[1])
 	{
 		ch_dir(home, sh_env->sh_envp, sh_env);

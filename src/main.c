@@ -96,7 +96,7 @@ int				main(int argc, char **argv, char **envp)
 	global.envp = envp;
 	ft_bzero(&env, sizeof(env));
 	ft_envp_cpy(envp, &env);
-	// shlvl(&env);						// тут leak
+	shlvl(&env);
 	init_all(&global);
 	char *ls[] = {"ls", "-al", NULL};
 	char *rev[] = {"rev", NULL};
@@ -106,7 +106,7 @@ int				main(int argc, char **argv, char **envp)
 	env.cn = 3;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
-	line = readline("minishell: ");
+	line = readline("minishell $ ");
 	while (line)
 	{
 		if (line == NULL)
@@ -124,7 +124,7 @@ int				main(int argc, char **argv, char **envp)
 			signal(SIGINT, signal_2);
 			free_all(&global, line);
 		}
-		line = readline("minishell: ");
+		line = readline("minishell $ ");
 	}
 	if (line)
 		ft_free((void *)&line);

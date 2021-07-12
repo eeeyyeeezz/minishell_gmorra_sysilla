@@ -63,9 +63,9 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 		chld_sig();
 		if (execve(path_ag, args, envp) == -1)
 		{
-			strerror(1);
+			exit(1);
 		}
-		exit(1);
+		exit(0);
 	}
 	else if (pid < 0) {
 		// Ошибка при форкинге
@@ -84,7 +84,6 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 			return (0);
 		return (1);
 	}
-	return (0);
 }
 
 int lsh_launch(char **args, char **envp, t_env *env)
@@ -97,7 +96,7 @@ int lsh_launch(char **args, char **envp, t_env *env)
 		chld_sig();
 		if (execve(args[0], args, envp) == -1)
 		{
-			printf("zsh: no such file or directory: %s\n", args[0]);
+			printf("minishell: no such file or directory: %s\n", args[0]);
 			strerror(1);
 		}
 		shlvl(env);
@@ -118,8 +117,7 @@ int lsh_launch(char **args, char **envp, t_env *env)
 			write(1, "^Quit \n", 8);
 		if (WEXITSTATUS(status) == 0)
 			return (0);
-	}	
-	return 3;
+	}
 }
 
 int		exec_path(char **args, char **envp)
@@ -135,15 +133,17 @@ int		exec_path(char **args, char **envp)
 	while (path[i])
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
-		if (lnch_pth(path_ag, args, envp))
-			flag++;
+		flag = lnch_pth(path_ag, args, envp);
 		free(path_ag);
+		if (flag == 0)
+		{
+			freemass(path);
+			return (0);
+		}
 		i++;
 	}
 	freemass(path);
-	if (flag == 0)
-		printf("minishel: %s: command not found", args[0]);
-	return (3);
+	return (1);
 }
 
 int lsh_execute(char **args, char **envp, t_env *env)
@@ -154,12 +154,13 @@ int lsh_execute(char **args, char **envp, t_env *env)
 	{
  	  return (2);
  	}
-	if (!(ft_strnstr(args[0], "./", 2)))
-	{
-		bildin(args, env);
-		return (exec_path(args, env->sh_envp));
-	}
-  	else if ((ft_strnstr(args[0], "./", 2)))
+	if ((ft_strnstr(args[0], "./", 2)))
 		return (lsh_launch(args, env->sh_envp, env));
+	if (!(ft_strnstr(args[0], "./", 2)) && !(bildin(args, env)))
+	{
+		if (exec_path(args, env->sh_envp))
+			printf("minishell: %s command not found\n", args[0]);
+		return (0);
+	}
 	return (1);
 }
