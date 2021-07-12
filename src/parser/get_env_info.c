@@ -16,13 +16,13 @@ static	char			*check_dollar_info(char *str, t_struct *global)
 	j = 0;
 	i = 0;
 	env_string = 0;
-	while (global->envp[i])
+	while (global->env.sh_envp[i])
 	{
 		if (ft_strnstr(global->env.sh_envp[i], str + 1, ft_strlen(str)))
 		{
 			while (global->env.sh_envp[i][j] != '=')
 				j++;
-			env_string = (char *)&global->envp[i][j + 1];
+			env_string = (char *)&global->env.sh_envp[i][j + 1];
 			break ;
 		}
 		i++;
