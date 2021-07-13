@@ -64,7 +64,12 @@ int	ft_unset(char **av, t_env *env)
 
 	i = 1;
 	if (!av[1])
-		ft_error("empty key");
+		return (ft_err("empty key\n"));
+	if (ft_strnstr(av[1], "=", ft_strlen(av[1])))
+	{
+		printf("minishell: unset: `%s': not a valid identifier\n", av[1]);
+		return (2);
+	}
 	while (av[i])
 	{
 		index = find_key_in_env(av[i], env);
@@ -74,5 +79,5 @@ int	ft_unset(char **av, t_env *env)
 		}
 		i++;
 	}
-	return (3);
+	return (1);
 }

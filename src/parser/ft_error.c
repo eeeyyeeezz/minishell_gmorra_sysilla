@@ -30,22 +30,21 @@ int			ft_exit(char **ret)
 		{
 			printf("minishell: exit: %s: numeric argument required\n", ret[1]);
 		}
-	// tputs(restore_cursor, 1, ft_putchar);
-	// tputs(tigetstr("ed"), 1, ft_putchar);
 		write(1, "exit\n", 5);
 		exit(ret_num);
 	}
+	exit(ret_num);
 }
-
-void			ft_err(char *str)
-{
-	ft_putstr_fd(str, 2);
-	exit(0);
-}
-
 
 void			ft_error(char *str)
 {
 	ft_putstr_fd(str, 2);
 	exit(0);
+}
+
+
+int			ft_err(char *str)
+{
+	ft_putstr_fd(str, 2);
+	return (0);
 }

@@ -80,7 +80,7 @@ void			print_double(char **arg, char *str)
 		printf("%s [%s]\n", str, arg[i]);
 }
 
-int				main(int argc, char **argv, char const **envp)
+int				main(int argc, char **argv, char **envp)
 {
 	t_env			env;
 	t_struct		global;

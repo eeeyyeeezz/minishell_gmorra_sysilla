@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_envp_cpy(const char *envp[], t_env *buf)
+void	ft_envp_cpy(char *envp[], t_env *buf)
 {
 	int		i;
 	char	**envp_cpy;
@@ -47,7 +47,7 @@ void	add_to_env2(char **envp, char *add, t_env *env)
 		buf[j] = envp[j];
 	buf[j] = ft_strdup(add);
 	ft_free((void *)&envp);
-	ft_envp_cpy((const char **)buf, env);
+	ft_envp_cpy(buf, env);
 	freemass(buf);
 }
 

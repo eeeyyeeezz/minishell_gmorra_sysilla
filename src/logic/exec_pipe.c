@@ -9,16 +9,21 @@ char *builtin_str[] = {
 	"exit"
 };
 
-int (*builtin_func[]) (char **, t_env *env) = {
-	&ft_cd,
-	&ft_export,
-	&ft_unset,
-	&ft_env
-};
-
 int	lsh_num_builtins()
 {
 	return sizeof(builtin_str) / sizeof(char *);
+}
+
+int	builtin_func2(char **args, t_env *env, int i)
+{
+	if (i == 0)
+		return (ft_cd(args, env));
+	if (i == 1)
+		return (ft_export(args, env));
+	if (i == 2)
+		return (ft_unset(args, env));
+	if (i == 3)
+		return (ft_env(args, env));
 }
 
 int	bildin(char **args, t_env *env)
@@ -29,15 +34,9 @@ int	bildin(char **args, t_env *env)
 	while (++i < 6)
 	{
 		if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
-		{
-			(*builtin_func[i])(args, env);
-			return (1);
-		}
+			return (builtin_func2(args, env, i));
 		if ((strcmp(args[0], builtin_str[i]) == 0) && i == 4)
-		{
-			ft_echo(args);
-			return (1);
-		}
+			return (ft_echo(args));
 		if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
 		{
 			if (args[1])
