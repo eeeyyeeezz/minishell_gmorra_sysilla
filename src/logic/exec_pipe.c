@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-char *builtin_str[] = {
+char	*g_builtin_str[] = {
 	"cd",
 	"export",
 	"unset",
@@ -9,9 +9,9 @@ char *builtin_str[] = {
 	"exit"
 };
 
-int	lsh_num_builtins()
+int	lsh_num_builtins(void)
 {
-	return sizeof(builtin_str) / sizeof(char *);
+	return (sizeof(g_builtin_str) / sizeof(char *));
 }
 
 int	builtin_func2(char **args, t_env *env, int i)
@@ -33,11 +33,11 @@ int	bildin(char **args, t_env *env)
 	i = -1;
 	while (++i < 6)
 	{
-		if ((strcmp(args[0], builtin_str[i]) == 0) && i != 4 && i != 5)
+		if ((strcmp(args[0], g_builtin_str[i]) == 0) && i != 4 && i != 5)
 			return (builtin_func2(args, env, i));
-		if ((strcmp(args[0], builtin_str[i]) == 0) && i == 4)
+		if ((strcmp(args[0], g_builtin_str[i]) == 0) && i == 4)
 			return (ft_echo(args));
-		if ((strcmp(args[0], builtin_str[i]) == 0) && i == 5)		// ft_exit изменен
+		if ((strcmp(args[0], g_builtin_str[i]) == 0) && i == 5)
 		{
 			if (args[1])
 				return (ft_exit(args));
@@ -70,17 +70,19 @@ int	ex_path(char **args, t_env *env)
 	return (1);
 }
 
-void pipeline(char ***cmd, t_env *env)
+void	pipeline(char ***cmd, t_env *env)
 {
-	int fd[2];
-	pid_t pid;
-	int status;
-	int fdd = 0;				/* Backup */
+	int		fd[2];
+	pid_t	pid;
+	int		status;
+	int		fdd;
 
+	fdd = 0;
 	while (*cmd != NULL)
 	{
-		pipe(fd);				/* Sharing bidiflow */
-		if ((pid = fork()) == -1)
+		pipe(fd);
+		pid = fork();
+		if (pid == -1)
 		{
 			perror("fork");
 			exit(1);
@@ -98,46 +100,26 @@ void pipeline(char ***cmd, t_env *env)
 			{
 				if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)
 				{
-					printf("minishell: no such file or directory: %s\n", (*cmd)[0]);
+					printf("%s %s\n", N_S_F_D, (*cmd)[0]);
 					strerror(1);
 				}
 				shlvl(env);
 			}
-			else if (!bildin(&(*cmd)[0], env) && !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
+			else if (!bildin(&(*cmd)[0], env)
+			&& !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
 			{
-				// execvp((*cmd)[0], *cmd);
-				// int e = ex_path(&(*cmd)[0], env);
-				// printf("                    %d\n", e);
 				if (ex_path(&(*cmd)[0], env))
-					printf("minishell: %s command not found\n", (*cmd)[0]);
+					printf("minishell: %s %s\n", (*cmd)[0], CMD_NF);
 			}
-			// else if (ft_strnstr(&(*cmd)[0][0], "./", 2))
-			// {
-			// 	if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)
-			// 	{
-			// 		printf("minishell: no such file or directory: %s\n", (*cmd)[0]);
-			// 		strerror(1);
-			// 	}
-			// 	shlvl(env);
-			// }
 			exit(1);
 		}
 		else
 		{
 			signal(SIGINT, SIG_IGN);
-			wait(NULL); 		/* Collect childs */
-			// signal(SIGINT, SIG_IGN);
-			// wait(&status);
-			// if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGINT)
-				// write(1, "\n", 1);
-			// if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGQUIT)
-				// write(1, "^Quit \n", 8);
-			// if (WEXITSTATUS(status) == 0)
-			// {
-				close(fd[1]);
-				fdd = fd[0];
-				cmd++;
-			// }
+			wait(NULL);
+			close(fd[1]);
+			fdd = fd[0];
+			cmd++;
 		}
 	}
 }

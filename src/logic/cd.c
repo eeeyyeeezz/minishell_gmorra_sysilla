@@ -13,7 +13,6 @@ int	ch_dir(char *av, char **env, t_env *envp)
 	char	*oldpwd;
 	char	dir[255];
 
-	// oldpwd = getenv("PWD");
 	oldpwd = ft_strmasschr_char("PWD", envp->sh_envp, 3);
 	add_to_env("OLDPWD=", &oldpwd[4], envp);
 	res = chdir(av);
@@ -31,7 +30,6 @@ int	ft_cd(char **argv, t_env *sh_env)
 {
 	char	*home;
 
-	// home = getenv("HOME");
 	home = ft_strmasschr_char("HOME", sh_env->sh_envp, 4);
 	if (!home)
 	{

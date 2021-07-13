@@ -32,6 +32,8 @@
 #define LSH_RL_BUFSIZE 1024
 #define LSH_TOK_BUFSIZE 64
 #define LSH_TOK_DELIM " \t\r\n\a"
+#define N_S_F_D "minishell: no such file or directory:"
+#define CMD_NF "command not found"
 
 
 typedef	struct 			s_flags
