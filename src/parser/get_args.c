@@ -144,15 +144,24 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 	int		end;
 
 	// printf("LINE [%s]\n", line);
-	end = *i + 1;
-	while (line[end] != '\"')
-		end++;
+	if (line[*i] == '\"')
+	{
+		end = *i + 1;
+		while (line[end] != '\"')
+			end++;
+	}
+	else 
+	{
+		end = *i;
+		while (line[end] && !ft_isspaces(line[end]))
+			end++;
+	}
 	while (*i < end)
 	{
 		if (line[*i] == '$')
 		{
 			begin = *i;
-			while (!ft_isspaces(line[*i]) && !(line[*i] == '\"'))
+			while (!ft_isspaces(line[*i]) && !(line[*i] == '\"') && line[*i])
 				*i += 1;
 			str_end = *i;
 			dollar_str = ft_strndup((char *)&line[begin], str_end - begin);
@@ -184,6 +193,8 @@ static	char	*get_dollar(t_struct *global, char *line, char *str, int end)
 			str = double_quotes_dollar(global, line, str, &i);
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
+		if (line[i] == '$')
+			str = double_quotes_dollar(global, line, str, &i);
 		i++;
 	}
 	return (str);
@@ -403,6 +414,9 @@ void		get_all_arguments(char *line, t_struct *global)
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
+// echo "$123" | cat -e    - double write
+
+
 // echo "$uS" '123' lol - empty
 
 // echo '$USER'"$USER" - seg
@@ -413,7 +427,6 @@ void		get_all_arguments(char *line, t_struct *global)
 
 // 'e''cho'"" a""b""o""ba '$KAVO'"cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
 // "c""at" '-e' >> " lol mda " | pipeline visnet 
-// ЕСЛИ В КАВЫЧКАХ ПРОБЕЛ ВИСНЕТ
 // 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol | fixed
 // 'echo' 123  >> t1 - tozhe || double free with space
 // "ec""ho" 123 -- sega
