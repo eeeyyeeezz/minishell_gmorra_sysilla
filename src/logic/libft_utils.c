@@ -1,6 +1,26 @@
 #include "../../includes/minishell.h"
 
 
+char		*ft_strmasschr_char(char *what, char **where, int cmplen)
+{
+	int	i;
+	char *ret;
+
+	i = 0;
+	if (!what)
+		return (NULL);
+	while (where[i])
+	{
+		if (ft_memcmp(what, where[i], cmplen) == 0)
+		{
+			ret = ft_strdup(where[i]);
+			return (ret);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 int		ft_strmasschr(char *what, char **where, int cmplen)
 {
 	int	i;

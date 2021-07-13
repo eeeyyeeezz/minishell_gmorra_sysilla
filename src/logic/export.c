@@ -153,21 +153,20 @@ int	ft_export(char **av, t_env *env)
 			{
 				tmp = ft_strndup(av[i], index_eq);
 				if (!tmp || !(ft_isnu(tmp)))
-					printf("minishell: export: `%s': not a valid identifier\n", key);
+					printf("minishell: export: `%s': not a valid identifier\n", tmp);
 				else
 				{
 					key = ft_strjoin(tmp, "=");
 					if (!(ft_strchr(av[i], '=')))
-					{
 						add_to_env(key, "", env);
-					}
-					add_to_env(key, &av[i][index_eq + 1], env);
+					else
+						add_to_env(key, &av[i][index_eq + 1], env);
+					free(key);
 				}
 				free(tmp);
-				free(key);
 			}
 			i++;
 		}
 	}
-	return (0);
+	return (1);
 }

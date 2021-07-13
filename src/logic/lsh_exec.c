@@ -67,10 +67,10 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 		}
 		exit(0);
 	}
-	else if (pid < 0) {
+	// else if (pid < 0) {
 		// Ошибка при форкинге
-		printf("%s", strerror(errno));
-	}
+		// printf("%s", strerror(errno));
+	// }
 	else
 	{
 		// Родительский процесс
@@ -103,11 +103,12 @@ int lsh_launch(char **args, char **envp, t_env *env)
 		}
 		shlvl(env);
 		exit(EXIT_FAILURE);
-	} else if (pid < 0)
-	{
-		// Ошибка при форкинге
-		printf("%s", strerror(errno));
 	}
+	// else if (pid < 0)
+	// {
+		// Ошибка при форкинге
+		// printf("%s", strerror(errno));
+	// }
 	else
 	{
 		// Родительский процесс

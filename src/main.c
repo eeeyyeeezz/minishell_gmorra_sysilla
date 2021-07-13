@@ -82,7 +82,7 @@ void			print_double(char **arg, char *str)
 
 int				main(int argc, char **argv, char **envp)
 {
-	t_env			env;
+	// t_env			env;
 	t_struct		global;
 	char			*line;
 	char 			**args;
@@ -94,19 +94,19 @@ int				main(int argc, char **argv, char **envp)
 	rl_catch_signals = 0;
 	line = NULL;
 	global.envp = envp;
-	ft_bzero(&env, sizeof(env));
-	ft_envp_cpy(envp, &env);
-	shlvl(&env);
+	ft_bzero(&global.env, sizeof(global.env));
+	ft_envp_cpy(envp, &global.env);
+	shlvl(&global.env);
 	init_all(&global);
 	char *ls[] = {"ls", "-al", NULL};
 	char *rev[] = {"rev", NULL};
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};
 	char **cmd[] = {ls, rev, nl, cat, NULL};
-	env.cn = 3;
+	global.env.cn = 3;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
-	line = readline("minishell $ ");
+	line = readline("minishell: ");
 	while (line)
 	{
 		if (line == NULL)
@@ -118,13 +118,13 @@ int				main(int argc, char **argv, char **envp)
 		else
 		{
 			if (global.pars.dirty_array[1] == NULL)
-				lsh_execute(global.pars.dirty_array[0], envp, &env);
+				lsh_execute(global.pars.dirty_array[0], envp, &global.env);
 			else
-				pipeline(global.pars.dirty_array, &env);
+				pipeline(global.pars.dirty_array, &global.env);
 			signal(SIGINT, signal_2);
 			free_all(&global, line);
 		}
-		line = readline("minishell $ ");
+		line = readline("minishell: ");
 	}
 	if (line)
 		ft_free((void *)&line);

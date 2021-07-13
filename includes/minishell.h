@@ -32,6 +32,8 @@
 #define LSH_RL_BUFSIZE 1024
 #define LSH_TOK_BUFSIZE 64
 #define LSH_TOK_DELIM " \t\r\n\a"
+#define N_S_F_D "minishell: no such file or directory:"
+#define CMD_NF "command not found"
 
 
 typedef	struct 			s_flags
@@ -105,7 +107,7 @@ int						count_twodimarray(char **array);
 int						ft_isalnum_cd(int c);
 void					pars_add_back(t_pars **lst, t_pars *new);
 void					pars_unset(char *line, t_struct *global);
-void					ft_exit();
+int						ft_exit(char **ret);
 int						ft_chr(char s);
 void					write_minishell();
 int						chr_to_int(char s, char next);
@@ -173,7 +175,7 @@ int				ft_export(char **av, t_env *env);
 int				cnt_str(char **src);
 int				cnt_chr(char **src);
 void			freemass(char **arr);
-void			ft_err(char *err);
+int				ft_err(char *err);
 int				ft_unset(char **av, t_env *env);
 int				lsh_exit(char **args);
 void			shlvl(t_env *env);
@@ -189,6 +191,7 @@ int				exec_path(char **args, char **envp);
 int				lsh_num_builtins();
 int 			ft_isnum(char *str);
 int				bildin(char **args, t_env *env);
+char			*ft_strmasschr_char(char *what, char **where, int cmplen);
 
 // \LOGIC
 

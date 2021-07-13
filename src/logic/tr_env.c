@@ -16,26 +16,18 @@ void	ft_envp_cpy(char *envp[], t_env *buf)
 {
 	int		i;
 	char	**envp_cpy;
-	char	*path;
 
 	i = 0;
 	while (envp[i])
 		i++;
 	envp_cpy = (char **)ft_calloc(i + 1, sizeof(char *));
-	path = NULL;
-	i = -1;
-	while (envp[++i])
+	i = 0;
+	while (envp[i])
 	{
-		envp_cpy[i] = ft_strdup(envp[i]);
-		if (!ft_strncmp(envp[i], "PATH=", 5))
-			path = &envp_cpy[i][5];
-		else if (!ft_strncmp(envp[i], "TERM=", 5))
-			buf->sh_term = &envp_cpy[i][5];
-		else if (!ft_strncmp(envp[i], "SHLVL=", 6))
-			buf->sh_lvl = &envp_cpy[i][6];
+		envp_cpy[i] = strdup(envp[i]);
+		i++;
 	}
 	buf->sh_envp = envp_cpy;
-	buf->sh_path = path;
 }
 
 void	add_to_env2(char **envp, char *add, t_env *env)
@@ -54,7 +46,7 @@ void	add_to_env2(char **envp, char *add, t_env *env)
 	while (++j < i)
 		buf[j] = envp[j];
 	buf[j] = ft_strdup(add);
-	free(envp);
+	ft_free((void *)&envp);
 	ft_envp_cpy(buf, env);
 	freemass(buf);
 }

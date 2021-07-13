@@ -62,7 +62,7 @@ int						pars_double_quotes(char *line, t_struct *global)
 	// while (str[++i])
 	// {
 	// 	if (str[i] == '$' && str[i + 1] != '$')
-	// 		str = pars_dollar_sign(str, global);
+			// str = pars_dollar_sign(str, global);
 	// }
 	global->pars.info = ft_strjoin_new(global->pars.info, str);
 	ft_free((void *)&str);

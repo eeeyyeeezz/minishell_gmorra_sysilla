@@ -12,30 +12,39 @@
 
 #include "../../includes/minishell.h"
 
-void			ft_exit(char *ret)
+int			ft_exit(char **ret)
 {
 	int	ret_num;
 
-	ret_num = ft_atoi(ret);
-	if ((ret_num == 0) && (!(ret[0] <= '9' && ret[0] >= '0')))
+	if (!ret)
+		ret_num = 0;
+	else if (ret[2])
 	{
-		printf("minishell: exit: %s: numeric argument required\n", ret);
+		printf("minishell: exit: too many arguments\n");
+		return (1);
 	}
-	// tputs(restore_cursor, 1, ft_putchar);
-	// tputs(tigetstr("ed"), 1, ft_putchar);
-	write(1, "exit\n", 5);
+	else
+	{
+		ret_num = ft_atoi(ret[1]);
+		if ((ret_num == 0) && (!(ret[1][0] <= '9' && ret[1][0] >= '0')))
+		{
+			printf("minishell: exit: %s: numeric argument required\n", ret[1]);
+		}
+		write(1, "exit\n", 5);
+		exit(ret_num);
+	}
 	exit(ret_num);
 }
-
-void			ft_err(char *str)
-{
-	ft_putstr_fd(str, 2);
-	exit(0);
-}
-
 
 void			ft_error(char *str)
 {
 	ft_putstr_fd(str, 2);
 	exit(0);
+}
+
+
+int			ft_err(char *str)
+{
+	ft_putstr_fd(str, 2);
+	return (0);
 }

@@ -13,14 +13,16 @@ int	ch_dir(char *av, char **env, t_env *envp)
 	char	*oldpwd;
 	char	dir[255];
 
-	oldpwd = getenv("PWD");
-	add_to_env("OLDPWD=", oldpwd, envp);
+	oldpwd = ft_strmasschr_char("PWD", envp->sh_envp, 3);
+	add_to_env("OLDPWD=", &oldpwd[4], envp);
 	res = chdir(av);
-	if (!res)
+	if (res == 0)
 	{
 		getcwd(dir, 255);
 		add_to_env("PWD=", dir, envp);
 	}
+	else
+		printf("minishell: cd: %s: No such file or directory\n", av);
 	return (0);
 }
 
@@ -28,15 +30,16 @@ int	ft_cd(char **argv, t_env *sh_env)
 {
 	char	*home;
 
-	home = getenv("HOME");
+	home = ft_strmasschr_char("HOME", sh_env->sh_envp, 4);
 	if (!home)
 	{
 		ft_putendl_fd("minishell: cd: HOME not set", 1);
+		return(2);
 	}
 	if (!argv[1])
 	{
-		ch_dir(home, sh_env->sh_envp, sh_env);
-		return (1);
+		ch_dir(&home[5], sh_env->sh_envp, sh_env);
+		return (2);
 	}
 	if (argv[2])
 	{
@@ -45,5 +48,5 @@ int	ft_cd(char **argv, t_env *sh_env)
 		return (2);
 	}
 	ch_dir(argv[1], sh_env->sh_envp, sh_env);
-	return (3);
+	return (1);
 }

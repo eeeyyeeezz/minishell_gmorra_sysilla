@@ -16,6 +16,7 @@ void	shlvl(t_env *env)
 {
 	int		i;
 	int		lvl;
+	char	*lvll;
 	char	*shlvl;
 
 	shlvl = ft_strdup("SHLVL=");
@@ -25,8 +26,10 @@ void	shlvl(t_env *env)
 	else
 	{
 		lvl = ft_atoi(&env->sh_envp[i][6]);
+		lvll = ft_itoa(++lvl);
 		free(env->sh_envp[i]);
-		env->sh_envp[i] = ft_strjoin(shlvl, ft_itoa(++lvl));
+		env->sh_envp[i] = ft_strjoin(shlvl, lvll);
+		ft_free((void *)&lvll);
 	}
 	free(shlvl);
 }

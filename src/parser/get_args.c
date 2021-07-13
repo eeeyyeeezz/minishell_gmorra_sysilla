@@ -75,26 +75,51 @@ static	void	skip_single_quote(char *line, int *i)
 }
 
 
-static	void	connect_dollar_string(char *str, char *dollar_str, int begin)
+static	char	*connect_dollar_string(char *str, char *dollar_str, int begin, int get_strlen)
 {
-	int	i;
+	char	*old_str;
+	char	*new_str;
+	char	*whole_str;
+	int		count;
+	int		i;
 
 	i = -1;
-	while (dollar_str[++i])
-		str[begin++] = dollar_str[i];
+	count = begin + get_strlen;
+	old_str = malloc(sizeof(char) * begin + 1);
+	if (!old_str) 
+		ft_error("Malloc Error!\n");
+	while (++i != begin)
+		old_str[i] = str[i];
+	old_str[i] = '\0';
+	old_str = ft_strjoin_new(old_str, dollar_str);
+	i = 0;
+	if (str[count])
+	{
+		new_str = malloc(sizeof(char) * (ft_strlen(str) - (begin + get_strlen)) + 1);
+		while (str[count])
+			new_str[i++] = str[count++];
+		new_str[i] = '\0';
+		whole_str = ft_strjoin_new(old_str, new_str);
+	}
+	else
+		return (old_str);
+	// ft_free((void *)&old_str);
+	// ft_free((void *)&new_str);
+	printf("WHOLE [%s]\n", whole_str);
+	return (whole_str);
+	// str = whole_str;
 }
 
 static	char		*change_dollar_string(t_struct *global, char *dollar_string)
 {
 	int		j;
 	int		i;
+	char	*dollar;
 	char	*env_string;
 
 	j = 0;
 	i = 0;
 	env_string = 0;
-	for (int i = 0; global->env.sh_envp[i]; i++)
-		printf("kek)) [%s]\n", global->env.sh_envp[i]);
 	while (global->env.sh_envp[i])
 	{
 		if (ft_strnstr(global->env.sh_envp[i], dollar_string + 1, ft_strlen(dollar_string)))
@@ -106,14 +131,16 @@ static	char		*change_dollar_string(t_struct *global, char *dollar_string)
 		}
 		i++;
 	}
+	ft_free((void *)&dollar_string);
 	return (env_string);
 }
 
-static	void	double_quotes_dollar(t_struct *global, char *line, char *str, int *i)
+static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int *i)
 {
+	char	*dollar_str;
+	int		get_strlen;
 	int		str_end;
 	int		begin;
-	char	*dollar_str;
 	int		end;
 
 	// printf("LINE [%s]\n", line);
@@ -129,18 +156,19 @@ static	void	double_quotes_dollar(t_struct *global, char *line, char *str, int *i
 				*i += 1;
 			str_end = *i;
 			dollar_str = ft_strndup((char *)&line[begin], str_end - begin);
+			get_strlen = ft_strlen(dollar_str);		
 			dollar_str = change_dollar_string(global, dollar_str);
-			// connect_dollar_string(str, dollar_str, begin);
-			printf("DOLLAR STR [%s] STR [%s]\n", dollar_str, str);
-			ft_free((void *)&dollar_str);
+			str = connect_dollar_string(str, dollar_str, begin - 1, get_strlen);
+			// ft_free((void *)&dollar_str);
 		}
 		*i += 1;
 	}
 	if (line[*i + 1])
 		*i += 1;
+	return (str);
 }
 
-static	void	get_dollar(t_struct *global, char *line, char *str, int end)
+static	char	*get_dollar(t_struct *global, char *line, char *str, int end)
 {
 	int		i;
 	int		flag;
@@ -153,11 +181,12 @@ static	void	get_dollar(t_struct *global, char *line, char *str, int end)
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
 		while (line[i] == '\"' && line[i + 1])
-			double_quotes_dollar(global, line, str, &i);
+			str = double_quotes_dollar(global, line, str, &i);
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
 		i++;
-	}	
+	}
+	return (str);
 }
 
 char	*find_chr_commands(t_struct *global, char *line)
@@ -189,7 +218,7 @@ char	*find_chr_commands(t_struct *global, char *line)
 		else
 			str = ft_strjoin_char(str, line[i++]);
 	}
-	get_dollar(global, line, str, end);
+	str = get_dollar(global, line, str, end);
 	return (str);
 }
 
@@ -373,6 +402,8 @@ void		get_all_arguments(char *line, t_struct *global)
 	}
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
+
+// echo '$USER'"$USER" - seg
 
 // echo '$ABOBA'"$USER"lol 'cat -e | grep libft' - seg
  
