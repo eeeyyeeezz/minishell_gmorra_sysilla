@@ -71,7 +71,7 @@ int	ex_path(char **args, t_env *env)
 	return (1);
 }
 
-void	pipeline(char ***cmd, t_env *env)
+void	 pipeline(char ***cmd, t_env *env)
 {
 	int		fd[2];
 	pid_t	pid;

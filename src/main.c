@@ -82,7 +82,6 @@ void			print_double(char **arg, char *str)
 
 int				main(int argc, char **argv, char **envp)
 {
-	// t_env			env;
 	t_struct		global;
 	char			*line;
 	char 			**args;
@@ -103,7 +102,6 @@ int				main(int argc, char **argv, char **envp)
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};
 	char **cmd[] = {ls, rev, nl, cat, NULL};
-	global.env.cn = 3;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
 	line = readline("minishell: ");
