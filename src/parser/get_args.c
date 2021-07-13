@@ -70,30 +70,97 @@ static	void	skip_single_quote(char *line, int *i)
 
 	while (line[*i] != '\'')
 		*i += 1;
+	if (line[*i + 1])
+		*i += 1;
 }
 
-static	void	double_quotes_dollar(char *line, char *str, int *i)
+
+static	void	connect_dollar_string(char *str, char *dollar_str, int begin)
 {
+	int	i;
 
+	i = -1;
+	while (dollar_str[++i])
+		str[begin++] = dollar_str[i];
 }
 
-static	void	get_dollar(char *line, char *str, int end)
+static	char		*change_dollar_string(t_struct *global, char *dollar_string)
+{
+	int		j;
+	int		i;
+	char	*env_string;
+
+	j = 0;
+	i = 0;
+	env_string = 0;
+	for (int i = 0; global->env.sh_envp[i]; i++)
+		printf("kek)) [%s]\n", global->env.sh_envp[i]);
+	while (global->env.sh_envp[i])
+	{
+		if (ft_strnstr(global->env.sh_envp[i], dollar_string + 1, ft_strlen(dollar_string)))
+		{
+			while (global->env.sh_envp[i][j] != '=')
+				j++;
+			env_string = (char *)&global->env.sh_envp[i][j + 1];
+			break ;
+		}
+		i++;
+	}
+	return (env_string);
+}
+
+static	void	double_quotes_dollar(t_struct *global, char *line, char *str, int *i)
+{
+	int		str_end;
+	int		begin;
+	char	*dollar_str;
+	int		end;
+
+	// printf("LINE [%s]\n", line);
+	end = *i + 1;
+	while (line[end] != '\"')
+		end++;
+	while (*i < end)
+	{
+		if (line[*i] == '$')
+		{
+			begin = *i;
+			while (!ft_isspaces(line[*i]) && !(line[*i] == '\"'))
+				*i += 1;
+			str_end = *i;
+			dollar_str = ft_strndup((char *)&line[begin], str_end - begin);
+			dollar_str = change_dollar_string(global, dollar_str);
+			// connect_dollar_string(str, dollar_str, begin);
+			printf("DOLLAR STR [%s] STR [%s]\n", dollar_str, str);
+			ft_free((void *)&dollar_str);
+		}
+		*i += 1;
+	}
+	if (line[*i + 1])
+		*i += 1;
+}
+
+static	void	get_dollar(t_struct *global, char *line, char *str, int end)
 {
 	int		i;
 	int		flag;
 
-	i = -1;
+	i = 0;
 	flag = -1;
-	while (line[++i] != end)
+	// printf("end aboba [%s] [%d]\n", line, end);
+	while (line[i + 1] && i < end)
 	{
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
-		while (line[i] == '\"')
-			double_quotes_dollar(line, str, &i);
+		while (line[i] == '\"' && line[i + 1])
+			double_quotes_dollar(global, line, str, &i);
+		while (line[i] == '\'')
+			skip_single_quote(line, &i);
+		i++;
 	}	
 }
 
-char	*find_chr_commands(char *line)			// LEAKS
+char	*find_chr_commands(t_struct *global, char *line)
 {
 	char		*str;
 	int			quote_end;
@@ -122,7 +189,7 @@ char	*find_chr_commands(char *line)			// LEAKS
 		else
 			str = ft_strjoin_char(str, line[i++]);
 	}
-	// get_dollar(line, str, end);
+	get_dollar(global, line, str, end);
 	return (str);
 }
 
@@ -180,7 +247,7 @@ char		**get_all_commands(char *line, t_struct *global)
 	{
 		if (line[i])
 		{
-			commands[count] = find_chr_commands((char *)&line[i]);
+			commands[count] = find_chr_commands(global, (char *)&line[i]);
 			count++;
 		}
 		while (!ft_chr(line[i]) && line[i])
@@ -257,7 +324,7 @@ char		**fill_all_arguments(t_struct *global, char *line)
 			i++;
 		if (line[i])
 		{
-			arg[++count] = find_chr_commands((char *)&line[i]);
+			arg[++count] = find_chr_commands(global, (char *)&line[i]);
 		}
 		while (line[i + 1] && !ft_isspaces(line[i]))
 		{
@@ -307,10 +374,8 @@ void		get_all_arguments(char *line, t_struct *global)
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
-// export - double free
-
+// echo '$ABOBA'"$USER"lol 'cat -e | grep libft' - seg
  
-// " || ' - seg | no
 // ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e"
 
 // 'e''cho'"" a""b""o""ba '$KAVO'"cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
