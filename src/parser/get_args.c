@@ -403,6 +403,8 @@ void		get_all_arguments(char *line, t_struct *global)
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
+// echo "$uS" '123' lol - empty
+
 // echo '$USER'"$USER" - seg
 
 // echo '$ABOBA'"$USER"lol 'cat -e | grep libft' - seg
@@ -413,5 +415,5 @@ void		get_all_arguments(char *line, t_struct *global)
 // "c""at" '-e' >> " lol mda " | pipeline visnet 
 // ЕСЛИ В КАВЫЧКАХ ПРОБЕЛ ВИСНЕТ
 // 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol | fixed
-// 'echo' 123  >> t1 - tozhe
+// 'echo' 123  >> t1 - tozhe || double free with space
 // "ec""ho" 123 -- sega

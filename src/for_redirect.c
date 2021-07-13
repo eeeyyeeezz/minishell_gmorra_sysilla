@@ -9,12 +9,6 @@ int red(int fd_out, int fd_in, t_env *env)
 	fd_out = open("НАЗВАНИЕ ФАЙЛА", O_WRONLY | O_WRONLY | O_TRUNC, 0644);
 	// <
 	fd_in = open("НАЗВАНИЕ ФАЙЛА", O_RDONLY, 0644);
-<<<<<<< HEAD
-	//
-	// readline
-	// fd_in = open("НАЗВАНИЕ ФАЙЛА", O_RDONLY, 0644);
-=======
->>>>>>> 9ff34f76578c332ec0de1a2363d4f880ee7bf213
 	return (0);
 }
 
@@ -66,4 +60,5 @@ int		single_left(char *name)
 int		double_left(char *name)
 {
 	/*ЧТОПРОИСХОДИТ?!!!??!*/
+	return (1);
 }
