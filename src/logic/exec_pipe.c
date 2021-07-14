@@ -117,9 +117,10 @@ void	 pipeline(char ***cmd, t_env *env)
 		else
 		{
 			signal(SIGINT, SIG_IGN);
-			wait(NULL);
+			wait(&status);
 			close(fd[1]);
 			fdd = fd[0];
+			status = env->status;
 			cmd++;
 		}
 	}

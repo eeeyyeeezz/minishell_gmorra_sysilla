@@ -51,7 +51,7 @@ void	chld_sig(void)
 	signal(SIGINT, SIG_DFL);
 }
 
-int lnch_pth(char *path_ag, char **args, char **envp)
+int lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 {
 	pid_t	pid;
 	int		status;
@@ -75,12 +75,13 @@ int lnch_pth(char *path_ag, char **args, char **envp)
 	{
 		// Родительский процесс
 		signal(SIGINT, SIG_IGN);
-		wait(&status);
-		if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGINT)
+		wait(&env->status);
+		// status = env->status;
+		if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
 			write(1, "\n", 1);
-		if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGQUIT)
+		if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
 			write(1, "^Quit \n", 8);
-		if (WEXITSTATUS(status) == 0)
+		if (WEXITSTATUS(env->status) == 0)
 			return (0);
 		return (1);
 	}
@@ -114,6 +115,7 @@ int lsh_launch(char **args, char **envp, t_env *env)
 		// Родительский процесс
 		signal(SIGINT, SIG_IGN);
 		wait(&status);
+		status = env->status;
 		if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGINT)
 			write(1, "\n", 1);
 		if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGQUIT)
@@ -125,7 +127,7 @@ int lsh_launch(char **args, char **envp, t_env *env)
 	return (0);
 }
 
-int		exec_path(char **args, char **envp)
+int		exec_path(char **args, char **envp, t_env *env)
 {
 	char	**path;
 	char	*path_ag;
@@ -138,7 +140,7 @@ int		exec_path(char **args, char **envp)
 	while (path[i])
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
-		flag = lnch_pth(path_ag, args, envp);
+		flag = lnch_pth(path_ag, args, envp, env);
 		free(path_ag);
 		if (flag == 0)
 		{
@@ -163,8 +165,11 @@ int lsh_execute(char **args, char **envp, t_env *env)
 		return (lsh_launch(args, env->sh_envp, env));
 	if (!(ft_strnstr(args[0], "./", 2)) && !(bildin(args, env)))
 	{
-		if (exec_path(args, env->sh_envp))
+		if (exec_path(args, env->sh_envp, env))
+		{
 			printf("minishell: %s command not found\n", args[0]);
+			env->status = 127;
+		}
 		return (0);
 	}
 	return (1);

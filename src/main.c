@@ -89,7 +89,6 @@ int				main(int argc, char **argv, char **envp)
 	char 			***megamass;
 
 	global.fd = 1;
-	status = 1;
 	rl_catch_signals = 0;
 	line = NULL;
 	global.envp = envp;
@@ -97,6 +96,7 @@ int				main(int argc, char **argv, char **envp)
 	ft_envp_cpy(envp, &global.env);
 	shlvl(&global.env);
 	init_all(&global);
+	global.env.status = 1;
 	char *ls[] = {"ls", "-al", NULL};
 	char *rev[] = {"rev", NULL};
 	char *nl[] = {"nl", NULL};
@@ -120,6 +120,7 @@ int				main(int argc, char **argv, char **envp)
 			else
 				pipeline(global.pars.dirty_array, &global.env);
 			signal(SIGINT, signal_2);
+			printf("%d\n", global.env.status);
 			free_all(&global, line);
 		}
 		line = readline("minishell: ");
