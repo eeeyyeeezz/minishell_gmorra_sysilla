@@ -57,7 +57,41 @@ int		single_left(char *name)
 	return (fd);
 }
 
-int		double_left(char *name)
+char	**until_stop(char *stop)
+{
+	char	**ret;
+	char	*tmp;
+
+	ret = NULL;
+	tmp = readline("heredoc> ");
+	while (ft_strncmp(stop, tmp, ft_strlen(tmp)) && tmp)
+	{
+		ret = ft_new_str(ret, tmp);
+		tmp = readline("heredoc> ");
+	}
+	free(tmp);
+	return (ret);
+}
+
+void	double_left(char *stop, char **command, t_struct *global)
 {
 	/*ЧТОПРОИСХОДИТ?!!!??!*/
+	char	**heredoc;
+	int		tmpfd[2];
+	int		i;
+
+	heredoc = until_stop(stop);
+	pipe(tmpfd);
+	i = 0;
+	while (heredoc[i])
+	{
+		ft_putendl_fd(heredoc[i], tmpfd[1]);
+		i++;
+	}
+	dup2(tmpfd[0], 0);
+	close(tmpfd[1]);
+	close(tmpfd[0]);
+	/*временная вставка которая не должна работать*/
+	if (command[1] == NULL)
+		lsh_execute(&command[0], global->env.sh_envp, &global->env);
 }

@@ -115,3 +115,21 @@ char	*ft_strjoin_clean(char *s1, char *s2)
 	jstr[i] = '\0';
 	return (jstr);
 }
+
+char	**ft_new_str(char **arr, char *new_str)
+{
+	char	**new_arr;
+	int		size;
+
+	size = 0;
+	while (arr[size])
+		size++;
+	new_arr = ft_calloc(sizeof(char *), size + 2);
+	if (!new_arr)
+		return NULL;
+	new_arr[size + 1] = NULL;
+	new_arr[size] = new_str;
+	ft_memcpy(new_arr, arr, sizeof(char *) * size);
+	ft_free((void *)&arr);
+	return (new_arr);
+}
