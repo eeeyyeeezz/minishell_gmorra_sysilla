@@ -109,7 +109,6 @@ static	char	*connect_dollar_string(char *str, char *dollar_str, int begin, int g
 		return (old_str);
 	// ft_free((void *)&old_str);
 	// ft_free((void *)&new_str);
-	printf("WHOLE [%s]\n", whole_str);
 	return (whole_str);
 	// str = whole_str;
 }
@@ -126,7 +125,7 @@ static	char		*change_dollar_string(t_struct *global, char *dollar_string)
 	env_string = 0;
 	while (global->env.sh_envp[i])
 	{
-		if (ft_strnstr(global->env.sh_envp[i], dollar_string + 1, ft_strlen(dollar_string)))
+		if (str_in_str(global->env.sh_envp[i], dollar_string))
 		{
 			while (global->env.sh_envp[i][j] != '=')
 				j++;
@@ -173,6 +172,12 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 			str_end = *i;
 			dollar_str = ft_strndup((char *)&line[begin], str_end - begin);
 			get_strlen = ft_strlen(dollar_str);		
+			if (dollar_str[0] == '$' && dollar_str[1] == '?')
+			{
+				str = ft_itoa(global->env.status);
+				ft_free((void *)&dollar_str);
+				return (str);
+			}
 			dollar_str = change_dollar_string(global, dollar_str);
 			if (flag_quote)
 				str = connect_dollar_string(str, dollar_str, begin - 1, get_strlen);
@@ -323,40 +328,13 @@ char		**get_all_commands(char *line, t_struct *global)
 	commands[count] = 0;
 	characters[count_chr] = -1;
 	characters[count_chr + 1] = '\0';
+	global->pars.chr = characters;
 	// for (int i = 0; characters[i]; i++)
-	// 	printf("PIPISI))) [%d]\n", characters[i]);
+		// printf("CHARACTERS [%d]\n", characters[i]);
 	// for (int i = 0; commands[i]; i++)
 	// 	printf("cmd lol [%s]\n", commands[i]);
 	count_pipes(global, characters);
-	ft_free((void *)&characters);
 	return (commands);
-}
-
-static	int		get_true_end(char *line)
-{
-	int	i;
-
-	i = 1;
-	if (line[0] == '\'')
-	{
-		printf("LINE SUKA [%s]\n", line);
-		while (line[i] != '\'' && line[i])
-			i++;
-		if (!line[i])
-			ft_error("Chel)\n");
-		else	
-			return (i);
-	}
-	else if (line[0] == '\"')
-	{
-		while (line[i] != '\"' && line[i])
-			i++;
-		if (!line[i])
-			ft_error("Double Chel)\n");
-		else	
-			return (i);
-	}
-	return (0);
 }
 
 char		**fill_all_arguments(t_struct *global, char *line)
@@ -433,6 +411,8 @@ void		get_all_arguments(char *line, t_struct *global)
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
+
+// echo "$USER"'$USER'
 // echo "$123" | cat -e    - double write
 
 
