@@ -123,7 +123,10 @@ void	export_plus(char *av, t_env *env, int index_eq)
 
 	tmp = ft_strndup(av, index_eq - 1);
 	if (!tmp || !(ft_isnu(tmp)))
+	{
+		env->status = 1;
 		printf("minishell: export: `%s': not a valid identifier\n", key);
+	}
 	key = ft_strjoin(tmp, "=");
 	add_to_env_plus(key, &av[index_eq + 1], env);
 	free(key);
@@ -153,7 +156,10 @@ int	ft_export(char **av, t_env *env)
 			{
 				tmp = ft_strndup(av[i], index_eq);
 				if (!tmp || !(ft_isnu(tmp)))
+				{
 					printf("minishell: export: `%s': not a valid identifier\n", tmp);
+					env->status = 1;
+				}
 				else
 				{
 					key = ft_strjoin(tmp, "=");

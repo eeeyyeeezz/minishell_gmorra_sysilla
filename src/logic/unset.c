@@ -67,6 +67,7 @@ int	ft_unset(char **av, t_env *env)
 		return (ft_err("empty key\n"));
 	if (ft_strnstr(av[1], "=", ft_strlen(av[1])))
 	{
+		env->status = 1;
 		printf("minishell: unset: `%s': not a valid identifier\n", av[1]);
 		return (2);
 	}

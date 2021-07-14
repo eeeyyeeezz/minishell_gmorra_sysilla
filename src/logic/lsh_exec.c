@@ -1,25 +1,9 @@
 #include "../../includes/minishell.h"
 
-// char *builtin_str[] = {
-	// "cd",
-	// "export",
-	// "unset",
-	// "env",
-	// "echo",
-	// "exit"
-// };
-// 
-// int (*builtin_func[]) (char **, t_env *env) = {
-	// &ft_cd,
-	// &ft_export,
-	// &ft_unset,
-	// &ft_env
-// };
-
-int ft_isnum(char *str)
+int	ft_isnum(char *str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -34,24 +18,26 @@ int ft_isnum(char *str)
 	return (0);
 }
 
-// int	lsh_num_builtins()
-// {
-	// return sizeof(builtin_str) / sizeof(char *);
-// }
-
-/*
-	WUNTRACED - означает возврат управления и для остановленных (но не отслеживаемых) дочерних процессов, о статусе которых еще не было сообщено. Статус для отслеживаемых остановленных подпроцессов также обеспечивается без этой опции.
-	WIFEXITED(status) - не равно нулю, если дочерний процесс успешно завершился.
-	WIFSIGNALED(status) - возвращает истинное значение, если дочерний процесс завершился из-за необработанного сигнала.
-*/
-
 void	chld_sig(void)
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 }
 
-int lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
+int	par_process(t_env *env)
+{
+	signal(SIGINT, SIG_IGN);
+	wait(&env->status);
+	if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
+		write(1, "\n", 1);
+	if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
+		write(1, "^Quit \n", 8);
+	if (WEXITSTATUS(env->status) == 0)
+		return (0);
+	return (1);
+}
+
+int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 {
 	pid_t	pid;
 	int		status;
@@ -59,7 +45,6 @@ int lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 	pid = fork();
 	if (pid == 0)
 	{
-		// Дочерний процесс
 		chld_sig();
 		if (execve(path_ag, args, envp) == -1)
 		{
@@ -67,25 +52,10 @@ int lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 		}
 		exit(0);
 	}
-	// else if (pid < 0) {
-		// Ошибка при форкинге
-		// printf("%s", strerror(errno));
-	// }
 	else
 	{
-		// Родительский процесс
-		signal(SIGINT, SIG_IGN);
-		wait(&env->status);
-		// status = env->status;
-		if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
-			write(1, "\n", 1);
-		if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
-			write(1, "^Quit \n", 8);
-		if (WEXITSTATUS(env->status) == 0)
-			return (0);
-		return (1);
+		par_process(env);
 	}
-	printf("SMEEEERT ABOBA'\n");
 	return (0);
 }
 

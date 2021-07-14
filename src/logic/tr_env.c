@@ -108,39 +108,3 @@ int	str_index(char *str, char c)
 	}
 	return (index);
 }
-
-int	cnt_chr(char **src)
-{
-	int		i;
-	int		j;
-	int		max_char;
-
-	max_char = 0;
-	i = 0;
-	while (src[i])
-	{
-		j = 0;
-		while (src[i][j] != '\0')
-		{
-			j++;
-		}
-		if (max_char < j)
-		{
-			max_char = j;
-		}
-		i++;
-	}
-	return (max_char);
-}
-
-int	cnt_str(char **src)
-{	
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		i++;
-	}
-	return (i);
-}

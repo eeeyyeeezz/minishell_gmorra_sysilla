@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int			ft_exit(char **ret)
+int			ft_exit(char **ret, t_env *env)
 {
 	int	ret_num;
 
@@ -20,6 +20,7 @@ int			ft_exit(char **ret)
 		ret_num = 0;
 	else if (ret[2])
 	{
+		env->status = 1;
 		printf("minishell: exit: too many arguments\n");
 		return (1);
 	}
@@ -28,6 +29,7 @@ int			ft_exit(char **ret)
 		ret_num = ft_atoi(ret[1]);
 		if ((ret_num == 0) && (!(ret[1][0] <= '9' && ret[1][0] >= '0')))
 		{
+			env->status = 1;
 			printf("minishell: exit: %s: numeric argument required\n", ret[1]);
 		}
 		write(1, "exit\n", 5);

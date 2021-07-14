@@ -41,9 +41,9 @@ int	bildin(char **args, t_env *env)
 		if ((strcmp(args[0], g_builtin_str[i]) == 0) && i == 5)
 		{
 			if (args[1])
-				return (ft_exit(args));
+				return (ft_exit(args, env));
 			else
-				return (ft_exit(NULL));
+				return (ft_exit(NULL, env));
 		}
 	}
 	return (0);
@@ -102,7 +102,7 @@ void	 pipeline(char ***cmd, t_env *env)
 				if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)
 				{
 					printf("%s %s\n", N_S_F_D, (*cmd)[0]);
-					strerror(1);
+					exit(127);
 				}
 				shlvl(env);
 			}
@@ -110,9 +110,12 @@ void	 pipeline(char ***cmd, t_env *env)
 			&& !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
 			{
 				if (ex_path(&(*cmd)[0], env))
+				{
 					printf("minishell: %s %s\n", (*cmd)[0], CMD_NF);
+					exit(127);
+				}
 			}
-			exit(1);
+			exit(0);
 		}
 		else
 		{
