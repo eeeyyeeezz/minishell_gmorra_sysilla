@@ -77,6 +77,7 @@ typedef struct s_env
 	int			isb_in;
 	int			count_str;
 	int			max_chr;
+	int			status;
 }				t_env;
 
 typedef struct	s_sh
@@ -187,7 +188,7 @@ void			start_pipe(t_env *env, char **args);
 void			pipeline(char ***cmd, t_env *env);
 void			chld_sig(void);
 int				lsh_execute_pipe(char **args, char **envp, t_env *env);
-int				exec_path(char **args, char **envp);
+int				exec_path(char **args, char **envp, t_env *env);
 int				lsh_num_builtins();
 int 			ft_isnum(char *str);
 int				bildin(char **args, t_env *env);
