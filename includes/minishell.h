@@ -110,7 +110,6 @@ int						count_twodimarray(char **array);
 int						ft_isalnum_cd(int c);
 void					pars_add_back(t_pars **lst, t_pars *new);
 void					pars_unset(char *line, t_struct *global);
-int						ft_exit(char **ret);
 int						ft_chr(char s);
 void					write_minishell();
 int						chr_to_int(char s, char next);
@@ -166,6 +165,7 @@ t_history				*ft_histnew(void *content);
 // LOGIC
 
 char			*ft_strjoin_slash(char const *s1, char const *s2);
+int				ft_exit(char **ret, t_env *env);
 char			*ft_strndup(const char *s, size_t n);
 int				ft_strmasschr(char *what, char **where, int cmplen);
 void			ft_envp_cpy(char *envp[], t_env *buf);

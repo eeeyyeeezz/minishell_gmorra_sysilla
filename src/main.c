@@ -98,7 +98,7 @@ int				main(int argc, char **argv, char **envp)
 	ft_envp_cpy(envp, &global.env);
 	shlvl(&global.env);
 	init_all(&global);
-	global.env.status = 1;
+	global.env.status = 0;
 	char *ls[] = {"ls", "-al", NULL};
 	char *rev[] = {"rev", NULL};
 	char *nl[] = {"nl", NULL};
