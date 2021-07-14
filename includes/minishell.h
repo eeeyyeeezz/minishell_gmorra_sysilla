@@ -101,7 +101,7 @@ typedef	struct			s_struct
 t_pars					*pars_st_new();
 void					print_double(char **arg, char *str);
 void					print_aboba(char ***arg, char *str);
-char					*find_chr_commands(char *line);
+char					*find_chr_commands(t_struct *global, char *line);
 int						count_malloc_chr(char *line);
 int						count_twodimarray(char **array);
 int						ft_isalnum_cd(int c);
