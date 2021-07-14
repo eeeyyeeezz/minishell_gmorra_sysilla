@@ -433,6 +433,8 @@ void		get_all_arguments(char *line, t_struct *global)
 	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
+
+// echo "$USER"'$USER'
 // echo "$123" | cat -e    - double write
 
 
