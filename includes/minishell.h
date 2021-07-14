@@ -47,6 +47,7 @@ typedef	struct 			s_flags
 
 typedef	struct			s_pars {
 	char				***dirty_array;
+	int					*chr;
 	// char				***args;
 	char				**ft_cmd;
 	char				*info;
@@ -100,6 +101,7 @@ typedef	struct			s_struct
 }						t_struct;
 
 t_pars					*pars_st_new();
+int						str_in_str(char *haystack, char *needle);
 void					print_double(char **arg, char *str);
 void					print_aboba(char ***arg, char *str);
 char					*find_chr_commands(t_struct *global, char *line);

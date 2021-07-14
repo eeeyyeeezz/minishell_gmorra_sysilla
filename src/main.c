@@ -59,6 +59,8 @@ static	void	free_all(t_struct *global, char *line)
 	}
 	if (global->pars.pipis)
 		ft_free((void *)&global->pars.pipis);
+	if (global->pars.chr)
+		ft_free((void *)&global->pars.chr);
 	if (global->pars.dirty_array)
 	{
 		for (int i = 0; global->pars.dirty_array[i]; i++)
@@ -111,6 +113,7 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
+		// redirect_array_pipe
 		if (!global.pars.dirty_array[0])
 			free_all(&global, line);
 		else
@@ -120,7 +123,7 @@ int				main(int argc, char **argv, char **envp)
 			else
 				pipeline(global.pars.dirty_array, &global.env);
 			signal(SIGINT, signal_2);
-			printf("%d\n", global.env.status);
+			// printf("%d\n", global.env.status);
 			free_all(&global, line);
 		}
 		line = readline("minishell: ");
