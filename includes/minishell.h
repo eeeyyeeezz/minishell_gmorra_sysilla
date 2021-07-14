@@ -192,6 +192,7 @@ int				lsh_num_builtins();
 int 			ft_isnum(char *str);
 int				bildin(char **args, t_env *env);
 char			*ft_strmasschr_char(char *what, char **where, int cmplen);
+char			**ft_new_str(char **arr, char *new_str);
 
 // \LOGIC
 

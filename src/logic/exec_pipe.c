@@ -24,7 +24,7 @@ int	builtin_func2(char **args, t_env *env, int i)
 		return (ft_unset(args, env));
 	if (i == 3)
 		return (ft_env(args, env));
-	return (0);
+	return (-1);
 }
 
 int	bildin(char **args, t_env *env)
