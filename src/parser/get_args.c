@@ -68,7 +68,7 @@ static	void	skip_single_quote(char *line, int *i)
 {
 	*i += 1;
 
-	while (line[*i] != '\'')
+	while (line[*i] != '\'' && line[*i + 1])
 		*i += 1;
 	if (line[*i + 1])
 		*i += 1;
@@ -91,11 +91,15 @@ static	char	*connect_dollar_string(char *str, char *dollar_str, int begin, int g
 	while (++i != begin)
 		old_str[i] = str[i];
 	old_str[i] = '\0';
+	if (dollar_str == NULL)
+		return (old_str);
 	old_str = ft_strjoin_new(old_str, dollar_str);
 	i = 0;
 	if (str[count])
 	{
 		new_str = malloc(sizeof(char) * (ft_strlen(str) - (begin + get_strlen)) + 1);
+		if (!new_str)
+			ft_error("Malloc Error!\n");
 		while (str[count])
 			new_str[i++] = str[count++];
 		new_str[i] = '\0';
@@ -138,6 +142,7 @@ static	char		*change_dollar_string(t_struct *global, char *dollar_string)
 static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int *i)
 {
 	char	*dollar_str;
+	int		flag_quote;
 	int		get_strlen;
 	int		str_end;
 	int		begin;
@@ -146,12 +151,14 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 	// printf("LINE [%s]\n", line);
 	if (line[*i] == '\"')
 	{
+		flag_quote = 1;
 		end = *i + 1;
 		while (line[end] != '\"')
 			end++;
 	}
 	else 
 	{
+		flag_quote = 0;
 		end = *i;
 		while (line[end] && !ft_isspaces(line[end]))
 			end++;
@@ -167,7 +174,16 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 			dollar_str = ft_strndup((char *)&line[begin], str_end - begin);
 			get_strlen = ft_strlen(dollar_str);		
 			dollar_str = change_dollar_string(global, dollar_str);
-			str = connect_dollar_string(str, dollar_str, begin - 1, get_strlen);
+			if (flag_quote)
+				str = connect_dollar_string(str, dollar_str, begin - 1, get_strlen);
+			else
+			{
+				if (dollar_str)
+					str = ft_strdup(dollar_str);
+				else
+					str = dollar_str;
+				// ft_free((void *)&dollar_str);
+			}
 			// ft_free((void *)&dollar_str);
 		}
 		*i += 1;
@@ -180,11 +196,12 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 static	char	*get_dollar(t_struct *global, char *line, char *str, int end)
 {
 	int		i;
+	char	*new_line;
 	int		flag;
 
 	i = 0;
 	flag = -1;
-	// printf("end aboba [%s] [%d]\n", line, end);
+	// printf("end aboba [%s] str [%s] [%d]\n", line, str, end);
 	while (line[i + 1] && i < end)
 	{
 		while (line[i] == '\'')
@@ -364,7 +381,9 @@ char		**fill_all_arguments(t_struct *global, char *line)
 			i++;
 		if (line[i])
 		{
-			arg[++count] = find_chr_commands(global, (char *)&line[i]);
+			if (find_chr_commands(global, (char *)&line[i]))
+				arg[++count] = find_chr_commands(global, (char *)&line[i]);
+			// printf("FCC [%s] count [%d]\n", find_chr_commands(global, (char *)&line[i]), count);
 		}
 		while (line[i + 1] && !ft_isspaces(line[i]))
 		{
