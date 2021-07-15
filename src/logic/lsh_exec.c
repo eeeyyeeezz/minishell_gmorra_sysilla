@@ -119,6 +119,7 @@ int		exec_path(char **args, char **envp, t_env *env)
 	while (path[i])
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
+		printf("%s\n", path_ag);
 		flag = lnch_pth(path_ag, args, envp, env);
 		free(path_ag);
 		if (flag == 0)
@@ -132,7 +133,7 @@ int		exec_path(char **args, char **envp, t_env *env)
 	return (1);
 }
 
-int lsh_execute(char **args, char **envp, t_env *env)
+int lsh_execute(char **args, char **envp, t_struct *global)
 {
  	int i;
 
@@ -141,13 +142,13 @@ int lsh_execute(char **args, char **envp, t_env *env)
  	  return (2);
  	}
 	if ((ft_strnstr(args[0], "./", 2)))
-		return (lsh_launch(args, env->sh_envp, env));
-	if (!(ft_strnstr(args[0], "./", 2)) && !(bildin(args, env)))
+		return (lsh_launch(args, global->env.sh_envp, &global->env));
+	if (!(ft_strnstr(args[0], "./", 2)) && !(bildin(args, &global->env)))
 	{
-		if (exec_path(args, env->sh_envp, env))
+		if (exec_path(args, global->env.sh_envp, &global->env))
 		{
 			printf("minishell: %s command not found\n", args[0]);
-			env->status = 127;
+			global->env.status = 127;
 		}
 		return (0);
 	}

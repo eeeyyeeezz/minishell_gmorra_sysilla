@@ -92,7 +92,10 @@ static	char	*connect_dollar_string(char *str, char *dollar_str, int begin, int g
 		old_str[i] = str[i];
 	old_str[i] = '\0';
 	if (dollar_str == NULL)
+	{
+		ft_free((void *)&str);
 		return (old_str);
+	}
 	old_str = ft_strjoin_new(old_str, dollar_str);
 	i = 0;
 	if (str[count])
@@ -106,9 +109,13 @@ static	char	*connect_dollar_string(char *str, char *dollar_str, int begin, int g
 		whole_str = ft_strjoin_new(old_str, new_str);
 	}
 	else
+	{
+		ft_free((void *)&str);
 		return (old_str);
+	}
 	// ft_free((void *)&old_str);
 	// ft_free((void *)&new_str);
+	ft_free((void *)&str);
 	return (whole_str);
 	// str = whole_str;
 }
@@ -174,6 +181,7 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 			get_strlen = ft_strlen(dollar_str);		
 			if (dollar_str[0] == '$' && dollar_str[1] == '?')
 			{
+				// ft_free((void *)&str);
 				str = ft_itoa(global->env.status);
 				ft_free((void *)&dollar_str);
 				return (str);
@@ -184,9 +192,15 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 			else
 			{
 				if (dollar_str)
+				{
 					str = ft_strdup(dollar_str);
+					// ft_free((void *)&dollar_str);
+				}
 				else
+				{
+					// ft_free((void *)&str);
 					str = dollar_str;
+				}
 				// ft_free((void *)&dollar_str);
 			}
 			// ft_free((void *)&dollar_str);
@@ -201,25 +215,26 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 static	char	*get_dollar(t_struct *global, char *line, char *str, int end)
 {
 	int		i;
-	char	*new_line;
 	int		flag;
+	char	*new_str;
 
 	i = 0;
 	flag = -1;
-	// printf("end aboba [%s] str [%s] [%d]\n", line, str, end);
+	new_str = ft_strdup(str);
+	ft_free((void *)&str);
 	while (line[i + 1] && i < end)
 	{
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
 		while (line[i] == '\"' && line[i + 1])
-			str = double_quotes_dollar(global, line, str, &i);
+			str = double_quotes_dollar(global, line, new_str, &i);
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
 		if (line[i] == '$')
-			str = double_quotes_dollar(global, line, str, &i);
+			new_str = double_quotes_dollar(global, line, new_str, &i);
 		i++;
 	}
-	return (str);
+	return (new_str);
 }
 
 char	*find_chr_commands(t_struct *global, char *line)
@@ -340,6 +355,7 @@ char		**get_all_commands(char *line, t_struct *global)
 char		**fill_all_arguments(t_struct *global, char *line)
 {
 	char	*str;
+	char	*free_str;
 	char	**arg;
 	int		count;
 	int		begin;
@@ -359,9 +375,11 @@ char		**fill_all_arguments(t_struct *global, char *line)
 			i++;
 		if (line[i])
 		{
-			if (find_chr_commands(global, (char *)&line[i]))
+			if ((free_str = find_chr_commands(global, (char *)&line[i])) != NULL)
+			{
+				ft_free((void *)&free_str);
 				arg[++count] = find_chr_commands(global, (char *)&line[i]);
-			// printf("FCC [%s] count [%d]\n", find_chr_commands(global, (char *)&line[i]), count);
+			}
 		}
 		while (line[i + 1] && !ft_isspaces(line[i]))
 		{
@@ -412,6 +430,7 @@ void		get_all_arguments(char *line, t_struct *global)
 }		
 
 
+// echo 12312312 asdasads 'asdasd' -- leak
 // echo "$USER"'$USER'
 // echo "$123" | cat -e    - double write
 

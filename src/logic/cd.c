@@ -26,6 +26,7 @@ int	ch_dir(char *av, char **env, t_env *envp)
 		envp->status = 1;
 		printf("minishell: cd: %s: No such file or directory\n", av);
 	}
+	free(oldpwd);
 	return (0);
 }
 
@@ -38,11 +39,13 @@ int	ft_cd(char **argv, t_env *sh_env)
 	{
 		ft_putendl_fd("minishell: cd: HOME not set", 1);
 		sh_env->status = 1;
+		free(home);
 		return(2);
 	}
 	if (!argv[1])
 	{
 		ch_dir(&home[5], sh_env->sh_envp, sh_env);
+		free(home);
 		return (2);
 	}
 	if (argv[2])
@@ -50,8 +53,10 @@ int	ft_cd(char **argv, t_env *sh_env)
 		ft_putstr_fd("cd: string not in pwd: ", 1);
 		ft_putendl_fd(argv[1], 1);
 		sh_env->status = 1;
+		free(home);
 		return (2);
 	}
 	ch_dir(argv[1], sh_env->sh_envp, sh_env);
+	free(home);
 	return (1);
 }

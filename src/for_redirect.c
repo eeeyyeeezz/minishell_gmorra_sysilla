@@ -93,18 +93,23 @@ void	double_left(char *stop, char **command, t_struct *global)
 	close(tmpfd[0]);
 	/*временная вставка которая не должна работать*/
 	if (command[1] == NULL)
-		lsh_execute(&command[0], global->env.sh_envp, &global->env);
+		lsh_execute(&command[0], global->env.sh_envp, global);
 }
 
-int	redidirecti(t_struct *dlobal, char **govno)
+void	redidirecti(t_struct *global)
 {
 	int		i;
 	int		fd;
 
 	i = 0;
-	
-
+	// fd = single_right(global->pars.dirty_array[1][0]);
+	fd = -1;
 	if (fd != -1)
-		dup2(fd, 0);
+	{
+		dup2(fd, 1);
+	}
+	free(global->pars.dirty_array[1]);
+	global->pars.dirty_array[1] = NULL;
+
 	close(fd);
 }
