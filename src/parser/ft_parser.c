@@ -25,8 +25,8 @@ static	void	encode_arg(t_struct *global)
 
 	i = -1;
 	j = -1;
-	while (global->pars.dirty_array[++i])
-		decode_lines(global->pars.dirty_array[i]);
+	while (global->pars.args[++i])
+		decode_lines(global->pars.args[i]);
 }
 
 void			print_aboba(char ***arg, char *str)
@@ -54,9 +54,9 @@ int				pars_characters(t_struct *global, char *line)
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
 	get_all_arguments(encode_line, global);
 	encode_arg(global);
-	// print_aboba(global->pars.dirty_array, "ABOBA");
-	// for (int i = 0; global->pars.dirty_array[i]; i++)
-		// change_dollar_args(global, global->pars.dirty_array[i]);
+	// print_aboba(global->pars.args, "ABOBA");
+	// for (int i = 0; global->pars.args[i]; i++)
+		// change_dollar_args(global, global->pars.args[i]);
 	ft_free((void *)&encode_line);
 	return (0);
 }

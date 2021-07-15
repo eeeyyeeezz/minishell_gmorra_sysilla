@@ -23,7 +23,7 @@ void			ft_free(void **var)
 
 void			init_all(t_struct *global)
 {
-	global->pars.dirty_array = NULL;
+	global->pars.args = NULL;
 	global->pars.ft_cmd = NULL;
 	global->pars.pipis = NULL;
 	global->history = NULL;

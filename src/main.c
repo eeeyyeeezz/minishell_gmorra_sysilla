@@ -61,15 +61,15 @@ static	void	free_all(t_struct *global, char *line)
 		ft_free((void *)&global->pars.pipis);
 	if (global->pars.chr)
 		ft_free((void *)&global->pars.chr);
-	if (global->pars.dirty_array)
+	if (global->pars.args)
 	{
-		for (int i = 0; global->pars.dirty_array[i]; i++)
+		for (int i = 0; global->pars.args[i]; i++)
 		{
-			for (int j = 0; global->pars.dirty_array[i][j]; j++)
-				ft_free((void *)&global->pars.dirty_array[i][j]);
-			ft_free((void *)&global->pars.dirty_array[i]);
+			for (int j = 0; global->pars.args[i][j]; j++)
+				ft_free((void *)&global->pars.args[i][j]);
+			ft_free((void *)&global->pars.args[i]);
 		}
-		ft_free((void *)&global->pars.dirty_array);
+		ft_free((void *)&global->pars.args);
 	}
 }
 
@@ -127,20 +127,18 @@ int				main(int argc, char **argv, char **envp)
 		ft_parser(&global, line);
 		int i = 0;		
 		if (!global.flags.ft_error)
-			print_aboba(global.pars.dirty_array, "ABOBA");
+			print_aboba(global.pars.args, "ABOBA");
 		make_pipe_array(&global);
 		if (!global.flags.ft_error)
 		{
-			if (!global.pars.dirty_array[0])
+			if (!global.pars.args[0])
 				free_all(&global, line);
 			else
 			{
-				if (global.pars.chr[0] == 4)
-					redidirecti(&global);
-				if (global.pars.dirty_array[1] == NULL)
-					lsh_execute(global.pars.dirty_array[0], envp, &global.env);
+				if (global.pars.args[1] == NULL)
+					lsh_execute(global.pars.args[0], envp, &global.env);
 				else
-					pipeline(global.pars.dirty_array, &global.env);
+					pipeline(global.pars.args, &global.env);
 				signal(SIGINT, signal_2);
 				// printf("%d\n", global.env.status);
 				free_all(&global, line);
