@@ -102,14 +102,12 @@ void	redidirecti(t_struct *global)
 	int		fd;
 
 	i = 0;
-	// fd = single_right(global->pars.dirty_array[1][0]);
-	fd = -1;
+	fd = single_right(global->pars.args[1][0]);
 	if (fd != -1)
 	{
 		dup2(fd, 1);
 	}
-	free(global->pars.dirty_array[1]);
-	global->pars.dirty_array[1] = NULL;
-
+	free(global->pars.args[1]);
+	global->pars.args[1] = NULL;
 	close(fd);
 }

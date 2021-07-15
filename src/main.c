@@ -128,25 +128,26 @@ int				main(int argc, char **argv, char **envp)
 		int i = 0;		
 		if (!global.flags.ft_error)
 			print_aboba(global.pars.args, "ABOBA");
-		make_pipe_array(&global);
 		if (!global.flags.ft_error)
 		{
 			if (!global.pars.args[0])
 				free_all(&global, line);
 			else
 			{
+				if (global.pars.chr[0] == 4)
+					redidirecti(&global);
 				if (global.pars.args[1] == NULL)
-					lsh_execute(global.pars.args[0], envp, &global.env);
+					lsh_execute(global.pars.args[0], envp, &global);
 				else
 					pipeline(global.pars.args, &global.env);
 				signal(SIGINT, signal_2);
-				// printf("%d\n", global.env.status);
 				free_all(&global, line);
 			}
+			dup2(global.env.basefd1, 1);
+			dup2(global.env.basefd0, 0);
 		}
-		dup2(global.env.basefd1, 1);
-		dup2(global.env.basefd0, 0);
-		line = ft_readline(line);
+		free(line);
+		line = readline("minishell: ");
 	}
 	if (line)
 		ft_free((void *)&line);
