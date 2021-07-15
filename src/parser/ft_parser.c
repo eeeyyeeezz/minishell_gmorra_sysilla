@@ -46,7 +46,7 @@ int				pars_characters(t_struct *global, char *line)
 	char	*encode_line;
 
 	i = -1;
-	if (!(str = ft_strdup(line)))				// leaks??
+	if (!(str = ft_strdup(line)))
 		ft_error("Malloc Error!\n");	
 	if (!(encode_line = encode_lines(ft_strdup(str))))
 		ft_error("Malloc Error!\n");
@@ -54,7 +54,7 @@ int				pars_characters(t_struct *global, char *line)
 	global->pars.ft_cmd = get_all_commands(encode_line, global);	// leaks
 	get_all_arguments(encode_line, global);
 	encode_arg(global);
-	print_aboba(global->pars.dirty_array, "ABOBA");
+	// print_aboba(global->pars.dirty_array, "ABOBA");
 	// for (int i = 0; global->pars.dirty_array[i]; i++)
 		// change_dollar_args(global, global->pars.dirty_array[i]);
 	ft_free((void *)&encode_line);
@@ -65,8 +65,10 @@ void			ft_parser(t_struct *global, char *line)
 {
 	global->flags.ft_cmd = 0;
 	global->flags.ft_arg = 0;
-	syntax_error(line, global);
-	pars_characters(global, line);
+	global->flags.ft_error = 0;
+	syntax_error(global, line);
+	if (!global->flags.ft_error)
+		pars_characters(global, line);
 }
 
 

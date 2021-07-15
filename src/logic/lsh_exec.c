@@ -135,6 +135,8 @@ int lsh_execute(char **args, char **envp, t_env *env)
 		return (lsh_launch(args, env->sh_envp, env));
 	if (!(ft_strnstr(args[0], "./", 2)) && !(bildin(args, env)))
 	{
+		// for (int i = 0; args[i]; i++)
+		// 	printf("LSH ABOBA [%s]\n", args[i]);
 		if (exec_path(args, env->sh_envp, env))
 		{
 			printf("minishell: %s command not found\n", args[0]);

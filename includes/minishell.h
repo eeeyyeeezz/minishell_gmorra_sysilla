@@ -38,10 +38,11 @@
 
 typedef	struct 			s_flags
 {
-	int					flag;
+	// int					flag;
 	int					ft_arg;
 	int					ft_cmd;
 	int					d_flag;
+	int					ft_error;
 }						t_flags;
 
 
@@ -138,10 +139,9 @@ char					*quote_encode(char *line, int *i, char quote);
 char					*skip_quote(char *line, char *str, int *i, char quote);
 int						pars_arguments_line(char *line, t_struct *global);
 void					pars_cd(char *line, t_struct *global);
-void					syntax_error(char *line, t_struct *global);
 char					*key_hook(char *str, char *line, t_struct *global);
 char					*pars_dollar_sign(char *str, t_struct *global);
-void					syntax_error(char *line, t_struct *global);
+void					syntax_error(t_struct *global, char *line);
 char					*ft_strjoin_new(char *s1, char *s2);
 char					*ft_strjoin_char(char *s1, char s2);
 void					pars_env(char *line, t_struct *global);

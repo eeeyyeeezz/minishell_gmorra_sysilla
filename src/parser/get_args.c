@@ -114,7 +114,7 @@ static	char	*connect_dollar_string(char *str, char *dollar_str, int begin, int g
 		return (old_str);
 	}
 	// ft_free((void *)&old_str);
-	// ft_free((void *)&new_str);
+	ft_free((void *)&new_str);
 	ft_free((void *)&str);
 	return (whole_str);
 	// str = whole_str;
@@ -181,7 +181,7 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 			get_strlen = ft_strlen(dollar_str);		
 			if (dollar_str[0] == '$' && dollar_str[1] == '?')
 			{
-				// ft_free((void *)&str);
+				ft_free((void *)&str);
 				str = ft_itoa(global->env.status);
 				ft_free((void *)&dollar_str);
 				return (str);
@@ -193,12 +193,13 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 			{
 				if (dollar_str)
 				{
+					ft_free((void *)&str);
 					str = ft_strdup(dollar_str);
 					// ft_free((void *)&dollar_str);
 				}
 				else
 				{
-					// ft_free((void *)&str);
+					ft_free((void *)&str);
 					str = dollar_str;
 				}
 				// ft_free((void *)&dollar_str);
@@ -220,21 +221,21 @@ static	char	*get_dollar(t_struct *global, char *line, char *str, int end)
 
 	i = 0;
 	flag = -1;
-	new_str = ft_strdup(str);
-	ft_free((void *)&str);
+	// new_str = ft_strdup(str);
+	// ft_free((void *)&str);
 	while (line[i + 1] && i < end)
 	{
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
 		while (line[i] == '\"' && line[i + 1])
-			str = double_quotes_dollar(global, line, new_str, &i);
+			str = double_quotes_dollar(global, line, str, &i);
 		while (line[i] == '\'')
 			skip_single_quote(line, &i);
 		if (line[i] == '$')
-			new_str = double_quotes_dollar(global, line, new_str, &i);
+			str = double_quotes_dollar(global, line, str, &i);
 		i++;
 	}
-	return (new_str);
+	return (str);
 }
 
 char	*find_chr_commands(t_struct *global, char *line)
@@ -310,6 +311,7 @@ char		**get_all_commands(char *line, t_struct *global)
 	int			count_cmd;
 	int			count_chr;
 	char		**commands;
+	char		*free_str;
 	int			*characters;
 
 	i = 0;
@@ -324,8 +326,11 @@ char		**get_all_commands(char *line, t_struct *global)
 	{
 		if (line[i])
 		{
-			commands[count] = find_chr_commands(global, (char *)&line[i]);
-			count++;
+			// if ((free_str = find_chr_commands(global, (char *)&line[i])))
+			// {
+				// ft_free((void *)&free_str);
+				commands[count++] = find_chr_commands(global, (char *)&line[i]);
+			// }
 		}
 		while (!ft_chr(line[i]) && line[i])
 			i++;
@@ -345,7 +350,7 @@ char		**get_all_commands(char *line, t_struct *global)
 	characters[count_chr + 1] = '\0';
 	global->pars.chr = characters;
 	// for (int i = 0; characters[i]; i++)
-		// printf("CHARACTERS [%d]\n", characters[i]);
+	// 	printf("CHARACTERS [%d]\n", characters[i]);
 	// for (int i = 0; commands[i]; i++)
 	// 	printf("cmd lol [%s]\n", commands[i]);
 	count_pipes(global, characters);
@@ -375,11 +380,11 @@ char		**fill_all_arguments(t_struct *global, char *line)
 			i++;
 		if (line[i])
 		{
-			if ((free_str = find_chr_commands(global, (char *)&line[i])) != NULL)
-			{
-				ft_free((void *)&free_str);
+			// if ((free_str = find_chr_commands(global, (char *)&line[i])) != NULL)
+			// {
+			// 	ft_free((void *)&free_str);
 				arg[++count] = find_chr_commands(global, (char *)&line[i]);
-			}
+			// }
 		}
 		while (line[i + 1] && !ft_isspaces(line[i]))
 		{
@@ -430,21 +435,24 @@ void		get_all_arguments(char *line, t_struct *global)
 }		
 
 
-// echo 12312312 asdasads 'asdasd' -- leak
-// echo "$USER"'$USER'
+// echo 12312312 asdasads 'asdasd' -- leak | no
+// 	 -- leaks
 // echo "$123" | cat -e    - double write
+// echo "$uS" '123' lol - empty || no
+// echo '$USER'"$USER" - seg || no
 
-
-// echo "$uS" '123' lol - empty
-
-// echo '$USER'"$USER" - seg
-
-// echo '$ABOBA'"$USER"lol 'cat -e | grep libft' - seg
  
-// ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e"
+// ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e" || good
 
 // 'e''cho'"" a""b""o""ba '$KAVO'"cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
-// "c""at" '-e' >> " lol mda " | pipeline visnet 
 // 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol | fixed
-// 'echo' 123  >> t1 - tozhe || double free with space
 // "ec""ho" 123 -- sega
+
+
+
+
+
+
+
+// echo '$ABOBA'"$USER"lol 'cat -e | grep libft' -- leaks
+// 'echo' 123  >> t1 - tozhe || double free with space
