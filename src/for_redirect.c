@@ -66,12 +66,13 @@ char	**until_stop(char *stop)
 
 	ret = NULL;
 	tmp = readline("aboba> ");
-	while (ft_strncmp(stop, tmp, ft_strlen(tmp)) && tmp)
+	while (ft_strncmp(tmp, stop, -1) != 0 && tmp != NULL)
 	{
 		ret = ft_new_str(ret, tmp);
+		free(tmp);
 		tmp = readline("aboba> ");
+		printf("%s\n%s\n", tmp, stop);
 	}
-	free(tmp);
 	return (ret);
 }
 
@@ -82,10 +83,11 @@ void	double_left(char *stop, char **command, t_struct *global)
 	int		tmpfd[2];
 	int		i;
 
+	heredoc = NULL;
 	heredoc = until_stop(stop);
 	pipe(tmpfd);
 	i = 0;
-	while (heredoc[i])
+	while (heredoc[i] && heredoc)
 	{
 		ft_putendl_fd(heredoc[i], tmpfd[1]);
 		i++;
@@ -94,7 +96,7 @@ void	double_left(char *stop, char **command, t_struct *global)
 	close(tmpfd[1]);
 	close(tmpfd[0]);
 	/*временная вставка которая не должна работать*/
-	if (command[1] == NULL)
+	if (!(command[1]))
 		lsh_execute(&command[0], global->env.sh_envp, global);
 }
 
@@ -111,16 +113,17 @@ void	redidirecti(t_struct *global)
 		if (global->pars.chr[i] != 2)
 		{
 			if (global->pars.chr[i] == 3)
-				fd = single_left(global->pars.args[i][0]);
+				fd = single_left(global->pars.args[i + 1][0]);
 			else if (global->pars.chr[i] == 4)
-				fd = single_right(global->pars.args[i][0]);
+				fd = single_right(global->pars.args[i + 1][0]);
 			else if (global->pars.chr[i] == 5)
 				fd = double_right(global->pars.args[i + 1][0]);
 			else if (global->pars.chr[i] == 6)
-				 double_left(global->pars.args[i][0], global->pars.args[i - 1], global);
+				double_left(global->pars.args[i + 1][0], global->pars.args[i], global);
 		}
 	}
 	if (fd != -1)
 		dup2(fd, 1);
+	}
 	close(fd);
 }

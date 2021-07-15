@@ -152,6 +152,8 @@ int				main(int argc, char **argv, char **envp)
 				free_all(&global, line);
 			else
 			{
+				if (global.pars.chr[0] == 4)
+					redidirecti(&global);
 				if (global.pars.args[1] == NULL)
 					lsh_execute(global.pars.args[0], envp, &global);
 				else
@@ -159,10 +161,11 @@ int				main(int argc, char **argv, char **envp)
 				signal(SIGINT, signal_2);
 				free_all(&global, line);
 			}
+			dup2(global.env.basefd1, 1);
+			dup2(global.env.basefd0, 0);
 		}
-		dup2(global.env.basefd1, 1);
-		dup2(global.env.basefd0, 0);
-		line = ft_readline(line);
+		free(line);
+		line = readline("minishell: ");
 	}
 	if (line)
 		ft_free((void *)&line);
