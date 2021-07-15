@@ -49,8 +49,8 @@ char **lsh_split_line(char *line)
 
 static	void	free_all(t_struct *global, char *line)
 {
-	if (line)
-		ft_free((void *)&line);
+	// if (line)
+	// 	ft_free((void *)&line);
 	if (global->pars.ft_cmd)
 	{
 		for (int i = 0; global->pars.ft_cmd[i]; i++)
@@ -80,6 +80,19 @@ void			print_double(char **arg, char *str)
 	i = -1;
 	while (arg[++i])
 		printf("%s [%s]\n", str, arg[i]);
+}
+
+static	char	*ft_readline(char *line)
+{
+	if (line)
+		ft_free((void *)&line);
+	line = readline("minishell: ");
+	return (line);
+}
+
+static	void	make_pipe_array(t_struct *global)
+{
+
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -112,23 +125,30 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
-		int i = 0;
-		if (!global.pars.dirty_array[0])
-			free_all(&global, line);
-		else
+		int i = 0;		
+		if (!global.flags.ft_error)
+			print_aboba(global.pars.dirty_array, "ABOBA");
+		make_pipe_array(&global);
+		if (!global.flags.ft_error)
 		{
-			if (global.pars.chr[0] == 4)
-				redidirecti(&global);
-			if (global.pars.dirty_array[1] == NULL)
-				lsh_execute(global.pars.dirty_array[0], envp, &global);
+			if (!global.pars.dirty_array[0])
+				free_all(&global, line);
 			else
-				pipeline(global.pars.dirty_array, &global.env);
-			signal(SIGINT, signal_2);
-			free_all(&global, line);
+			{
+				if (global.pars.chr[0] == 4)
+					redidirecti(&global);
+				if (global.pars.dirty_array[1] == NULL)
+					lsh_execute(global.pars.dirty_array[0], envp, &global.env);
+				else
+					pipeline(global.pars.dirty_array, &global.env);
+				signal(SIGINT, signal_2);
+				// printf("%d\n", global.env.status);
+				free_all(&global, line);
+			}
 		}
 		dup2(global.env.basefd1, 1);
 		dup2(global.env.basefd0, 0);
-		line = readline("minishell: ");
+		line = ft_readline(line);
 	}
 	if (line)
 		ft_free((void *)&line);
@@ -136,6 +156,8 @@ int				main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+// echo $? -- leaks 
+// cd -- wtf leaks
 // global->pars.ft_arg = NULL; | double free
 // """"""ls""'' -la | cat "-e"
 // "\\\" - segfault

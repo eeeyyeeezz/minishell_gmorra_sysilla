@@ -28,21 +28,23 @@ void			init_all(t_struct *global)
 	global->pars.pipis = NULL;
 	global->history = NULL;
 	global->flags.ft_arg = 0;
-	global->flags.flag = 0;
-	global->term_name = "xterm-256color";
+	global->flags.ft_error = 0;
 }
 
-static	void		check_error_quotes(char *line, int *i, char quote)
+static	void		check_error_quotes(t_struct *global, char *line, int *i, char quote)
 {
 	*i += 1;
 
 	while (line[*i] != quote && line[*i])
 		*i += 1;
 	if (!line[*i])
-		ft_error("Aboba Error! Quotes not closed!\n");
+	{
+		global->flags.ft_error = 1;
+		write(1, "Aboba Error! Quotes not closed!\n", 32);
+	}
 }
 
-static	void		check_quotes(char *line)
+static	void		check_quotes(t_struct *global, char *line)
 {
 	int	i;
 
@@ -50,19 +52,23 @@ static	void		check_quotes(char *line)
 	while (line[++i])
 	{
 		if (line[i] == '\"' || line[i] == '\'')
-			check_error_quotes(line, &i, line[i]);
+			check_error_quotes(global, line, &i, line[i]);
 	}
 }
 
-void				syntax_error(char *line, t_struct *global)
+void				syntax_error(t_struct *global, char *line)
 {
 	int i;
 
 	i = -1;
 	if (line[0] == ';' || line[0] == '|' ||
 	line[ft_strlen(line) - 1] == '|')
-		ft_error("Syntax error\n");
-	check_quotes(line);
+	{
+		global->flags.ft_error = 1;
+		write(1, "Syntax error\n", 13);
+		return ;
+	}
+	check_quotes(global, line);
 	while (line[++i])
 	{
 		if (line[i] == '\"')
