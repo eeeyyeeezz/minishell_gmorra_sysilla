@@ -1,0 +1,14 @@
+ABOBA [echo]
+ABOBA [123]
+SPACE 
+ABOBA [t1]
+SPACE 
+minishell: t1 command not found
+ABOBA []
+ABOBA [123]
+ABOBA []
+ABOBA [t1]
+SPACE 
+ABOBA [t1]
+SPACE 
+minishell: t1 command not found

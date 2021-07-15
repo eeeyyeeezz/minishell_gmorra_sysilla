@@ -326,11 +326,11 @@ char		**get_all_commands(char *line, t_struct *global)
 	{
 		if (line[i])
 		{
-			// if ((free_str = find_chr_commands(global, (char *)&line[i])))
-			// {
-				// ft_free((void *)&free_str);
+			if ((free_str = find_chr_commands(global, (char *)&line[i])))
+			{
+				ft_free((void *)&free_str);
 				commands[count++] = find_chr_commands(global, (char *)&line[i]);
-			// }
+			}
 		}
 		while (!ft_chr(line[i]) && line[i])
 			i++;
@@ -374,17 +374,20 @@ char		**fill_all_arguments(t_struct *global, char *line)
 	count = -1;
 	if (!(arg = malloc(sizeof(char *) * count_arguments(line, 0) + 1)))
 		ft_error("Malloc Error\n");
-	while (!ft_chr(line[i]) && line[i])
+	end = 0;
+	while (!ft_chr(line[end]) && line[end])
+		end++;
+	while (i < end)
 	{
 		while (ft_isspaces(line[i]) && line[i])
 			i++;
-		if (line[i])
+		if (line[i] && !ft_chr(line[i]))
 		{
-			// if ((free_str = find_chr_commands(global, (char *)&line[i])) != NULL)
-			// {
-			// 	ft_free((void *)&free_str);
+			if ((free_str = find_chr_commands(global, (char *)&line[i])) != NULL)
+			{
+				ft_free((void *)&free_str);
 				arg[++count] = find_chr_commands(global, (char *)&line[i]);
-			// }
+			}
 		}
 		while (line[i + 1] && !ft_isspaces(line[i]))
 		{
@@ -395,7 +398,6 @@ char		**fill_all_arguments(t_struct *global, char *line)
 		i++;
 	}
 	arg[++count] = 0;
-	// print_double(arg, "Double");
 	return (arg);
 }
 
@@ -450,6 +452,7 @@ void		get_all_arguments(char *line, t_struct *global)
 
 
 
+// echo "$USERasd" 123 'asdsad --  wtf seg
 
 
 

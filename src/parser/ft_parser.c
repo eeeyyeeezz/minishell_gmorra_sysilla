@@ -67,11 +67,3 @@ void			ft_parser(t_struct *global, char *line)
 	if (!global->flags.ft_error)
 		pars_characters(global, line);
 }
-
-
-// echo "Hello cat -e !" | cat -e
-
-// echo ";";";";";"
-// 2) $ без кавычек и в кавычках
-// 4) ЗАЩИТИТЬ МАЛЛОКИ !!!!!!!!!!!
-// 9) После ошибок снова выходить в печать

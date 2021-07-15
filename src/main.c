@@ -51,6 +51,8 @@ static	void	free_all(t_struct *global, char *line)
 {
 	// if (line)
 	// 	ft_free((void *)&line);
+	if (global->pars.ft_pipes)
+		ft_free((void *)&global->pars.ft_pipes);
 	if (global->pars.ft_cmd)
 	{
 		for (int i = 0; global->pars.ft_cmd[i]; i++)
@@ -92,7 +94,21 @@ static	char	*ft_readline(char *line)
 
 static	void	make_pipe_array(t_struct *global)
 {
+	int	i;
+	int	count;
 
+	i = 0;
+	count = 0;
+	global->pars.ft_pipes = malloc(sizeof(char ***) * 30);
+	while (global->pars.chr[i] != -1)
+	{
+		if (global->pars.chr[i - 1] != 4 && global->pars.chr[i - 1] != 5
+			&& global->pars.chr[i] != 3 && global->pars.chr[i] != 6)
+			global->pars.ft_pipes[count++] = global->pars.args[i];
+		i++;
+	}
+	global->pars.ft_pipes[count] = 0;
+	print_aboba(global->pars.ft_pipes, "Work?");
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -125,11 +141,11 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
+		make_pipe_array(&global);
 		redidirecti(&global);
 		int i = 0;		
 		if (!global.flags.ft_error)
 			print_aboba(global.pars.args, "ABOBA");
-		make_pipe_array(&global);
 		if (!global.flags.ft_error)
 		{
 			if (!global.pars.args[0])
@@ -141,7 +157,6 @@ int				main(int argc, char **argv, char **envp)
 				else
 					pipeline(global.pars.args, &global.env);
 				signal(SIGINT, signal_2);
-				// printf("%d\n", global.env.status);
 				free_all(&global, line);
 			}
 		}
@@ -155,11 +170,18 @@ int				main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-// echo $USER $aboba 123 -- leaks
-// echo $? -- leaks 
+// echo $USER $aboba 123 -- leaks || no
+// echo $? -- leaks || no
 // cd -- wtf leaks
 // global->pars.ft_arg = NULL; | double free
 // """"""ls""'' -la | cat "-e"
 // "\\\" - segfault
 // echo "asdasd""" - segfault	| no
 // echo "asdasd1223""asdsd" - double free | no
+
+// echo "Hello cat -e !" | cat -e
+
+// echo ";";";";";"
+// 2) $ без кавычек и в кавычках
+// 4) ЗАЩИТИТЬ МАЛЛОКИ !!!!!!!!!!!
+// 9) После ошибок снова выходить в печать

@@ -115,17 +115,12 @@ void	redidirecti(t_struct *global)
 			else if (global->pars.chr[i] == 4)
 				fd = single_right(global->pars.args[i][0]);
 			else if (global->pars.chr[i] == 5)
-				fd = double_right(global->pars.args[i][0]);
+				fd = double_right(global->pars.args[i + 1][0]);
 			else if (global->pars.chr[i] == 6)
 				 double_left(global->pars.args[i][0], global->pars.args[i - 1], global);
 		}
 	}
 	if (fd != -1)
-	{
 		dup2(fd, 1);
-	}
-	free(global->pars.args[1]);
-	global->pars.args[1] = NULL;
-
 	close(fd);
 }

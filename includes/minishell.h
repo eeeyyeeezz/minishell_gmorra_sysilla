@@ -48,7 +48,7 @@ typedef	struct 			s_flags
 
 typedef	struct			s_pars {
 	char				***args;
-	// char				***args;
+	char				***ft_pipes;
 	int					*chr;
 	// char				***args;
 	char				**ft_cmd;
