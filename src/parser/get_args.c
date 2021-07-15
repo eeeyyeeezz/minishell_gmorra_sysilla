@@ -37,7 +37,7 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 static	void		array_to_three(t_struct *global, char **arg)
 {
 	if (global->flags.d_flag < count_twodimarray(global->pars.ft_cmd))
-		global->pars.dirty_array[global->flags.d_flag++] = arg;
+		global->pars.args[global->flags.d_flag++] = arg;
 	else 
 		global->flags.d_flag = 0;
 }
@@ -412,7 +412,7 @@ void		get_all_arguments(char *line, t_struct *global)
 	count = 0;
 	begin = 0;
 	global->flags.d_flag = 0;
-	global->pars.dirty_array = malloc(sizeof(char ***) * 30);
+	global->pars.args = malloc(sizeof(char ***) * 30);
 	while (line[i])
 	{
 		if ((line[end] == '<' && line[end - 1] == '<') || 
@@ -431,7 +431,7 @@ void		get_all_arguments(char *line, t_struct *global)
 			i++;
 		end++;
 	}
-	global->pars.dirty_array[count_twodimarray(global->pars.ft_cmd)] = 0;
+	global->pars.args[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
 
 
