@@ -454,5 +454,5 @@ void		get_all_arguments(char *line, t_struct *global)
 
 
 
-// echo '$ABOBA'"$USER"lol 'cat -e | grep libft' -- leaks
+// echo '$ABOBA'"$USER"lol 'cat -e | grep libft' -- leaks || no
 // 'echo' 123  >> t1 - tozhe || double free with space

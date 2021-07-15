@@ -31,6 +31,7 @@ int		single_right(char *name)
 {
 	int	fd;
 
+	printf("diskoteka right\n");
 	if (!name)
 		return (0);
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 00644);
@@ -46,6 +47,7 @@ int		single_left(char *name)
 {
 	int	fd;
 
+	printf("diskoteka\n");
 	if (!name)
 		return (0);
 	fd = open(name, O_RDONLY, 00644);
@@ -63,13 +65,14 @@ char	**until_stop(char *stop)
 	char	*tmp;
 
 	ret = NULL;
-	tmp = readline("heredoc> ");
-	while (ft_strncmp(stop, tmp, ft_strlen(tmp)) && tmp)
+	tmp = readline("aboba> ");
+	while (ft_strncmp(tmp, stop, -1) != 0 && tmp != NULL)
 	{
 		ret = ft_new_str(ret, tmp);
-		tmp = readline("heredoc> ");
+		free(tmp);
+		tmp = readline("aboba> ");
+		printf("%s\n%s\n", tmp, stop);
 	}
-	free(tmp);
 	return (ret);
 }
 
@@ -80,10 +83,11 @@ void	double_left(char *stop, char **command, t_struct *global)
 	int		tmpfd[2];
 	int		i;
 
+	heredoc = NULL;
 	heredoc = until_stop(stop);
 	pipe(tmpfd);
 	i = 0;
-	while (heredoc[i])
+	while (heredoc[i] && heredoc)
 	{
 		ft_putendl_fd(heredoc[i], tmpfd[1]);
 		i++;
@@ -92,7 +96,7 @@ void	double_left(char *stop, char **command, t_struct *global)
 	close(tmpfd[1]);
 	close(tmpfd[0]);
 	/*временная вставка которая не должна работать*/
-	if (command[1] == NULL)
+	if (!(command[1]))
 		lsh_execute(&command[0], global->env.sh_envp, global);
 }
 
@@ -102,12 +106,25 @@ void	redidirecti(t_struct *global)
 	int		fd;
 
 	i = 0;
-	fd = single_right(global->pars.args[1][0]);
+	// fd = single_right(global->pars.dirty_array[1][0]);
+
+	for (int i = 0; global->pars.chr[i]; i++)
+	{
+		if (global->pars.chr[i] != 2)
+		{
+			if (global->pars.chr[i] == 3)
+				fd = single_left(global->pars.args[i + 1][0]);
+			else if (global->pars.chr[i] == 4)
+				fd = single_right(global->pars.args[i + 1][0]);
+			else if (global->pars.chr[i] == 5)
+				fd = double_right(global->pars.args[i + 1][0]);
+			else if (global->pars.chr[i] == 6)
+				double_left(global->pars.args[i + 1][0], global->pars.args[i], global);
+		}
+	}
 	if (fd != -1)
 	{
 		dup2(fd, 1);
 	}
-	free(global->pars.args[1]);
-	global->pars.args[1] = NULL;
 	close(fd);
 }

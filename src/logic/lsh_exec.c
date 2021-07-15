@@ -119,7 +119,7 @@ int		exec_path(char **args, char **envp, t_env *env)
 	while (path[i])
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
-		printf("%s\n", path_ag);
+		// printf("%s\n", path_ag);
 		flag = lnch_pth(path_ag, args, envp, env);
 		free(path_ag);
 		if (flag == 0)

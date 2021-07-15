@@ -125,6 +125,7 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
+		redidirecti(&global);
 		int i = 0;		
 		if (!global.flags.ft_error)
 			print_aboba(global.pars.args, "ABOBA");
@@ -155,6 +156,7 @@ int				main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+// echo $USER $aboba 123 -- leaks
 // echo $? -- leaks 
 // cd -- wtf leaks
 // global->pars.ft_arg = NULL; | double free
