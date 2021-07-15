@@ -124,6 +124,5 @@ void	redidirecti(t_struct *global)
 	}
 	if (fd != -1)
 		dup2(fd, 1);
-	}
 	close(fd);
 }
