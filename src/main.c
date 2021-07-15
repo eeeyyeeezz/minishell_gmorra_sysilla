@@ -111,12 +111,11 @@ int				main(int argc, char **argv, char **envp)
 	ft_envp_cpy(envp, &global.env);
 	shlvl(&global.env);
 	init_all(&global);
+	global.env.basefd1 = 4;
+	global.env.basefd0 = 3;
+	dup2(1, global.env.basefd1);
+	dup2(0, global.env.basefd0);
 	global.env.status = 0;
-	char *ls[] = {"ls", "-al", NULL};
-	char *rev[] = {"rev", NULL};
-	char *nl[] = {"nl", NULL};
-	char *cat[] = {"cat", "-e", NULL};
-	char **cmd[] = {ls, rev, nl, cat, NULL};
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
 	line = readline("minishell: ");
@@ -126,6 +125,8 @@ int				main(int argc, char **argv, char **envp)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
+		redidirecti(&global);
+		int i = 0;		
 		if (!global.flags.ft_error)
 			print_aboba(global.pars.args, "ABOBA");
 		make_pipe_array(&global);
@@ -136,7 +137,7 @@ int				main(int argc, char **argv, char **envp)
 			else
 			{
 				if (global.pars.args[1] == NULL)
-					lsh_execute(global.pars.args[0], envp, &global.env);
+					lsh_execute(global.pars.args[0], envp, &global);
 				else
 					pipeline(global.pars.args, &global.env);
 				signal(SIGINT, signal_2);
@@ -144,6 +145,8 @@ int				main(int argc, char **argv, char **envp)
 				free_all(&global, line);
 			}
 		}
+		dup2(global.env.basefd1, 1);
+		dup2(global.env.basefd0, 0);
 		line = ft_readline(line);
 	}
 	if (line)
@@ -152,6 +155,7 @@ int				main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+// echo $USER $aboba 123 -- leaks
 // echo $? -- leaks 
 // cd -- wtf leaks
 // global->pars.ft_arg = NULL; | double free
