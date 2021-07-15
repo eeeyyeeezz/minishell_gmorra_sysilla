@@ -95,3 +95,16 @@ void	double_left(char *stop, char **command, t_struct *global)
 	if (command[1] == NULL)
 		lsh_execute(&command[0], global->env.sh_envp, &global->env);
 }
+
+int	redidirecti(t_struct *dlobal, char **govno)
+{
+	int		i;
+	int		fd;
+
+	i = 0;
+	
+
+	if (fd != -1)
+		dup2(fd, 0);
+	close(fd);
+}
