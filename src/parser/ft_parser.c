@@ -58,8 +58,8 @@ int	pars_characters(t_struct *global, char *line)
 	if (!encode_line)
 		ft_error("Malloc Error!\n");
 	ft_free((void *)&str);
-	global->pars.ft_cmd = get_all_commands(encode_line, global);
-	get_all_arguments(encode_line, global);
+	global->pars.ft_cmd = get_all_commands(global, encode_line);
+	get_all_arguments(global, encode_line);
 	encode_arg(global);
 	ft_free((void *)&encode_line);
 	return (0);
