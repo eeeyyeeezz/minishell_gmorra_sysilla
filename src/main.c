@@ -59,8 +59,6 @@ static	void	free_all(t_struct *global, char *line)
 			ft_free((void *)&global->pars.ft_cmd[i]);
 		ft_free((void *)&global->pars.ft_cmd);
 	}
-	if (global->pars.pipis)
-		ft_free((void *)&global->pars.pipis);
 	if (global->pars.chr)
 		ft_free((void *)&global->pars.chr);
 	if (global->pars.args)
