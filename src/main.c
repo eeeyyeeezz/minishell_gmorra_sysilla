@@ -125,6 +125,7 @@ int				main(int argc, char **argv, char **envp)
 	ft_bzero(&global.env, sizeof(global.env));
 	ft_envp_cpy(envp, &global.env);
 	shlvl(&global.env);
+	printf("a chto zvuchit haypovo [%s]\n", global.env.sh_envp[13]);
 	init_all(&global);
 	global.env.basefd1 = 4;
 	global.env.basefd0 = 3;

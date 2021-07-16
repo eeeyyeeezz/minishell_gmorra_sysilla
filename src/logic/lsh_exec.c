@@ -72,6 +72,7 @@ int	lsh_launch(char **args, char **envp, t_env *env)
 			strerror(1);
 		}
 		shlvl(env);
+		printf("a chto zvuchit haypovo12312321 [%s]\n", env->sh_envp[13]);
 		exit(EXIT_FAILURE);
 	}
 	else

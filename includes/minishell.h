@@ -20,7 +20,6 @@
 # include <term.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
-# include "get_next_line.h"
 # include "../readline/include/readline/chardefs.h"
 # include "../readline/include/readline/rlconf.h"
 # include "../readline/include/readline/tilde.h"
@@ -168,6 +167,7 @@ t_history				*ft_histnew(void *content);
 
 // LOGIC
 
+int				pwd(t_env *env);
 void			export_plus(char *av, t_env *env, int index_eq);
 int				ft_isnu(char *s);
 void			in_export_while(char **av, t_env *env, int index_eq, int i);
