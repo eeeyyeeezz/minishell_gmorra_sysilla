@@ -1,4 +1,9 @@
-
+/*
+;;;;;	FT_ERROR.C
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../../includes/minishell.h"
 
@@ -28,14 +33,13 @@ int			ft_exit(char **ret, t_env *env)
 	exit(ret_num);
 }
 
-void			ft_error(char *str)
+void	ft_error(char *str)
 {
 	ft_putstr_fd(str, 2);
 	exit(0);
 }
 
-
-int			ft_err(char *str)
+int	ft_err(char *str)
 {
 	ft_putstr_fd(str, 2);
 	return (0);
