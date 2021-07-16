@@ -150,7 +150,7 @@ int				main(int argc, char **argv, char **envp)
 				free_all(&global, line);
 			else
 			{
-				print_aboba(global.pars.ft_pipes, "JKJ");
+				// print_aboba(global.pars.ft_pipes, "JKJ");
 				if (global.pars.chr[0] == 4)
 					redidirecti(&global);
 				if (global.pars.args[1] == NULL)
