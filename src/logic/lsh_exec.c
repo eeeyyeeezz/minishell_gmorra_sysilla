@@ -72,14 +72,12 @@ int	lsh_launch(char **args, char **envp, t_env *env)
 			strerror(1);
 		}
 		shlvl(env);
-		printf("a chto zvuchit haypovo12312321 [%s]\n", env->sh_envp[13]);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		return (par_process(env));
 	}
-	printf("SMEEEERT'\n");
 	return (0);
 }
 
@@ -88,17 +86,15 @@ int	exec_path(char **args, char **envp, t_env *env)
 	char	**path;
 	char	*path_ag;
 	int		i;
-	int		flag;
 
 	path = ft_split(getenv("PATH"), ':');
 	i = 0;
-	flag = 0;
 	while (path[i])
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
-		flag = lnch_pth(path_ag, args, envp, env);
+		lnch_pth(path_ag, args, envp, env);
 		free(path_ag);
-		if (flag == 0)
+		if (env->cn == -1)
 		{
 			freemass(path);
 			return (0);
@@ -121,7 +117,8 @@ int	lsh_execute(char **args, char **envp, t_struct *global)
 		return (lsh_launch(args, global->env.sh_envp, &global->env));
 	if (!(ft_strnstr(args[0], "./", 2)) && !(bildin(args, &global->env)))
 	{
-		if (exec_path(args, global->env.sh_envp, &global->env))
+		exec_path(args, global->env.sh_envp, &global->env);
+		if (global->env.cn == 1)
 		{
 			printf("minishell: %s command not found\n", args[0]);
 			global->env.status = 127;
