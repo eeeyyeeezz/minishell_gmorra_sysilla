@@ -435,27 +435,3 @@ void		get_all_arguments(char *line, t_struct *global)
 	}
 	global->pars.args[count_twodimarray(global->pars.ft_cmd)] = 0;
 }		
-
-
-// echo 12312312 asdasads 'asdasd' -- leak | no
-// 	 -- leaks
-// echo "$123" | cat -e    - double write
-// echo "$uS" '123' lol - empty || no
-// echo '$USER'"$USER" - seg || no
-
- 
-// ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e" || good
-
-// 'e''cho'"" a""b""o""ba '$KAVO'"cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
-// 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol | fixed
-// "ec""ho" 123 -- sega
-
-
-
-// echo "$USERasd" 123 'asdsad --  wtf seg
-
-
-
-
-// echo '$ABOBA'"$USER"lol 'cat -e | grep libft' -- leaks || no
-// 'echo' 123  >> t1 - tozhe || double free with space

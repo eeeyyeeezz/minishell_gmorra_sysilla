@@ -34,7 +34,9 @@
 #define LSH_TOK_DELIM " \t\r\n\a"
 #define N_S_F_D "minishell: no such file or directory:"
 #define CMD_NF "command not found"
-
+#define YELLOW "\033[1;33m"
+#define GREEN "\033[1;32m"
+#define RES "\e[0m"
 
 typedef	struct 			s_flags
 {

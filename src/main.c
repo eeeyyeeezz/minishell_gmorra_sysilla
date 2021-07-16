@@ -88,7 +88,7 @@ static	char	*ft_readline(char *line)
 {
 	if (line)
 		ft_free((void *)&line);
-	line = readline("minishell: ");
+	line = readline(YELLOW "$" GREEN "minishell: " RES);
 	return (line);
 }
 
@@ -100,7 +100,7 @@ static	void	make_pipe_array(t_struct *global)
 	i = 0;
 	count = 0;
 	global->pars.ft_pipes = malloc(sizeof(char ***) * 30);
-	while (global->pars.chr[i] != -1)
+	while (global->pars.chr[i])
 	{
 		if (global->pars.chr[i - 1] != 4 && global->pars.chr[i - 1] != 5
 			&& global->pars.chr[i] != 3 && global->pars.chr[i] != 6)
@@ -134,20 +134,18 @@ int				main(int argc, char **argv, char **envp)
 	global.env.status = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_2);
-	line = readline("minishell: ");
+	line = readline(YELLOW "$" GREEN "minishell: " RES);
 	while (line)
 	{
 		if (line == NULL)
 			break;
 		add_history(line);
 		ft_parser(&global, line);
-		make_pipe_array(&global);
-		redidirecti(&global);
 		int i = 0;		
 		if (!global.flags.ft_error)
-			print_aboba(global.pars.args, "ABOBA");
-		if (!global.flags.ft_error)
 		{
+			make_pipe_array(&global);
+		 	redidirecti(&global);
 			if (!global.pars.args[0])
 				free_all(&global, line);
 			else
@@ -155,36 +153,43 @@ int				main(int argc, char **argv, char **envp)
 				if (global.pars.chr[0] == 4)
 					redidirecti(&global);
 				if (global.pars.args[1] == NULL)
-					lsh_execute(global.pars.args[0], envp, &global);
+					lsh_execute(global.pars.ft_pipes[0], envp, &global);
 				else
-					pipeline(global.pars.args, &global.env);
+					pipeline(global.pars.ft_pipes, &global.env);
 				signal(SIGINT, signal_2);
 				free_all(&global, line);
 			}
 			dup2(global.env.basefd1, 1);
 			dup2(global.env.basefd0, 0);
 		}
-		free(line);
-		line = readline("minishell: ");
+		line = ft_readline(line);
 	}
 	if (line)
 		ft_free((void *)&line);
-	write(1, "\e[Aminishell: exit\n", 20);	
+	write(1, "\033[1;33m$\033[1;32mminishell: \e[0mexit\n", 35);	
 	return (0);
 }
 
-// echo $USER $aboba 123 -- leaks || no
-// echo $? -- leaks || no
-// cd -- wtf leaks
+// echo 12312312 asdasads 'asdasd' -- leak | no
+// 	 -- leaks
+// echo "$123" | cat -e    - double write
+// echo "$uS" '123' lol - empty || no
+// echo '$USER'"$USER" - seg || no || prikol
+
+ 
+// ""ec""ho"" "aboba" 1''2''3""""""'' >> t''1 | c""""at "-e" || good
+// 'e''cho'"" a""b""o""ba '$KAVO'"cat -e | cat -e" >> 't1' > t2 << t3 yes | "c""at" '-e' >> " lol mda "
+// 'echo'"" 123 << "cat" "-e" - huynya || echo"" "123"'' << lol | fixed
+// "ec""ho" 123 -- sega
+
+
+// echo "$USERasd" 123 'asdsad --  wtf seg
+
+// echo '$ABOBA'"$USER"lol 'cat -e | grep libft' -- leaks || no
+// 'echo' 123  >> t1 - tozhe || double free with space
+
+
+// ABOBA ERROR SEGFAUL!!!
 // global->pars.ft_arg = NULL; | double free
-// """"""ls""'' -la | cat "-e"
-// "\\\" - segfault
-// echo "asdasd""" - segfault	| no
-// echo "asdasd1223""asdsd" - double free | no
 
-// echo "Hello cat -e !" | cat -e
-
-// echo ";";";";";"
-// 2) $ без кавычек и в кавычках
 // 4) ЗАЩИТИТЬ МАЛЛОКИ !!!!!!!!!!!
-// 9) После ошибок снова выходить в печать
