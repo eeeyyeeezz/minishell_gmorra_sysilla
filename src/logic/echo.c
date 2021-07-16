@@ -39,6 +39,15 @@ void	ft_putstrecho_fd(const char *str, int fd)
 	ft_putstr_fd(" ", 1);
 }
 
+void	putstr_while(int arg_count, char **arg, int i)
+{
+	while (i < (arg_count - 1))
+	{
+		ft_putstrecho_fd(arg[i], 1);
+		i++;
+	}
+}
+
 int	ft_echo(char **arg)
 {
 	int	i;
@@ -58,18 +67,10 @@ int	ft_echo(char **arg)
 		i++;
 	}
 	arg_count = args_count(arg);
-	while (i < (arg_count - 1))
-	{
-		ft_putstrecho_fd(arg[i], 1);
-		i++;
-	}
+	putstr_while(arg_count, arg, i);
 	if (option_n == 1)
-	{
 		ft_putstr_fd(arg[i], 1);
-	}
 	else
-	{
 		ft_putendl_fd(arg[i], 1);
-	}	
 	return (1);
 }

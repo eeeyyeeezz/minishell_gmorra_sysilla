@@ -14,19 +14,6 @@ int	lsh_num_builtins(void)
 	return (sizeof(g_builtin_str) / sizeof(char *));
 }
 
-int	builtin_func2(char **args, t_env *env, int i)
-{
-	if (i == 0)
-		return (ft_cd(args, env));
-	if (i == 1)
-		return (ft_export(args, env));
-	if (i == 2)
-		return (ft_unset(args, env));
-	if (i == 3)
-		return (ft_env(args, env));
-	return (-1);
-}
-
 int	bildin(char **args, t_env *env)
 {
 	int	i;
@@ -71,7 +58,35 @@ int	ex_path(char **args, t_env *env)
 	return (1);
 }
 
-void	 pipeline(char ***cmd, t_env *env)
+void	pid_zero(char ***cmd, t_env *env, int fdd, int *fd)
+{
+	chld_sig();
+	dup2(fdd, 0);
+	if (*(cmd + 1) != NULL)
+		dup2(fd[1], 1);
+	close(fd[0]);
+	if (ft_strnstr(&(*cmd)[0][0], "./", 2))
+	{
+		if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)
+		{
+			printf("%s %s\n", N_S_F_D, (*cmd)[0]);
+			exit(127);
+		}
+		shlvl(env);
+	}
+	else if (!bildin(&(*cmd)[0], env)
+	&& !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
+	{
+		if (ex_path(&(*cmd)[0], env))
+		{
+			printf("minishell: %s %s\n", (*cmd)[0], CMD_NF);
+			exit(127);
+		}
+	}
+	exit(0);
+}
+
+void	pipeline(char ***cmd, t_env *env)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -89,41 +104,11 @@ void	 pipeline(char ***cmd, t_env *env)
 			exit(1);
 		}
 		else if (pid == 0)
-		{
-			chld_sig();
-			dup2(fdd, 0);
-			if (*(cmd + 1) != NULL)
-			{
-				dup2(fd[1], 1);
-			}
-			close(fd[0]);
-			if (ft_strnstr(&(*cmd)[0][0], "./", 2))
-			{
-				if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)
-				{
-					printf("%s %s\n", N_S_F_D, (*cmd)[0]);
-					exit(127);
-				}
-				shlvl(env);
-			}
-			else if (!bildin(&(*cmd)[0], env)
-			&& !(ft_strnstr(&(*cmd)[0][0], "./", 2)))
-			{
-				if (ex_path(&(*cmd)[0], env))
-				{
-					printf("minishell: %s %s\n", (*cmd)[0], CMD_NF);
-					exit(127);
-				}
-			}
-			exit(0);
-		}
+			pid_zero(cmd, env, fdd, fd);
 		else
 		{
-			signal(SIGINT, SIG_IGN);
-			wait(&status);
-			close(fd[1]);
+			pid_nonzero(env, status, fd);
 			fdd = fd[0];
-			status = env->status;
 			cmd++;
 		}
 	}

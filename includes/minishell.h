@@ -34,6 +34,8 @@
 #define LSH_TOK_DELIM " \t\r\n\a"
 #define N_S_F_D "minishell: no such file or directory:"
 #define CMD_NF "command not found"
+#define N_V_I "not a valid identifier"
+#define u_chr unsigned char
 #define YELLOW "\033[1;33m"
 #define GREEN "\033[1;32m"
 #define RES "\e[0m"
@@ -166,6 +168,11 @@ t_history				*ft_histnew(void *content);
 
 // LOGIC
 
+void			export_plus(char *av, t_env *env, int index_eq);
+int				ft_isnu(char *s);
+void			in_export_while(char **av, t_env *env, int index_eq, int i);
+void			pid_nonzero(t_env *env, int status, int *fd);
+int				builtin_func2(char **args, t_env *env, int i);
 char			*ft_strjoin_slash(char const *s1, char const *s2);
 int				ft_exit(char **ret, t_env *env);
 char			*ft_strndup(const char *s, size_t n);
