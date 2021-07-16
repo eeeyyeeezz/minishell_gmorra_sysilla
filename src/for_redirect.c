@@ -73,6 +73,7 @@ char	**until_stop(char *stop)
 		tmp = readline("aboba> ");
 		printf("%s\n%s\n", tmp, stop);
 	}
+	free(tmp);
 	return (ret);
 }
 
