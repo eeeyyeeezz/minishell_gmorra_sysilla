@@ -102,13 +102,12 @@ static	void	make_pipe_array(t_struct *global)
 	global->pars.ft_pipes = malloc(sizeof(char ***) * 30);
 	while (global->pars.chr[i])
 	{
-		if (global->pars.chr[i - 1] != 4 && global->pars.chr[i - 1] != 5 
+		if (global->pars.chr[i - 1] != 4 && global->pars.chr[i - 1] != 5 && global->pars.chr[i - 1] != 3
 		&& global->pars.chr[i - 1] != 6 && global->pars.chr[i] != 6)
 			global->pars.ft_pipes[count++] = global->pars.args[i];
 		i++;
 	}
 	global->pars.ft_pipes[count] = 0;
-	// print_aboba(global->pars.ft_pipes, "Work?");
 }
 
 int				main(int argc, char **argv, char **envp)
@@ -167,7 +166,7 @@ int				main(int argc, char **argv, char **envp)
 	}
 	if (line)
 		ft_free((void *)&line);
-	write(1, "\033[1;33m$\033[1;32mminishell: \e[0mexit\n", 35);	
+	write(1, "\e[A\033[1;33m$\033[1;32mminishell: \e[0mexit\n", 38);	
 	return (0);
 }
 

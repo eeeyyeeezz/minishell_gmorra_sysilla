@@ -48,7 +48,7 @@ int	count_arguments(char *line, int begin)
 
 int	ft_chr(char s)
 {
-	if (s == ';' || s == '|' || s == '<' || s == '>')
+	if (s == '|' || s == '<' || s == '>')
 		return (1);
 	else
 		return (0);

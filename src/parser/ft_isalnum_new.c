@@ -26,8 +26,7 @@ int	ft_issleter(char s)
 
 int	ft_isalnum_new(int c)
 {
-	if ((c >= 33 && c <= 37) || (c >= 39 && c <= 58)
-		|| c == 60)
+	if ((c >= 33 && c <= 37) || (c >= 39 && c <= 60))
 		return (1);
 	else if ((c >= 61 && c <= 123)
 		|| c == 125 || c == 126)

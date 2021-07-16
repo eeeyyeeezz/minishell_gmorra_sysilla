@@ -23,11 +23,8 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 
 	(*i)++;
 	quote_end = *i;
-	// printf("LINE [%s] and i [%d]\n", line, *i);
 	while (line[quote_end] != quote && line[quote_end])
 		quote_end++;
-	// if (!line[quote_end])
-		// ft_error("Syntax Error! Quotes not closed\n");
 	while (*i != quote_end)
 		str = ft_strjoin_char(str, line[(*i)++]);			// boom
 	(*i)++;
@@ -159,7 +156,7 @@ static	char		*double_quotes_dollar(t_struct *global, char *line, char *str, int 
 	{
 		flag_quote = 1;
 		end = *i + 1;
-		while (line[end] != '\"')
+		while (line[end] != '\"' && line[end]) 
 			end++;
 	}
 	else 
