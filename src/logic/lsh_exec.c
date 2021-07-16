@@ -24,18 +24,18 @@ void	chld_sig(void)
 	signal(SIGINT, SIG_DFL);
 }
 
-// int	par_process(t_env *env)
-// {
-	// signal(SIGINT, SIG_IGN);
-	// wait(&env->status);
-	// if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
-		// write(1, "\n", 1);
-	// if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
-		// write(1, "^Quit \n", 8);
-	// if (WEXITSTATUS(env->status) == 0)
-		// return (0);
-	// return (1);
-// }
+int	par_process(t_env *env)
+{
+	signal(SIGINT, SIG_IGN);
+	wait(&env->status);
+	if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
+		write(1, "\n", 1);
+	if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
+		write(1, "^Quit \n", 8);
+	if (WEXITSTATUS(env->status) == 0)
+		return (0);
+	return (1);
+}
 
 int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 {
@@ -54,16 +54,16 @@ int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 	}
 	else
 	{
-		// par_process(env);
-		signal(SIGINT, SIG_IGN);
-		wait(&env->status);
-		if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
-			write(1, "\n", 1);
-		if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
-			write(1, "^Quit \n", 8);
-		if (WEXITSTATUS(env->status) == 0)
-			return (0);
-		return (1);
+		return (par_process(env));
+		// signal(SIGINT, SIG_IGN);
+		// wait(&env->status);
+		// if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
+			// write(1, "\n", 1);
+		// if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
+			// write(1, "^Quit \n", 8);
+		// if (WEXITSTATUS(env->status) == 0)
+			// return (0);
+		// return (1);
 	}
 	return (0);
 }

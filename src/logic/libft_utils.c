@@ -120,16 +120,18 @@ char	**ft_new_str(char **arr, char *new_str)
 {
 	char	**new_arr;
 	int		size;
+	int		i;
 
+	i = 0;
 	size = 0;
 	if (!arr)
 	{
-		size = 1;
+		size = 0;
 		new_arr = ft_calloc(sizeof(char *), size + 2);
 		if (!new_arr)
 			return NULL;
 		new_arr[size + 1] = NULL;
-		new_arr[size] = new_str;
+		new_arr[0] = ft_strdup(new_str);
 	}
 	else
 	{
@@ -139,9 +141,13 @@ char	**ft_new_str(char **arr, char *new_str)
 		if (!new_arr)
 			return NULL;
 		new_arr[size + 1] = NULL;
-		new_arr[size] = new_str;
-		ft_memcpy(new_arr, arr, sizeof(char *) * size);
+		new_arr[size] = ft_strdup(new_str);
+		while (i < size)
+		{
+			new_arr[i] =ft_strdup(arr[i]);
+			i++;
+		}
+		freemass(arr);
 	}
-	ft_free((void *)&arr);
 	return (new_arr);
 }

@@ -86,9 +86,16 @@ void				syntax_error(t_struct *global, char *line)
 				i++;
 		}
 		if (line[i] == ';' && line[i + 1] == ';')
-			ft_error("Double semicolon\n");
+		{
+			global->flags.ft_error = 1;
+			write(1, "Double semicolon\n", 17);
+		}
 		if (line[i] == '|' && line[i + 1] == '|')
-			ft_error("Double pipe\n");
+		{
+			global->flags.ft_error = 1;
+			write(1, "Double pipe\n", 13);
+		}
+
 	}
 
 }
