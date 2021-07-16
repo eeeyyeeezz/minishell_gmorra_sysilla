@@ -1,33 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_escape.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/22 18:45:02 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/14 16:08:56 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+;;;;;	FT_ESCAPE.C
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../../includes/minishell.h"
 
-
-int			key_escape(char *str)
+int	chr_to_int(char s, char next)			// ADD DOUBLE LEFT REDIRECT
 {
-	if (ft_strcmp(str, "\e[A") && ft_strcmp(str, "\e[B") &&
-	ft_strcmp(str, "\e[C") && ft_strcmp(str, "\e[D") &&
-	ft_strcmp(str, "\177") && str[0] != '\n' && str[0] != '\t')
-		return (1);
-	else
-		return (0);
-}
-
-int			chr_to_int(char s, char next)			// ADD DOUBLE LEFT REDIRECT
-{
-	if (s == ';')
-		return (1);
-	else if (s == '|')
+	if (s == '|')
 		return (2);
 	else if (s == '<' && next == '<')
 		return (6);

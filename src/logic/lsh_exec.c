@@ -53,28 +53,18 @@ int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 		exit(0);
 	}
 	else
-	{
 		return (par_process(env));
-		// signal(SIGINT, SIG_IGN);
-		// wait(&env->status);
-		// if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
-			// write(1, "\n", 1);
-		// if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
-			// write(1, "^Quit \n", 8);
-		// if (WEXITSTATUS(env->status) == 0)
-			// return (0);
-		// return (1);
-	}
 	return (0);
 }
 
-int lsh_launch(char **args, char **envp, t_env *env)
+int	lsh_launch(char **args, char **envp, t_env *env)
 {
-	pid_t pid;
-	int status;	
+	pid_t	pid;
+	int		status;
+
 	pid = fork();
-	if (pid == 0) {
-		// Дочерний процесс
+	if (pid == 0)
+	{
 		chld_sig();
 		if (execve(args[0], args, envp) == -1)
 		{
@@ -84,29 +74,15 @@ int lsh_launch(char **args, char **envp, t_env *env)
 		shlvl(env);
 		exit(EXIT_FAILURE);
 	}
-	// else if (pid < 0)
-	// {
-		// Ошибка при форкинге
-		// printf("%s", strerror(errno));
-	// }
 	else
 	{
-		// Родительский процесс
-		signal(SIGINT, SIG_IGN);
-		wait(&status);
-		status = env->status;
-		if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGINT)
-			write(1, "\n", 1);
-		if (WIFSIGNALED(status) != 0 && WTERMSIG(status) == SIGQUIT)
-			write(1, "^Quit \n", 8);
-		if (WEXITSTATUS(status) == 0)
-			return (0);
+		return (par_process(env));
 	}
 	printf("SMEEEERT'\n");
 	return (0);
 }
 
-int		exec_path(char **args, char **envp, t_env *env)
+int	exec_path(char **args, char **envp, t_env *env)
 {
 	char	**path;
 	char	*path_ag;
@@ -119,7 +95,6 @@ int		exec_path(char **args, char **envp, t_env *env)
 	while (path[i])
 	{	
 		path_ag = ft_strjoin_slash(path[i], args[0]);
-		// printf("%s\n", path_ag);
 		flag = lnch_pth(path_ag, args, envp, env);
 		free(path_ag);
 		if (flag == 0)
@@ -133,14 +108,14 @@ int		exec_path(char **args, char **envp, t_env *env)
 	return (1);
 }
 
-int lsh_execute(char **args, char **envp, t_struct *global)
+int	lsh_execute(char **args, char **envp, t_struct *global)
 {
- 	int i;
+	int	i;
 
- 	if (args[0] == NULL)
+	if (args[0] == NULL)
 	{
- 	  return (2);
- 	}
+		return (2);
+	}
 	if ((ft_strnstr(args[0], "./", 2)))
 		return (lsh_launch(args, global->env.sh_envp, &global->env));
 	if (!(ft_strnstr(args[0], "./", 2)) && !(bildin(args, &global->env)))

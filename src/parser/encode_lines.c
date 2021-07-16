@@ -19,9 +19,7 @@ char	*quote_encode(char *line, int *i, char quote)
 	end = *i;
 	while (save != end)
 	{
-		if (line[save] == ';')
-			line[save] = -1;
-		else if (line[save] == '|')
+		if (line[save] == '|')
 			line[save] = -2;
 		else if (line[save] == '<')
 			line[save] = -3;
@@ -42,7 +40,7 @@ char	*encode_lines(char *line)
 	while (line[i])
 	{
 		while (line[i] == '\'')
-			line = quote_encode(line, &i, '\'');	
+			line = quote_encode(line, &i, '\'');
 		while (line[i] == '\"')
 			line = quote_encode(line, &i, '\"');
 		while (line[i] == '\'')
@@ -65,9 +63,7 @@ char	**decode_lines(char **encode_lines)
 		j = -1;
 		while (encode_lines[i][++j])
 		{
-			if (encode_lines[i][j] == -1)
-				encode_lines[i][j] = ';';
-			else if (encode_lines[i][j] == -2)
+			if (encode_lines[i][j] == -2)
 				encode_lines[i][j] = '|';
 			else if (encode_lines[i][j] == -3)
 				encode_lines[i][j] = '<';

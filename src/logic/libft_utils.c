@@ -1,10 +1,9 @@
 #include "../../includes/minishell.h"
 
-
-char		*ft_strmasschr_char(char *what, char **where, int cmplen)
+char	*ft_strmasschr_char(char *what, char **where, int cmplen)
 {
-	int	i;
-	char *ret;
+	int		i;
+	char	*ret;
 
 	i = 0;
 	if (!what)
@@ -21,7 +20,7 @@ char		*ft_strmasschr_char(char *what, char **where, int cmplen)
 	return (NULL);
 }
 
-int		ft_strmasschr(char *what, char **where, int cmplen)
+int	ft_strmasschr(char *what, char **where, int cmplen)
 {
 	int	i;
 
@@ -43,7 +42,7 @@ char	*ft_strndup(const char *s, size_t n)
 	unsigned int	i;
 
 	i = 0;
-	res = (char*)malloc(sizeof(char) * n + 1);
+	res = (char *)malloc(sizeof(char) * n + 1);
 	if (res == NULL)
 		return (NULL);
 	while (i < n)
@@ -65,7 +64,8 @@ char	*ft_strjoin_slash(char const *s1, char const *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	if (!(jstr = (char*)malloc(sizeof(*jstr) * len + 1)))
+	jstr = (char *)malloc(sizeof(*jstr) * len + 1);
+	if (!(jstr))
 		return (NULL);
 	while (*s1 != '\0')
 		jstr[i++] = *s1++;
@@ -105,7 +105,8 @@ char	*ft_strjoin_clean(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
-	if (!(jstr = (char*)malloc(sizeof(*jstr) * len + 1)))
+	jstr = (char *)malloc(sizeof(*jstr) * len + 1);
+	if (!(jstr))
 		return (NULL);
 	while (*s1 != '\0')
 		jstr[i++] = *s1++;
@@ -129,7 +130,7 @@ char	**ft_new_str(char **arr, char *new_str)
 		size = 0;
 		new_arr = ft_calloc(sizeof(char *), size + 2);
 		if (!new_arr)
-			return NULL;
+			return (NULL);
 		new_arr[size + 1] = NULL;
 		new_arr[0] = ft_strdup(new_str);
 	}
@@ -139,12 +140,12 @@ char	**ft_new_str(char **arr, char *new_str)
 			size++;
 		new_arr = ft_calloc(sizeof(char *), size + 2);
 		if (!new_arr)
-			return NULL;
+			return (NULL);
 		new_arr[size + 1] = NULL;
 		new_arr[size] = ft_strdup(new_str);
 		while (i < size)
 		{
-			new_arr[i] =ft_strdup(arr[i]);
+			new_arr[i] = ft_strdup(arr[i]);
 			i++;
 		}
 		freemass(arr);

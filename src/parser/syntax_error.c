@@ -40,7 +40,7 @@ static	void		check_error_quotes(t_struct *global, char *line, int *i, char quote
 	if (!line[*i])
 	{
 		global->flags.ft_error = 1;
-		write(1, "Aboba Error! Quotes not closed!\n", 32);
+		write(2, "Aboba Error! Quotes not closed!\n", 32);
 	}
 }
 
@@ -69,7 +69,7 @@ void				syntax_error(t_struct *global, char *line)
 		return ;
 	}
 	check_quotes(global, line);
-	while (line[++i])
+	while (line[++i] && !global->flags.ft_error)
 	{
 		if (line[i] == '\"')
 		{
@@ -95,7 +95,5 @@ void				syntax_error(t_struct *global, char *line)
 			global->flags.ft_error = 1;
 			write(1, "Double pipe\n", 13);
 		}
-
 	}
-
 }

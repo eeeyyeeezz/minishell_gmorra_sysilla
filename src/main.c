@@ -103,7 +103,7 @@ static	void	make_pipe_array(t_struct *global)
 	while (global->pars.chr[i])
 	{
 		if (global->pars.chr[i - 1] != 4 && global->pars.chr[i - 1] != 5 && global->pars.chr[i - 1] != 6
-			&& global->pars.chr[i] != 3 && global->pars.chr[i] != 6)
+			&& global->pars.chr[i] != 6)
 			global->pars.ft_pipes[count++] = global->pars.args[i];
 		i++;
 	}
