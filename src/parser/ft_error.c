@@ -7,7 +7,7 @@
 
 #include "../../includes/minishell.h"
 
-int			ft_exit(char **ret, t_env *env)
+int	ft_exit(char **ret, t_env *env)
 {
 	int	ret_num;
 

@@ -1,18 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/26 14:10:49 by gmorra            #+#    #+#             */
-/*   Updated: 2021/04/08 15:07:01 by gmorra           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*
+;;;;;	FT_PUTCHAR.C
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../../includes/minishell.h"
 
-void		ft_putstr(char *s)
+void	ft_putstr(char *s)
 {
 	if (s == NULL)
 		return ;
@@ -20,9 +15,9 @@ void		ft_putstr(char *s)
 		write(1, &*s++, 1);
 }
 
-int			ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] && s2[i])
@@ -32,9 +27,9 @@ int			ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-int			ft_strlen_array(char **arr)
+int	ft_strlen_array(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr[i])
@@ -42,7 +37,7 @@ int			ft_strlen_array(char **arr)
 	return (i);
 }
 
-int			ft_putchar(int word)
+int	ft_putchar(int word)
 {
 	write(1, &word, 1);
 	return (word);

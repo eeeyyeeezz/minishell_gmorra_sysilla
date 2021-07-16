@@ -7,7 +7,7 @@
 
 #include "../../includes/minishell.h"
 
-int	chr_to_int(char s, char next)			// ADD DOUBLE LEFT REDIRECT
+int	chr_to_int(char s, char next)
 {
 	if (s == '|')
 		return (2);
@@ -17,12 +17,12 @@ int	chr_to_int(char s, char next)			// ADD DOUBLE LEFT REDIRECT
 		return (3);
 	else if (s == '>' && next == '>')
 		return (5);
-	else if (s == '>' && next != '>')			
+	else if (s == '>' && next != '>')
 		return (4);
 	return (-1);
 }
 
-int			count_arguments(char *line, int begin)
+int	count_arguments(char *line, int begin)
 {
 	int		count;
 	int		end;
@@ -38,7 +38,7 @@ int			count_arguments(char *line, int begin)
 		while (ft_isspaces(line[i]))
 			i++;
 		while (ft_isalnum_new(line[i]) || line[i] == '\''
-		|| line[i] == '\"' || line[i] < 0)
+			|| line[i] == '\"' || line[i] < 0)
 			i++;
 		count++;
 		i++;
@@ -46,15 +46,15 @@ int			count_arguments(char *line, int begin)
 	return (count);
 }
 
-int			ft_chr(char s)
+int	ft_chr(char s)
 {
-	if (s == ';' || s == '|' || s == '<' || s == '>')
+	if (s == '|' || s == '<' || s == '>')
 		return (1);
 	else
 		return (0);
 }
 
-int			ft_escape(char s)
+int	ft_escape(char s)
 {
 	if (s == 34 || s == 39 || s == 92)
 		return (1);

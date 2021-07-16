@@ -150,7 +150,7 @@ int				main(int argc, char **argv, char **envp)
 				free_all(&global, line);
 			else
 			{
-				print_aboba(global.pars.ft_pipes, "JKJ");
+				// print_aboba(global.pars.ft_pipes, "JKJ");
 				if (global.pars.chr[0] == 4)
 					redidirecti(&global);
 				if (global.pars.args[1] == NULL)
@@ -167,7 +167,7 @@ int				main(int argc, char **argv, char **envp)
 	}
 	if (line)
 		ft_free((void *)&line);
-	write(1, "\033[1;33m$\033[1;32mminishell: \e[0mexit\n", 35);	
+	write(1, "\e[A\033[1;33m$\033[1;32mminishell: \e[0mexit\n", 38);	
 	return (0);
 }
 
