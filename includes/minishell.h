@@ -42,6 +42,7 @@
 typedef	struct 			s_flags
 {
 	// int					flag;
+	int					count;
 	int					ft_arg;
 	int					ft_cmd;
 	int					d_flag;
@@ -127,13 +128,14 @@ int						count_arguments(char *line, int begin);
 void					init_all(t_struct *global);
 int						ft_isalnum_new(int c);
 char					*encode_lines(char *line);
+int						plus_end(char *line, int end);
+int						plus_begin(char *line, int begin, int end);
 char					**decode_lines(char **encode_lines);
 char					*quote_encode(char *line, int *i, char quote);
 char					*skip_quote(char *line, char *str, int *i, char quote);
 void					syntax_error(t_struct *global, char *line);
 char					*ft_strjoin_new(char *s1, char *s2);
 char					*ft_strjoin_char(char *s1, char s2);
-void					count_pipes(t_struct *global, int *line);
 char					*find_chr_commands(t_struct *global, char *line);
 void					get_all_arguments(t_struct *global, char *line);
 char					**fill_all_arguments(t_struct *global, char *line);
@@ -141,10 +143,6 @@ char					**get_all_commands(t_struct *global, char *line);
 int						pars_characters(t_struct *global, char *line);
 int						ft_ft_strnstr(char *big, char *little);
 char					*get_dollar(t_struct *global, char *line, char *str, int end);
-int						pars_double_quotes(char *line, t_struct *global);
-int						pars_without_quotes(char *line, t_struct *global);
-void					ft_histclear(t_history **lst, void (*del)(void*));
-void					ft_histadd_back(t_history **lst, t_history *new);
 
 
 // LOGIC

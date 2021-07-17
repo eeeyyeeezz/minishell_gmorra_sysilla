@@ -159,8 +159,6 @@ char	*get_dollar(t_struct *global, char *line, char *str, int end)
 
 	i = 0;
 	flag = -1;
-	// new_str = ft_strdup(str);
-	// ft_free((void *)&str);
 	while (line[i + 1] && i < end)
 	{
 		while (line[i] == '\'')

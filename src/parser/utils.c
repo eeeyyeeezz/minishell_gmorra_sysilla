@@ -15,7 +15,7 @@ void	init_all(t_struct *global)
 	global->flags.ft_error = 0;
 }
 
-char		*skip_quote(char *line, char *str, int *i, char quote)
+char	*skip_quote(char *line, char *str, int *i, char quote)
 {	
 	int		quote_end;
 
@@ -24,12 +24,12 @@ char		*skip_quote(char *line, char *str, int *i, char quote)
 	while (line[quote_end] != quote && line[quote_end])
 		quote_end++;
 	while (*i != quote_end)
-		str = ft_strjoin_char(str, line[(*i)++]);			// boom
+		str = ft_strjoin_char(str, line[(*i)++]);
 	(*i)++;
 	return (str);
 }
 
-int		count_malloc_chr(char *line)
+int	count_malloc_chr(char *line)
 {
 	int			malloc_count;
 	int			i;
@@ -47,10 +47,9 @@ int		count_malloc_chr(char *line)
 		if (line[i] == '<' && line[i + 1] == '<')
 			i++;
 	}
-	malloc_count++;			// why not???
+	malloc_count++;
 	return (malloc_count);
 }
-
 
 int	skip_quote_i(char *line, char quote)
 {
@@ -62,7 +61,7 @@ int	skip_quote_i(char *line, char quote)
 	return (i);
 }
 
-int			str_in_str(char *haystack, char *needle)
+int	str_in_str(char *haystack, char *needle)
 {
 	int	i;
 	int	count;
