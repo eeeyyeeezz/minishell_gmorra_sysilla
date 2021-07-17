@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-static int		memory_len(char const *s, char c)
+static int	memory_len(char const *s, char c)
 {
-	int j;
-	int n;
-	int i;
+	int	j;
+	int	n;
+	int	i;
 
 	j = 0;
 	i = 0;
@@ -35,7 +35,7 @@ static int		memory_len(char const *s, char c)
 	return (n);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		arr[3];
 	char	**temp;
@@ -44,7 +44,8 @@ char			**ft_split(char const *s, char c)
 	arr[2] = -1;
 	if (!s)
 		return (NULL);
-	if (!(temp = malloc(sizeof(char *) * (memory_len(s, c) + 1))))
+	temp = malloc(sizeof(char *) * (memory_len(s, c) + 1));
+	if (!temp)
 		return (NULL);
 	while (++arr[2] < memory_len(s, c))
 	{

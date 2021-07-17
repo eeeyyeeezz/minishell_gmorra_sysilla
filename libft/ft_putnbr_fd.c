@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void			ft_putnbr_fd(int nb, int fd)
+void	ft_putnbr_fd(int nb, int fd)
 {
 	if (nb < 0 && nb != -2147483648)
 	{
