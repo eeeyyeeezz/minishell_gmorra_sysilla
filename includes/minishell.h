@@ -120,7 +120,6 @@ int						ft_isalnum_cd(int c);
 void					pars_add_back(t_pars **lst, t_pars *new);
 void					pars_unset(char *line, t_struct *global);
 int						ft_chr(char s);
-void					write_minishell();
 int						chr_to_int(char s, char next);
 void					ft_free(void **var);
 int						ft_strlen_array(char **arr);
