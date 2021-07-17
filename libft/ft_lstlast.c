@@ -1,10 +1,24 @@
+<<<<<<< HEAD
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/06 17:59:05 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/06 18:27:17 by gmorra           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+>>>>>>> 4128ad9df73a2acc5758061d18c5b2b37cb2486c
 #include "libft.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	if (!lst)
-		return (lst);
-	while (lst->next)
-		lst = lst->next;
+	if (lst)
+		while (lst->next)
+			lst = lst->next;
 	return (lst);
 }

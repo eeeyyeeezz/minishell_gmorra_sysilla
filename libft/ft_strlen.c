@@ -3,17 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: sysilla <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 13:38:03 by sysilla           #+#    #+#             */
 /*   Updated: 2020/11/18 16:28:59 by sysilla          ###   ########.fr       */
+=======
+/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/28 14:57:56 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/02 18:54:35 by gmorra           ###   ########.fr       */
+>>>>>>> 4128ad9df73a2acc5758061d18c5b2b37cb2486c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+size_t		ft_strlen(const char *s)
 {
+<<<<<<< HEAD
 	int i;
 
 	i = 0;
@@ -22,4 +30,12 @@ size_t	ft_strlen(const char *s)
 		i++;
 	}
 	return (i);
+=======
+	int a;
+
+	a = 0;
+	while (s[a] != 0)
+		a++;
+	return (a);
+>>>>>>> 4128ad9df73a2acc5758061d18c5b2b37cb2486c
 }
