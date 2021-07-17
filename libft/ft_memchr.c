@@ -3,35 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: sysilla <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/07 13:00:09 by sysilla           #+#    #+#             */
-/*   Updated: 2020/11/07 13:00:11 by sysilla          ###   ########.fr       */
-=======
 /*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:50:06 by gmorra            #+#    #+#             */
 /*   Updated: 2020/11/04 14:12:20 by gmorra           ###   ########.fr       */
->>>>>>> 4128ad9df73a2acc5758061d18c5b2b37cb2486c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void				*ft_memchr(const void *s, int c, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-<<<<<<< HEAD
-	unsigned char	*cs;
-	unsigned char	cc;
-
-	cs = (unsigned char *)s;
-	cc = (unsigned char)c;
-	while (n--)
-		if (*(cs++) == (unsigned char)c)
-			return (cs - 1);
-	return (NULL);
-=======
 	size_t			i;
 	unsigned char	*arr;
 
@@ -42,5 +24,4 @@ void				*ft_memchr(const void *s, int c, size_t n)
 	if (n == i)
 		return (NULL);
 	return ((void *)&arr[i]);
->>>>>>> 4128ad9df73a2acc5758061d18c5b2b37cb2486c
 }
