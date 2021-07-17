@@ -41,8 +41,13 @@
 
 typedef	struct 			s_flags
 {
-	// int					flag;
 	int					count;
+	int					chr_count;
+	int					cmd_count;
+	int					flag_quote;
+	int					get_strlen;
+	int					begin;
+	int					str_end;
 	int					ft_arg;
 	int					ft_cmd;
 	int					d_flag;
@@ -57,13 +62,6 @@ typedef	struct			s_pars {
 	int					*chr;
 	char				*info;
 }						t_pars;
-
-typedef	struct			s_history
-{
-	void				*content;
-	struct s_history 	*next;
-	struct s_history 	*prev;
-}						t_history;
 
 typedef struct s_env
 {
@@ -100,7 +98,6 @@ typedef	struct			s_struct
 	char				*term_name;
 	char				**envp;
 	t_list				*path;
-	t_history			*history;
 }						t_struct;
 
 int						ft_escape(char s);

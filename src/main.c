@@ -109,7 +109,7 @@ void	nonerr(char *line, t_struct *global, char **envp)
 	global->env.cn = 0;
 }
 
-void	readlin(char *line, t_struct *global, char **envp)
+static	void	readlin(char *line, t_struct *global, char **envp)
 {
 	line = readline(YELLOW "$" GREEN "minishell: " RES);
 	while (line)
@@ -141,7 +141,6 @@ int	main(int argc, char **argv, char **envp)
 	ft_envp_cpy(envp, &global.env);
 	init_all(&global);
 	pre_read(&global);
-	line = readline(YELLOW "$" GREEN "minishell: " RES);
 	readlin(line, &global, envp);
 	if (line)
 		ft_free((void *)&line);
