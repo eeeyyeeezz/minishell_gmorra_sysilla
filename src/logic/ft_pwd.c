@@ -6,6 +6,8 @@ int	pwd(t_env *env)
 
 	env->isb_in = 0;
 	pwd = ft_calloc(255, sizeof(char *));
+	if (!pwd)
+		ft_error("Malloc error");
 	getcwd(pwd, 255);
 	ft_putendl_fd(pwd, 1);
 	return (0);

@@ -21,6 +21,8 @@ void	ft_envp_cpy(char *envp[], t_env *buf)
 	while (envp[i])
 		i++;
 	envp_cpy = (char **)ft_calloc(i + 1, sizeof(char *));
+	if (!envp_cpy)
+		ft_error("Malloc error");
 	i = 0;
 	while (envp[i])
 	{
