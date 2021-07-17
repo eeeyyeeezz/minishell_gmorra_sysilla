@@ -15,26 +15,6 @@ static	void	array_to_three(t_struct *global, char **arg)
 		global->flags.d_flag = 0;
 }
 
-static	int	plus_end(char *line, int end)
-{
-	if ((line[end] == '<' && line[end - 1] == '<')
-		|| (line[end] == '>' && line[end - 1] == '>'))
-		end += 2;
-	while (!ft_chr(line[end]) && line[end])
-		end++;
-	return (end);
-}
-
-static	int	plus_begin(char *line, int begin, int end)
-{
-	if ((line[end] == '<' && line[end + 1] == '<')
-		|| (line[end] == '>' && line[end + 1] == '>'))
-		begin = end + 2;
-	else
-		begin = end + 1;
-	return (begin);
-}
-
 static	int	itterate_line(char *line, int i)
 {
 	while (line[i + 1] && !ft_isspaces(line[i]))
@@ -47,17 +27,32 @@ static	int	itterate_line(char *line, int i)
 	return (i);
 }
 
-char	**fill_all_arguments(t_struct *global, char *line)
+static	char	**get_two_array(t_struct *global, char **arg, char *line, int i)
 {
 	char	*free_str;
+
+	if (line[i] && !ft_chr(line[i]))
+	{
+		free_str = find_chr_commands(global, (char *)&line[i]);
+		if (free_str)
+		{
+			ft_free((void *)&free_str);
+			arg[++global->flags.count]
+				= find_chr_commands(global, (char *)&line[i]);
+		}
+	}
+	return (arg);
+}
+
+char	**fill_all_arguments(t_struct *global, char *line)
+{
 	char	**arg;
-	int		count;
 	int		end;
 	int		i;
 
 	i = 0;
 	end = 0;
-	count = -1;
+	global->flags.count = -1;
 	arg = malloc(sizeof(char *) * count_arguments(line, 0) + 1);
 	if (!arg)
 		ft_error("Malloc Error\n");
@@ -67,18 +62,10 @@ char	**fill_all_arguments(t_struct *global, char *line)
 	{
 		while (ft_isspaces(line[i]) && line[i])
 			i++;
-		if (line[i] && !ft_chr(line[i]))
-		{
-			free_str = find_chr_commands(global, (char *)&line[i]);
-			if (free_str)
-			{
-				ft_free((void *)&free_str);
-				arg[++count] = find_chr_commands(global, (char *)&line[i]);
-			}
-		}
+		arg = get_two_array(global, arg, line, i);
 		i = itterate_line(line, i);
 	}
-	arg[++count] = 0;
+	arg[++global->flags.count] = 0;
 	return (arg);
 }
 

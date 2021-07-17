@@ -7,16 +7,30 @@
 
 #include "../../includes/minishell.h"
 
+static	char	*while_str(char *str, char *line, int i, int end)
+{
+	while (i != end)
+	{
+		if (line[i] == '\"')
+			str = skip_quote(line, str, &i, '\"');
+		else if (line[i] == '\'')
+			str = skip_quote(line, str, &i, '\'');
+		else
+			str = ft_strjoin_char(str, line[i++]);
+	}
+	return (str);
+}
+
 char	*find_chr_commands(t_struct *global, char *line)
 {
-	char		*str;
 	int			quote_end;
+	char		*str;
 	int			end;
 	int			i;
 
 	i = 0;
-	str = 0;
-	if (!(str = ft_calloc(1, sizeof(char *))))
+	str = ft_calloc(1, sizeof(char *));
+	if (!str)
 		return (NULL);
 	while (ft_isspaces(line[i]) && line[i])
 		i++;
@@ -27,15 +41,7 @@ char	*find_chr_commands(t_struct *global, char *line)
 			end += skip_quote_i((char *)&line[end], line[end]);
 		end++;
 	}
-	while (i != end)
-	{
-		if (line[i] == '\"')
-			str = skip_quote(line, str, &i, '\"');
-		else if (line[i] == '\'')
-			str = skip_quote(line, str, &i, '\'');
-		else
-			str = ft_strjoin_char(str, line[i++]);
-	}
+	str = while_str(str, line, i, end);
 	str = get_dollar(global, line, str, end);
 	return (str);
 }

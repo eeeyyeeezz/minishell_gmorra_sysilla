@@ -41,28 +41,27 @@
 
 typedef struct s_flags
 {
-	// int					flag;
-	int		ft_arg;
-	int		ft_cmd;
-	int		d_flag;
-	int		ft_error;
-}			t_flags;
+	int					count;
+	int					chr_count;
+	int					cmd_count;
+	int					flag_quote;
+	int					get_strlen;
+	int					begin;
+	int					str_end;
+	int					ft_arg;
+	int					ft_cmd;
+	int					d_flag;
+	int					ft_error;
+}						t_flags;
 
-typedef struct s_pars
-{
-	char	***ft_pipes;
-	char	***args;
-	char	**ft_cmd;
-	int		*chr;
-	char	*info;
-}			t_pars;
 
-typedef struct s_history
-{
-	void				*content;
-	struct s_history	*next;
-	struct s_history	*prev;
-}						t_history;
+typedef	struct			s_pars {
+	char				***ft_pipes;
+	char				***args;
+	char				**ft_cmd;
+	int					*chr;
+	char				*info;
+}						t_pars;
 
 typedef struct s_env
 {
@@ -83,17 +82,16 @@ typedef struct s_env
 	int			status;
 }				t_env;
 
-typedef struct s_struct
+typedef	struct			s_struct
 {
-	t_flags		flags;
-	t_pars		pars;
-	t_env		env;
-	int			fd;
-	char		*term_name;
-	char		**envp;
-	t_list		*path;
-	t_history	*history;
-}				t_struct;
+	t_flags				flags;
+	t_pars				pars;
+	t_env				env;
+	int					fd;
+	char				*term_name;
+	char				**envp;
+	t_list				*path;
+}						t_struct;
 
 int						ft_escape(char s);
 void					ft_error(char *str);
@@ -120,25 +118,23 @@ int						count_arguments(char *line, int begin);
 void					init_all(t_struct *global);
 int						ft_isalnum_new(int c);
 char					*encode_lines(char *line);
+int						plus_end(char *line, int end);
+int						plus_begin(char *line, int begin, int end);
 char					**decode_lines(char **encode_lines);
 char					*quote_encode(char *line, int *i, char quote);
 char					*skip_quote(char *line, char *str, int *i, char quote);
 void					syntax_error(t_struct *global, char *line);
 char					*ft_strjoin_new(char *s1, char *s2);
 char					*ft_strjoin_char(char *s1, char s2);
-void					count_pipes(t_struct *global, int *line);
 char					*find_chr_commands(t_struct *global, char *line);
 void					get_all_arguments(t_struct *global, char *line);
 char					**fill_all_arguments(t_struct *global, char *line);
 char					**get_all_commands(t_struct *global, char *line);
 int						pars_characters(t_struct *global, char *line);
 int						ft_ft_strnstr(char *big, char *little);
-char					*get_dollar(t_struct *global, char *line, char *str,
-							int end);
-int						pars_double_quotes(char *line, t_struct *global);
-int						pars_without_quotes(char *line, t_struct *global);
-void					ft_histclear(t_history **lst, void (*del)(void*));
-void					ft_histadd_back(t_history **lst, t_history *new);
+char					*get_dollar(t_struct *global, char *line, char *str, int end);
+
+
 // LOGIC
 int						double_right(char *name);
 int						single_right(char *name);
