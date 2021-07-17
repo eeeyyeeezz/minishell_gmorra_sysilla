@@ -9,8 +9,8 @@
 
 static	void	free_all_2(t_struct *global)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	if (global->pars.args)
@@ -35,7 +35,7 @@ void	free_all(t_struct *global)
 		ft_free((void *)&global->pars.ft_pipes);
 	if (global->pars.ft_cmd)
 	{
-		while(global->pars.ft_cmd[++i])
+		while (global->pars.ft_cmd[++i])
 			ft_free((void *)&global->pars.ft_cmd[i]);
 		ft_free((void *)&global->pars.ft_cmd);
 	}
