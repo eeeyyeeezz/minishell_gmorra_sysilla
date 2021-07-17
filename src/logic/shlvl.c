@@ -35,8 +35,6 @@ void	tr_shlvl(t_env *env, int i, char *shlvl)
 void	shlvl(t_env *env)
 {
 	int		i;
-	int		lvl;
-	char	*lvll;
 	char	*shlvl;
 
 	shlvl = ft_strdup("SHLVL=");

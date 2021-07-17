@@ -23,7 +23,6 @@ int	par_process(t_env *env)
 int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -43,7 +42,6 @@ int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 int	lsh_launch(char **args, char **envp, t_env *env)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -88,10 +86,8 @@ int	exec_path(char **args, char **envp, t_env *env)
 	return (1);
 }
 
-int	lsh_execute(char **args, char **envp, t_struct *global)
+int	lsh_execute(char **args, t_struct *global)
 {
-	int	i;
-
 	if (args[0] == NULL)
 	{
 		return (2);
