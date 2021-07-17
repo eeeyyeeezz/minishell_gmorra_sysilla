@@ -4,11 +4,13 @@ int	par_process(t_env *env)
 {
 	signal(SIGINT, SIG_IGN);
 	wait(&env->status);
+	if (env->status == 256)
+		env->status = 1;
 	if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGINT)
 		write(1, "\n", 1);
 	if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
 		write(1, "^Quit \n", 8);
-	if (WEXITSTATUS(env->status) == 2)
+	if (WEXITSTATUS(env->status) == 12)
 		env->cn = 1;
 	if (WEXITSTATUS(env->status) == 0 || WEXITSTATUS(env->status) == 1)
 	{
@@ -29,7 +31,7 @@ int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 		chld_sig();
 		if (execve(path_ag, args, envp) == -1)
 		{
-			exit(2);
+			exit(12);
 		}
 		exit(0);
 	}
