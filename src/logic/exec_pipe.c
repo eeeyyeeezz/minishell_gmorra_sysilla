@@ -6,7 +6,8 @@ char	*g_builtin_str[] = {
 	"unset",
 	"env",
 	"echo",
-	"exit"
+	"exit",
+	"pwd"
 };
 
 int	lsh_num_builtins(void)
@@ -32,6 +33,8 @@ int	bildin(char **args, t_env *env)
 			else
 				return (ft_exit(NULL, env));
 		}
+		if ((strcmp(args[0], g_builtin_str[i]) == 0) && i == 6)
+			pwd(env);
 	}
 	return (0);
 }
@@ -65,6 +68,7 @@ void	pid_zero(char ***cmd, t_env *env, int fdd, int *fd)
 	if (*(cmd + 1) != NULL)
 		dup2(fd[1], 1);
 	close(fd[0]);
+	close(fd[1]);
 	if (ft_strnstr(&(*cmd)[0][0], "./", 2))
 	{
 		if (execve((*cmd)[0], &(*cmd)[0], env->sh_envp) == -1)

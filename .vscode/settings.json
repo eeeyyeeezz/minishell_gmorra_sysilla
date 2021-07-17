@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"chardefs.h": "c"
+		"chardefs.h": "c",
+		"rlconf.h": "c"
 	}
 }

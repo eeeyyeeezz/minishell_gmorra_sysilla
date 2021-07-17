@@ -1,18 +1,6 @@
-
 #include "../includes/minishell.h"
 
-int red(int fd_out, int fd_in, t_env *env)
-{
-	// >>
-	fd_out = open("НАЗВАНИЕ ФАЙЛА", O_WRONLY | O_WRONLY | O_APPEND, 0644);
-	// > 
-	fd_out = open("НАЗВАНИЕ ФАЙЛА", O_WRONLY | O_WRONLY | O_TRUNC, 0644);
-	// <
-	fd_in = open("НАЗВАНИЕ ФАЙЛА", O_RDONLY, 0644);
-	return (0);
-}
-
-int		double_right(char *name)
+int	double_right(char *name)
 {
 	int	fd;
 
@@ -27,7 +15,7 @@ int		double_right(char *name)
 	return (fd);
 }
 
-int		single_right(char *name)
+int	single_right(char *name)
 {
 	int	fd;
 
@@ -43,7 +31,7 @@ int		single_right(char *name)
 	return (fd);
 }
 
-int		single_left(char *name)
+int	single_left(char *name)
 {
 	int	fd;
 
@@ -72,14 +60,12 @@ char	**until_stop(char *stop)
 		free(tmp);
 		tmp = readline("aboba> ");
 	}
-	int i = 0;
 	free(tmp);
 	return (ret);
 }
 
 void	double_left(char *stop, char **command, t_struct *global)
 {
-	/*ЧТОПРОИСХОДИТ?!!!??!*/
 	char	**heredoc;
 	int		tmpfd[2];
 	int		i;
@@ -97,46 +83,5 @@ void	double_left(char *stop, char **command, t_struct *global)
 	dup2(tmpfd[0], 0);
 	close(tmpfd[1]);
 	close(tmpfd[0]);
-	/*временная вставка которая не должна работать*/
-	// if (!(command[1]))
-		lsh_execute(&command[0], global->env.sh_envp, global);
-}
-
-void	redidirecti(t_struct *global)
-{
-	int		i;
-	int		fd;
-	int		flag;
-
-	i = 0;
-	flag = 0;
-
-	for (int i = 0; global->pars.chr[i]; i++)
-	{
-		if (global->pars.chr[i] != 2)
-		{
-			if (global->pars.chr[i] == 3)
-			{
-				flag = 1;
-				fd = single_left(global->pars.args[i + 1][0]);
-			}
-			else if (global->pars.chr[i] == 4)
-				fd = single_right(global->pars.args[i + 1][0]);
-			else if (global->pars.chr[i] == 5)
-				fd = double_right(global->pars.args[i + 1][0]);
-			else if (global->pars.chr[i] == 6)
-			{
-				flag = 3;
-				double_left(global->pars.args[i + 1][0], global->pars.args[i], global);
-			}
-		}
-	}
-	if (fd != -1)
-	{
-		if (flag != 1 && flag != 3) 
-			dup2(fd, 1);
-		else if (flag == 1)
-			dup2(fd, 0);
-	}
-	close(fd);
+	lsh_execute(&command[0], global->env.sh_envp, global);
 }

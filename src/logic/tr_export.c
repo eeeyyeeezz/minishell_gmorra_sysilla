@@ -59,3 +59,16 @@ void	in_export_while(char **av, t_env *env, int index_eq, int i)
 		free(tmp);
 	}
 }
+
+void	print_sortmass(char **sort_mass)
+{
+	int	i;
+
+	i = 0;
+	while (sort_mass[i])
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putendl_fd(sort_mass[i], 1);
+		i++;
+	}
+}

@@ -39,12 +39,15 @@ void	ft_putstrecho_fd(const char *str, int fd)
 	ft_putstr_fd(" ", 1);
 }
 
-void	putstr_while(int arg_count, char **arg, int i)
+void	putstr_while(int arg_count, char **arg, int i, int option_n)
 {
-	while (i < (arg_count - 1))
+	if (option_n == 1)
+		printf("%s ", arg[i]);
+	else
 	{
-		ft_putstrecho_fd(arg[i], 1);
-		i++;
+		printf("%s ", arg[i]);
+		if (i + 1 == arg_count)
+			printf("\n");
 	}
 }
 
@@ -67,10 +70,10 @@ int	ft_echo(char **arg)
 		i++;
 	}
 	arg_count = args_count(arg);
-	putstr_while(arg_count, arg, i);
-	if (option_n == 1)
-		ft_putstr_fd(arg[i], 1);
-	else
-		ft_putendl_fd(arg[i], 1);
+	while (i < arg_count)
+	{
+		putstr_while(arg_count, arg, i, option_n);
+		i++;
+	}
 	return (1);
 }

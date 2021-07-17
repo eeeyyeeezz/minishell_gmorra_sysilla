@@ -49,8 +49,6 @@ char **lsh_split_line(char *line)
 
 static	void	free_all(t_struct *global, char *line)
 {
-	// if (line)
-	// 	ft_free((void *)&line);
 	if (global->pars.ft_pipes)
 		ft_free((void *)&global->pars.ft_pipes);
 	if (global->pars.ft_cmd)
@@ -122,6 +120,7 @@ int				main(int argc, char **argv, char **envp)
 	global.envp = envp;
 	ft_bzero(&global.env, sizeof(global.env));
 	ft_envp_cpy(envp, &global.env);
+	global.env.cn = 0;
 	shlvl(&global.env);
 	init_all(&global);
 	global.env.basefd1 = 4;
@@ -158,6 +157,7 @@ int				main(int argc, char **argv, char **envp)
 			}
 			dup2(global.env.basefd1, 1);
 			dup2(global.env.basefd0, 0);
+			global.env.cn = 0;
 		}
 		line = ft_readline(line);
 	}
