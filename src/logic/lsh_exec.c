@@ -71,10 +71,15 @@ int	exec_path(char **args, char **envp, t_env *env)
 	path = ft_split(getenv("PATH"), ':');
 	i = 0;
 	while (path[i])
-	{	
-		path_ag = ft_strjoin_slash(path[i], args[0]);
-		lnch_pth(path_ag, args, envp, env);
-		free(path_ag);
+	{
+		if (!(ft_strnstr(args[0], "/bin", 5)))
+		{
+			path_ag = ft_strjoin_slash(path[i], args[0]);
+			lnch_pth(path_ag, args, envp, env);
+			free(path_ag);
+		}
+		else
+			lnch_pth(args[0], args, envp, env);
 		if (env->cn == -1)
 		{
 			freemass(path);
