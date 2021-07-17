@@ -146,8 +146,6 @@ char					*dollar_error(t_struct *global, char *dollar_str, char *str);
 char					*get_dollar(t_struct *global, char *line, char *str, int end);
 char					*change_dollar_string(t_struct *global, char *dollar_string);
 
-
-
 // LOGIC
 int						double_right(char *name);
 int						single_right(char *name);
