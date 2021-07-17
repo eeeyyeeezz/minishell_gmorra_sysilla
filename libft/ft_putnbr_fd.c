@@ -3,40 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: sysilla <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/02 13:13:16 by ncliff            #+#    #+#             */
-/*   Updated: 2020/11/02 21:24:27 by ncliff           ###   ########.fr       */
+/*   Created: 2020/11/13 14:23:21 by sysilla           #+#    #+#             */
+/*   Updated: 2020/11/18 17:51:48 by sysilla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(int nb, int fd)
 {
-	int		i;
-	int		cpn;
-	char	cn;
-
-	i = 1;
-	cpn = n;
-	if (n == -2147483648)
-		write(fd, "-2147483648", 11);
-	if (n < 0 && n != -2147483648)
+	if (fd < 0)
+		return ;
+	if (nb == -2147483648)
 	{
-		write(fd, "-", 1);
-		cpn = n *= -1;
+		ft_putchar_fd('-', fd);
+		ft_putchar_fd('2', fd);
+		ft_putnbr_fd(147483648, fd);
 	}
-	while (n > 9 && n != -2147483648 && i != 1000000000)
+	else if (nb < 0)
 	{
-		i *= 10;
-		n /= 10;
+		ft_putchar_fd('-', fd);
+		nb = nb * (-1);
+		if (nb > 9)
+			ft_putnbr_fd(nb / 10, fd);
+		ft_putchar_fd('0' + (nb % 10), fd);
 	}
-	while (i > 0 && n != -2147483648)
+	else
 	{
-		cn = (cpn / i) + '0';
-		write(fd, &cn, 1);
-		cpn %= i;
-		i /= 10;
+		if (nb > 9)
+			ft_putnbr_fd(nb / 10, fd);
+		ft_putchar_fd('0' + (nb % 10), fd);
 	}
 }

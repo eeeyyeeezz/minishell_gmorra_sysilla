@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isalnum.c                                          :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: sysilla <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 17:46:52 by ncliff            #+#    #+#             */
-/*   Updated: 2020/10/30 17:46:54 by ncliff           ###   ########.fr       */
+/*   Created: 2020/11/07 12:58:12 by sysilla           #+#    #+#             */
+/*   Updated: 2020/11/18 16:13:15 by sysilla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 int	ft_isalnum(int c)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	ft_isalnum_cd(int c)
-{
-	if (c >= 33 && c <= 126)
-		return (1);
-	else 
-		return (0);
+	return (ft_isalpha(c) || ft_isdigit(c));
 }

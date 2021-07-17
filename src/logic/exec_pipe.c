@@ -50,10 +50,15 @@ int	ex_path(char **args, t_env *env)
 	i = 0;
 	flag = -1;
 	while (path[i])
-	{	
-		path_ag = ft_strjoin_slash(path[i], args[0]);
-		flag = execve(path_ag, args, env->sh_envp);
-		free(path_ag);
+	{
+		if (!(ft_strnstr(args[0], "/bin", 5)))
+		{
+			path_ag = ft_strjoin_slash(path[i], args[0]);
+			flag = execve(path_ag, args, env->sh_envp);
+			free(path_ag);
+		}
+		else
+			flag = execve(args[0], args, env->sh_envp);
 		if (flag != -1)
 			return (0);
 		i++;

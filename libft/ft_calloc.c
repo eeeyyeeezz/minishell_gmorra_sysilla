@@ -12,14 +12,15 @@
 
 #include "libft.h"
 
-void				*ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t count, size_t size)
 {
 	char			*add;
 	unsigned int	bytes;
 	size_t			i;
 
 	bytes = count * size;
-	if (!(add = malloc(bytes)))
+	add = malloc(bytes);
+	if (!(add))
 		return (NULL);
 	i = 0;
 	while (bytes--)

@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memmove.c                                          :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: sysilla <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 12:04:33 by ncliff            #+#    #+#             */
-/*   Updated: 2020/11/04 19:19:34 by ncliff           ###   ########.fr       */
+/*   Created: 2020/11/07 13:01:39 by sysilla           #+#    #+#             */
+/*   Updated: 2020/11/07 13:01:41 by sysilla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void				*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char *dstc;
-	unsigned char *srcc;
+	char	*csrc;
+	char	*cdst;
+	size_t	i;
 
-	if (dst == NULL && src == NULL)
-		return (NULL);
-	dstc = (unsigned char *)dst;
-	srcc = (unsigned char *)src;
-	if (dstc <= srcc || dstc >= (srcc + len))
+	if (src == dst)
+		return (dst);
+	csrc = (char *)src;
+	cdst = (char *)dst;
+	if (src < dst)
 	{
-		while (len-- > 0)
-			*dstc++ = *srcc++;
+		i = len;
+		while (i-- > 0)
+			cdst[i] = csrc[i];
 	}
 	else
 	{
-		dstc += len - 1;
-		srcc += len - 1;
-		while (len--)
-			*dstc-- = *srcc--;
+		i = 0;
+		while (i < len)
+		{
+			cdst[i] = csrc[i];
+			i++;
+		}
 	}
 	return (dst);
 }

@@ -3,107 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: sysilla <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 20:05:39 by ncliff            #+#    #+#             */
-/*   Updated: 2020/11/02 21:24:09 by ncliff           ###   ########.fr       */
+/*   Created: 2020/11/15 16:25:44 by sysilla           #+#    #+#             */
+/*   Updated: 2020/11/18 12:42:53 by sysilla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	num_sum(int n)
+static size_t	ft_ilen(int n)
 {
-	int	i;
+	size_t	l;
 
-	i = 0;
-	if (n <= 0)
-	{
-		i++;
-		n *= -1;
-	}
-	while (n > 0)
+	if (n == 0)
+		return (1);
+	l = 0;
+	if (n < 0)
+		l++;
+	while (n)
 	{
 		n /= 10;
-		i++;
+		l++;
 	}
-	return (i);
+	return (l);
 }
 
-static char	*min_int_itoa(int n)
+char	*ft_itoa(int n)
 {
-	char	*num;
-	int		i;
+	size_t	len;
+	size_t	e;
+	char	*r;
 
-	i = 11;
-	num = malloc(i * sizeof(char) + 1);
-	if (num == NULL)
+	len = ft_ilen(n);
+	if (!(r = (char *)malloc(len + 1)))
 		return (NULL);
-	num[12] = 0;
-	n = 2147483647;
-	while (i-- > 0)
-	{
-		num[i] = (n % 10) + '0';
-		n /= 10;
-	}
-	num[10] = '8';
-	num[0] = '-';
-	return (num);
-}
-
-static char	*ils_int_itoa(int n)
-{
-	char	*num;
-	int		i;
-
-	i = num_sum(n);
-	num = malloc(i * sizeof(char) + 1);
-	if (num == NULL)
-		return (NULL);
-	num[i] = 0;
-	while (i-- > 0)
-	{
-		num[i] = (n % 10) + '0';
-		n /= 10;
-	}
-	return (num);
-}
-
-static char	*mins_int_itoa(int n)
-{
-	char	*num;
-	int		i;
-	int		min;
-
-	i = num_sum(n);
-	num = malloc(i * sizeof(char) + 1);
-	if (num == NULL)
-		return (NULL);
+	r[len] = '\0';
 	if (n < 0)
 	{
-		n *= -1;
-		min = 1;
+		r[0] = '-';
+		e = 1;
 	}
-	num[i] = '\0';
-	while (i-- > 0)
+	else
+		e = 0;
+	while (len-- > e)
 	{
-		num[i] = (n % 10) + '0';
-		if (min == 1)
-			num[0] = '-';
+		r[len] = '0' + n % 10 * (n < 0 ? -1 : 1);
 		n /= 10;
 	}
-	return (num);
-}
-
-char		*ft_itoa(int n)
-{
-	char *num;
-
-	if (n == -2147483648)
-		num = min_int_itoa(n);
-	else if (n >= 0)
-		num = ils_int_itoa(n);
-	else
-		num = mins_int_itoa(n);
-	return (num);
+	return (r);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sysilla <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 13:15:04 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/27 16:33:05 by gmorra           ###   ########.fr       */
+/*   Created: 2020/11/16 14:53:07 by sysilla           #+#    #+#             */
+/*   Updated: 2020/11/18 16:21:53 by sysilla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,20 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*strjn;
-	int		i;
-	int		n;
+	size_t	len;
+	size_t	i;
+	char	*jstr;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	strjn = (char *)malloc((ft_strlen(s1) + ft_strlen(s2)) * sizeof(char) + 1);
-	if (strjn == NULL)
-		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
-	{
-		strjn[i] = s1[i];
-		i++;
-	}
-	n = 0;
-	while (s2[n] != '\0')
-	{
-		strjn[i] = s2[n];
-		i++;
-		n++;
-	}
-	strjn[i] = '\0';
-	return (strjn);
+	if (!s1 || !s2)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	if (!(jstr = (char*)malloc(sizeof(*jstr) * len + 1)))
+		return (NULL);
+	while (*s1 != '\0')
+		jstr[i++] = *s1++;
+	while (*s2 != '\0')
+		jstr[i++] = *s2++;
+	jstr[i] = '\0';
+	return (jstr);
 }
