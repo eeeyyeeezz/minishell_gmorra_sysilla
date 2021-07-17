@@ -42,16 +42,6 @@ void	free_all(t_struct *global)
 	if (global->pars.chr)
 		ft_free((void *)&global->pars.chr);
 	i = -1;
-	// if (global->pars.args)
-	// {
-	// 	while (global->pars.args[++i])
-	// 	{
-	// 		for (int j = 0; global->pars.args[i][j]; j++)
-	// 			ft_free((void *)&global->pars.args[i][j]);
-	// 		ft_free((void *)&global->pars.args[i]);
-	// 	}
-	// 	ft_free((void *)&global->pars.args);
-	// }
 	free_all_2(global);
 }
 
