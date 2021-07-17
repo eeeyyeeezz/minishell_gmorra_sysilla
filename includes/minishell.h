@@ -56,8 +56,7 @@ typedef struct s_flags
 	int					ft_error;
 }						t_flags;
 
-
-typedef	struct			s_pars {
+typedef struct s_pars {
 	char				***ft_pipes;
 	char				***args;
 	char				**ft_cmd;
@@ -84,7 +83,7 @@ typedef struct s_env
 	int			status;
 }				t_env;
 
-typedef	struct			s_struct
+typedef struct s_struct
 {
 	t_flags				flags;
 	t_pars				pars;
@@ -94,6 +93,8 @@ typedef	struct			s_struct
 	char				**envp;
 	t_list				*path;
 }						t_struct;
+
+void					free_all(t_struct *global);
 
 int						ft_escape(char s);
 void					ft_error(char *str);
@@ -134,19 +135,22 @@ char					**fill_all_arguments(t_struct *global, char *line);
 char					**get_all_commands(t_struct *global, char *line);
 int						pars_characters(t_struct *global, char *line);
 int						ft_ft_strnstr(char *big, char *little);
+void					make_pipe_array(t_struct *global);
 void					skip_single_quote(char *line, int *i);
 char					*get_whole_str(char *str,
-						char *old_str, int begin, int get_strlen);
+							char *old_str, int begin, int get_strlen);
 char					*get_old_str(char *str, int begin);
 char					*connect_dollar_string(char *str,
-						char *dollar_str, int begin, int get_strlen);
+							char *dollar_str, int begin, int get_strlen);
 int						itterate_end(t_struct *global, char *line, int *i);
-char					*get_str(t_struct *global, char *str, char *dollar_str, int begin);
-char					*dollar_error(t_struct *global, char *dollar_str, char *str);
-char					*get_dollar(t_struct *global, char *line, char *str, int end);
-char					*change_dollar_string(t_struct *global, char *dollar_string);
-
-
+char					*get_str(t_struct *global, char *str,
+							char *dollar_str, int begin);
+char					*dollar_error(t_struct *global,
+							char *dollar_str, char *str);
+char					*get_dollar(t_struct *global, char *line,
+							char *str, int end);
+char					*change_dollar_string(t_struct *global,
+							char *dollar_string);
 
 // LOGIC
 int						double_right(char *name);

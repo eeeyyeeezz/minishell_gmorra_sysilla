@@ -1,9 +1,9 @@
-// #/*
-// #;;;;;	MAKEFILE.H
-// #;;;;;	gmorra/sysilla's minishell
-// #;;;;;	team created ???
-// #;;;;;	team locked ???
-// #*/
+/*
+;;;;;	MAIN.C
+;;;;;	gmorra/sysilla's minishell
+;;;;;	team created ???
+;;;;;	team locked ???
+*/
 
 #include "../includes/minishell.h"
 
@@ -17,63 +17,12 @@ void	signal_2(int sig)
 	rl_redisplay();
 }
 
-static	void	free_all(t_struct *global)
-{
-	if (global->pars.ft_pipes)
-		ft_free((void *)&global->pars.ft_pipes);
-	if (global->pars.ft_cmd)
-	{
-		for (int i = 0; global->pars.ft_cmd[i]; i++)
-			ft_free((void *)&global->pars.ft_cmd[i]);
-		ft_free((void *)&global->pars.ft_cmd);
-	}
-	if (global->pars.chr)
-		ft_free((void *)&global->pars.chr);
-	if (global->pars.args)
-	{
-		for (int i = 0; global->pars.args[i]; i++)
-		{
-			for (int j = 0; global->pars.args[i][j]; j++)
-				ft_free((void *)&global->pars.args[i][j]);
-			ft_free((void *)&global->pars.args[i]);
-		}
-		ft_free((void *)&global->pars.args);
-	}
-}
-
-void	print_double(char **arg, char *str)
-{
-	int	i;
-
-	i = -1;
-	while (arg[++i])
-		printf("%s [%s]\n", str, arg[i]);
-}
-
 static	char	*ft_readline(char *line)
 {
 	if (line)
 		ft_free((void *)&line);
 	line = readline(YELLOW "$" GREEN "minishell: " RES);
 	return (line);
-}
-
-static	void	make_pipe_array(t_struct *global)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	global->pars.ft_pipes = malloc(sizeof(char ***) * 30);
-	while (global->pars.chr[i])
-	{
-		if (global->pars.chr[i - 1] != 4 && global->pars.chr[i - 1] != 5 && global->pars.chr[i - 1] != 3
-			&& global->pars.chr[i - 1] != 6 && global->pars.chr[i] != 6)
-			global->pars.ft_pipes[count++] = global->pars.args[i];
-		i++;
-	}
-	global->pars.ft_pipes[count] = 0;
 }
 
 void	pre_read(t_struct *global)
