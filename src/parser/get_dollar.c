@@ -16,7 +16,7 @@ static	void	skip_single_quote(char *line, int *i)
 		*i += 1;
 }
 
-static	char	*connect_dollar_string(char *str,
+char	*connect_dollar_string(char *str,
 char *dollar_str, int begin, int get_strlen)
 {
 	char	*old_str;
@@ -61,103 +61,33 @@ char *dollar_str, int begin, int get_strlen)
 	return (whole_str);
 }
 
-static	char	*change_dollar_string(t_struct *global, char *dollar_string)
-{
-	int		j;
-	int		i;
-	char	*dollar;
-	char	*env_string;
-
-	j = 0;
-	i = 0;
-	env_string = 0;
-	while (global->env.sh_envp[i])
-	{
-		if (str_in_str(global->env.sh_envp[i], dollar_string))
-		{
-			while (global->env.sh_envp[i][j] != '=')
-				j++;
-			env_string = (char *)&global->env.sh_envp[i][j + 1];
-			break ;
-		}
-		i++;
-	}
-	ft_free((void *)&dollar_string);
-	return (env_string);
-}
-
-static	char	*get_str(t_struct *global, char *str, char *dollar_str, int begin)
-{
-	if (global->flags.flag_quote)
-		str = connect_dollar_string(str, dollar_str, begin - 1, global->flags.get_strlen);
-	else
-	{
-		if (dollar_str)
-		{
-			ft_free((void *)&str);
-			str = ft_strdup(dollar_str);
-		}
-		else
-		{
-			ft_free((void *)&str);
-			str = dollar_str;
-		}
-	}
-	return (str);
-}
-
-static	int		itterate_end(t_struct *global, char *line, int *i, int end)
-{
-	if (line[*i] == '\"')
-	{
-		global->flags.flag_quote = 1;
-		end = *i + 1;
-		while (line[end] != '\"' && line[end])
-			end++;
-	}
-	else
-	{
-		global->flags.flag_quote = 0;
-		end = *i;
-		while (line[end] && !ft_isspaces(line[end]))
-			end++;
-	}
-	return (end);
-}
-
-static	char	*double_quotes_dollar(t_struct *global,
+static	char	*double_quotes_dollar(t_struct *gl,
 char *line, char *str, int *i)
 {
 	char	*dollar_str;
-	int		str_end;
-	int		begin;
 	int		end;
 
-	end = itterate_end(global, line, i, end);
+	end = itterate_end(gl, line, i, end);
 	while (*i < end)
 	{
 		if (line[*i] == '$')
 		{
-			begin = *i;
+			gl->flags.begin = *i;
 			while (!ft_isspaces(line[*i]) && !(line[*i] == '\"') && line[*i])
 				*i += 1;
-			str_end = *i;
-			dollar_str = ft_strndup((char *)&line[begin], str_end - begin);
-			global->flags.get_strlen = ft_strlen(dollar_str);
-			if (dollar_str[0] == '$' && dollar_str[1] == '?')
-			{
-				ft_free((void *)&str);
-				str = ft_itoa(global->env.status);
-				ft_free((void *)&dollar_str);
+			gl->flags.str_end = *i;
+			dollar_str = ft_strndup((char *)&line[gl->flags.begin],
+					gl->flags.str_end - gl->flags.begin);
+			gl->flags.get_strlen = ft_strlen(dollar_str);
+			str = dollar_error(gl, dollar_str, str);
+			if (gl->flags.flag_dollar_error)
 				return (str);
-			}
-			dollar_str = change_dollar_string(global, dollar_str);
-			str = get_str(global, str, dollar_str, begin);
+			dollar_str = change_dollar_string(gl, dollar_str);
+			str = get_str(gl, str, dollar_str, gl->flags.begin);
 		}
 		*i += 1;
 	}
-	if (line[*i + 1])
-		*i += 1;
+	*i += 1;
 	return (str);
 }
 

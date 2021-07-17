@@ -45,6 +45,7 @@ typedef	struct 			s_flags
 	int					chr_count;
 	int					cmd_count;
 	int					flag_quote;
+	int					flag_dollar_error;
 	int					get_strlen;
 	int					begin;
 	int					str_end;
@@ -139,7 +140,14 @@ char					**fill_all_arguments(t_struct *global, char *line);
 char					**get_all_commands(t_struct *global, char *line);
 int						pars_characters(t_struct *global, char *line);
 int						ft_ft_strnstr(char *big, char *little);
+char					*connect_dollar_string(char *str,
+						char *dollar_str, int begin, int get_strlen);
+int						itterate_end(t_struct *global, char *line, int *i, int end);
+char					*get_str(t_struct *global, char *str, char *dollar_str, int begin);
+char					*dollar_error(t_struct *global, char *dollar_str, char *str);
 char					*get_dollar(t_struct *global, char *line, char *str, int end);
+char					*change_dollar_string(t_struct *global, char *dollar_string);
+
 
 
 // LOGIC
