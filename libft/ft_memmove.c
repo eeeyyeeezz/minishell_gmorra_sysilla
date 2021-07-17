@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memmove.c                                          :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 12:04:33 by ncliff            #+#    #+#             */
-/*   Updated: 2020/11/04 19:19:34 by ncliff           ###   ########.fr       */
+/*   Created: 2020/10/29 16:35:05 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/02 14:50:31 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char *dstc;
-	unsigned char *srcc;
+	char	*dest;
+	char	*source;
 
-	if (dst == NULL && src == NULL)
-		return (NULL);
-	dstc = (unsigned char *)dst;
-	srcc = (unsigned char *)src;
-	if (dstc <= srcc || dstc >= (srcc + len))
+	dest = dst;
+	source = (char *)src;
+	if (dst == 0 && src == 0)
+		return (dst);
+	if (dest < source)
 	{
-		while (len-- > 0)
-			*dstc++ = *srcc++;
+		while (len--)
+			*dest++ = *source++;
 	}
 	else
 	{
-		dstc += len - 1;
-		srcc += len - 1;
+		source += len - 1;
+		dest += len - 1;
 		while (len--)
-			*dstc-- = *srcc--;
+			*dest-- = *source--;
 	}
 	return (dst);
 }

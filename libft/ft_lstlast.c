@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/03 21:16:51 by ncliff            #+#    #+#             */
-/*   Updated: 2020/11/03 21:16:52 by ncliff           ###   ########.fr       */
+/*   Created: 2020/11/06 17:59:05 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/06 18:27:17 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	if (!lst)
-		return (lst);
-	while (lst->next)
-		lst = lst->next;
+	if (lst)
+		while (lst->next)
+			lst = lst->next;
 	return (lst);
 }

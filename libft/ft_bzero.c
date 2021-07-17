@@ -5,18 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 21:28:42 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/26 15:56:41 by gmorra           ###   ########.fr       */
+/*   Created: 2020/10/29 13:09:30 by gmorra            #+#    #+#             */
+/*   Updated: 2020/10/31 13:35:27 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(void *b, size_t len)
 {
-	unsigned char *str;
+	unsigned char	*tmp;
 
-	str = (unsigned char *)s;
-	while (n-- > 0)
-		str[n] = '\0';
+	tmp = b;
+	if (len == 0)
+		return ;
+	while (len--)
+		*tmp++ = '\0';
 }

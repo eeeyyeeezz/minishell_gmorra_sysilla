@@ -5,28 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 15:28:54 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/17 14:34:06 by gmorra           ###   ########.fr       */
+/*   Created: 2020/10/28 16:12:21 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/09 16:27:15 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+static size_t		min(size_t a, size_t size)
 {
-	int		pntd;
+	return ((a < size) ? a : size);
+}
 
-	pntd = 0;
-	if (!dst || !src)
-		return (sizeof(0));
-	if (dstsize <= 0)
+size_t				ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	if (dst == NULL || src == NULL)
+		return (0);
+	if (size == 0)
 		return (ft_strlen(src));
-	while (src[pntd] != '\0' && dstsize - 1 > 0)
+	len = min(ft_strlen(src), size - 1);
+	while (i < len)
 	{
-		dst[pntd] = src[pntd];
-		pntd++;
-		dstsize--;
+		dst[i] = src[i];
+		i++;
 	}
-	dst[pntd] = '\0';
-	return (ft_strlen(src));
+	dst[i] = '\0';
+	if (size <= ft_strlen(src) || size == 0)
+		return (ft_strlen(src));
+	return (len);
 }

@@ -3,47 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 13:51:16 by ncliff            #+#    #+#             */
-/*   Updated: 2020/11/03 14:56:29 by ncliff           ###   ########.fr       */
+/*   Created: 2020/10/31 18:26:41 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/05 16:46:42 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	trim_test(const char s, char const *set)
+int			check_char(char const *str, char const c)
 {
-	int	i;
-
-	i = 0;
-	while (set[i] != '\0')
+	while (*str)
 	{
-		if (s == set[i])
+		if (*str == c)
 			return (1);
-		i++;
+		str++;
 	}
 	return (0);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char		*ft_strtrim(char const *str, char const *set)
 {
-	int		run;
-	int		end;
+	size_t	i;
+	size_t	i_end;
 
-	if (s1 == NULL)
+	i = 0;
+	if (str == NULL)
 		return (NULL);
-	end = (int)ft_strlen(s1) - 1;
-	while (trim_test(s1[end], set))
-		if (end > 0)
-			end--;
+	i_end = ft_strlen(str) - 1;
+	while (check_char(set, str[i]))
+		i++;
+	while (check_char(set, str[i_end]))
+		if (i_end > 0)
+			i_end--;
 		else
 			break ;
-	end++;
-	run = 0;
-	while (trim_test(s1[run], set))
-		run++;
-	if (run == (int)ft_strlen(s1))
+	if (i == ft_strlen(str))
 		return (ft_substr("", 0, 1));
-	return (ft_substr(s1, run, end - run));
+	return (ft_substr(str, i, i_end - i + 1));
 }

@@ -3,40 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/02 13:13:16 by ncliff            #+#    #+#             */
-/*   Updated: 2020/11/02 21:24:27 by ncliff           ###   ########.fr       */
+/*   Created: 2020/10/31 21:42:00 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/04 16:27:30 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void			ft_putnbr_fd(int nb, int fd)
 {
-	int		i;
-	int		cpn;
-	char	cn;
-
-	i = 1;
-	cpn = n;
-	if (n == -2147483648)
-		write(fd, "-2147483648", 11);
-	if (n < 0 && n != -2147483648)
+	if (nb < 0 && nb != -2147483648)
 	{
 		write(fd, "-", 1);
-		cpn = n *= -1;
+		nb *= -1;
 	}
-	while (n > 9 && n != -2147483648 && i != 1000000000)
+	if (nb == -2147483648)
+		ft_putstr_fd("-2147483648", fd);
+	else if (nb / 10 > 0)
 	{
-		i *= 10;
-		n /= 10;
+		ft_putnbr_fd(nb / 10, fd);
+		ft_putchar_fd(nb % 10 + 48, fd);
 	}
-	while (i > 0 && n != -2147483648)
-	{
-		cn = (cpn / i) + '0';
-		write(fd, &cn, 1);
-		cpn %= i;
-		i /= 10;
-	}
+	else
+		ft_putchar_fd(nb + 48, fd);
 }

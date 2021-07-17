@@ -5,44 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 20:09:41 by ncliff            #+#    #+#             */
-/*   Updated: 2021/03/31 14:02:30 by gmorra           ###   ########.fr       */
+/*   Created: 2020/10/30 16:39:21 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/03 19:39:13 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	only_ft_strncmp(const char *s1, const char *s2, size_t n)
+static int		ft_ft_strncmp(const char *s1, const char *s2)
 {
-	int				i;
-	unsigned char	*ps1;
-	unsigned char	*ps2;
+	unsigned int i;
 
 	i = 0;
-	ps1 = (unsigned char *)s1;
-	ps2 = (unsigned char *)s2;
-	while (ps1[i] == ps2[i] && n-- > 0)
-	{
-		if (ps1[i] == '\0')
-			return (0);
+	while (s1[i] && s2[i + 1] && s1[i] == s2[i])
 		i++;
-	}
-	return (ps1[i] - ps2[i]);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-char		*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char			*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	int i;
+	size_t	i;
 
 	i = 0;
-	if (*needle == '\0')
-		return ((char *)haystack);
-	while (len-- > 0)
+	if (little[0] == '\0')
+		return ((char *)big);
+	while (big[ft_strlen(little) + i - 1] && i + ft_strlen(little) <= len)
 	{
-		if (ft_strlen(needle) - 1 > len)
-			return (NULL);
-		if (only_ft_strncmp(haystack + i, needle, ft_strlen(needle) - 1) == 0)
-			return ((char *)haystack + i);
+		if (ft_ft_strncmp(&big[i], little) == 0)
+			return ((char *)&big[i]);
 		i++;
 	}
 	return (NULL);

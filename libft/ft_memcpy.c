@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memcpy.c                                           :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncliff <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gmorra <gmorra@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 10:48:21 by ncliff            #+#    #+#             */
-/*   Updated: 2020/10/30 10:48:24 by ncliff           ###   ########.fr       */
+/*   Created: 2020/10/29 14:21:34 by gmorra            #+#    #+#             */
+/*   Updated: 2020/11/01 20:41:49 by gmorra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	unsigned char *dstc;
-	unsigned char *srcc;
+	size_t	i;
 
+	i = 0;
 	if (dst == NULL && src == NULL)
-		return (NULL);
-	dstc = (unsigned char *)dst;
-	srcc = (unsigned char *)src;
-	while (n-- > 0)
+		return (dst);
+	while (n--)
 	{
-		dstc[n] = srcc[n];
+		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		i++;
 	}
 	return (dst);
 }
