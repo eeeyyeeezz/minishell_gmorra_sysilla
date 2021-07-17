@@ -67,6 +67,11 @@ void	sort_mass1(t_env *env)
 	i = 0;
 	env->count_str = cnt_str(env->sh_envp);
 	sort_mass = (char **)ft_calloc(env->count_str + 1, sizeof(char *));
+	if (!sort_mass)
+	{
+		printf("malloc error");
+		exit(1);
+	}
 	while (i < env->count_str)
 	{
 		sort_mass[i] = insert_q(env->sh_envp[i]);
