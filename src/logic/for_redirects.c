@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	double_right(char *name)
 {
@@ -19,7 +19,6 @@ int	single_right(char *name)
 {
 	int	fd;
 
-	printf("diskoteka right\n");
 	if (!name)
 		return (0);
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 00644);
@@ -35,7 +34,6 @@ int	single_left(char *name)
 {
 	int	fd;
 
-	printf("diskoteka\n");
 	if (!name)
 		return (0);
 	fd = open(name, O_RDONLY, 00644);
@@ -83,5 +81,7 @@ void	double_left(char *stop, char **command, t_struct *global)
 	dup2(tmpfd[0], 0);
 	close(tmpfd[1]);
 	close(tmpfd[0]);
-	lsh_execute(&command[0], global->env.sh_envp, global);
+	lsh_execute(&command[0], global);
+	dup2(global->env.basefd1, 1);
+	dup2(global->env.basefd0, 0);
 }

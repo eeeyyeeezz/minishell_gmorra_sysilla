@@ -23,7 +23,6 @@ static	char	*while_str(char *str, char *line, int i, int end)
 
 char	*find_chr_commands(t_struct *global, char *line)
 {
-	int			quote_end;
 	char		*str;
 	int			end;
 	int			i;

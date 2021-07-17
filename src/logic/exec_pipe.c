@@ -97,6 +97,7 @@ void	pipeline(char ***cmd, t_env *env)
 	int		status;
 	int		fdd;
 
+	status = 0;
 	fdd = 0;
 	while (*cmd != NULL)
 	{

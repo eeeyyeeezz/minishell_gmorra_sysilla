@@ -22,10 +22,7 @@ char	*insert_q(char *env)
 
 	eq = str_index(env, '=');
 	tmp = ft_strdup(&env[eq + 1]);
-	if (value == NULL)
-		value = ft_strdup("\"");
-	else
-		value = ft_strjoin(tmp, "\"");
+	value = ft_strjoin(tmp, "\"");
 	free(tmp);
 	tmp = ft_strndup(env, eq + 1);
 	key = ft_strjoin(tmp, "\"");
@@ -48,7 +45,7 @@ void	sort_mass2(char **sort_mass, int count_str)
 		j = 0;
 		while (j < (count_str - 1) - i)
 		{
-			if ((u_char)(sort_mass[j][0]) - (u_char)(sort_mass[j + 1][0]) > 0)
+			if ((U_CHR)(sort_mass[j][0]) - (U_CHR)(sort_mass[j + 1][0]) > 0)
 			{
 				str = ft_strdup_clean(sort_mass[j]);
 				sort_mass[j] = ft_strdup_clean(sort_mass[j + 1]);
@@ -65,9 +62,7 @@ void	sort_mass2(char **sort_mass, int count_str)
 void	sort_mass1(t_env *env)
 {
 	char	**sort_mass;
-	char	*value;
 	int		i;
-	int		eq;
 
 	i = 0;
 	env->count_str = cnt_str(env->sh_envp);

@@ -7,56 +7,26 @@
 
 #include "../../includes/minishell.h"
 
-static	void	skip_single_quote(char *line, int *i)
-{
-	*i += 1;
-	while (line[*i] != '\'' && line[*i + 1])
-		*i += 1;
-	if (line[*i + 1])
-		*i += 1;
-}
-
 char	*connect_dollar_string(char *str,
 char *dollar_str, int begin, int get_strlen)
 {
 	char	*old_str;
-	char	*new_str;
 	char	*whole_str;
-	int		count;
-	int		i;
 
-	i = -1;
-	count = begin + get_strlen;
-	old_str = malloc(sizeof(char) * begin + 1);
-	if (!old_str)
-		ft_error("Malloc Error!\n");
-	while (++i != begin)
-		old_str[i] = str[i];
-	old_str[i] = '\0';
+	old_str = get_old_str(str, begin);
 	if (dollar_str == NULL)
 	{
 		ft_free((void *)&str);
 		return (old_str);
 	}
 	old_str = ft_strjoin_new(old_str, dollar_str);
-	i = 0;
-	if (str[count])
-	{
-		new_str = malloc(sizeof(char)
-				* (ft_strlen(str) - (begin + get_strlen)) + 1);
-		if (!new_str)
-			ft_error("Malloc Error!\n");
-		while (str[count])
-			new_str[i++] = str[count++];
-		new_str[i] = '\0';
-		whole_str = ft_strjoin_new(old_str, new_str);
-	}
+	if (str[begin + get_strlen])
+		whole_str = get_whole_str(str, old_str, begin, get_strlen);
 	else
 	{
 		ft_free((void *)&str);
 		return (old_str);
 	}
-	ft_free((void *)&new_str);
 	ft_free((void *)&str);
 	return (whole_str);
 }
@@ -65,10 +35,9 @@ static	char	*double_quotes_dollar(t_struct *gl,
 char *line, char *str, int *i)
 {
 	char	*dollar_str;
-	int		end;
 
-	end = itterate_end(gl, line, i, end);
-	while (*i < end)
+	gl->flags.end = itterate_end(gl, line, i);
+	while (*i < gl->flags.end)
 	{
 		if (line[*i] == '$')
 		{
@@ -95,7 +64,6 @@ char	*get_dollar(t_struct *global, char *line, char *str, int end)
 {
 	int		i;
 	int		flag;
-	char	*new_str;
 
 	i = 0;
 	flag = -1;

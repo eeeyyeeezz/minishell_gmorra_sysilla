@@ -33,7 +33,6 @@ char	*quote_encode(char *line, int *i, char quote)
 
 char	*encode_lines(char *line)
 {
-	int		end;
 	int		i;
 
 	i = 0;

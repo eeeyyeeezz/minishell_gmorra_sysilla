@@ -11,7 +11,6 @@ char	*change_dollar_string(t_struct *global, char *dollar_string)
 {
 	int		j;
 	int		i;
-	char	*dollar;
 	char	*env_string;
 
 	j = 0;
@@ -53,23 +52,23 @@ char	*get_str(t_struct *global, char *str, char *dollar_str, int begin)
 	return (str);
 }
 
-int	itterate_end(t_struct *global, char *line, int *i, int end)
+int	itterate_end(t_struct *global, char *line, int *i)
 {
 	if (line[*i] == '\"')
 	{
 		global->flags.flag_quote = 1;
-		end = *i + 1;
-		while (line[end] != '\"' && line[end])
-			end++;
+		global->flags.end = *i + 1;
+		while (line[global->flags.end] != '\"' && line[global->flags.end])
+			global->flags.end++;
 	}
 	else
 	{
 		global->flags.flag_quote = 0;
-		end = *i;
-		while (line[end] && !ft_isspaces(line[end]))
-			end++;
+		global->flags.end = *i;
+		while (line[global->flags.end] && !ft_isspaces(line[global->flags.end]))
+			global->flags.end++;
 	}
-	return (end);
+	return (global->flags.end);
 }
 
 char	*dollar_error(t_struct *global, char *dollar_str, char *str)
@@ -84,6 +83,6 @@ char	*dollar_error(t_struct *global, char *dollar_str, char *str)
 		global->flags.flag_dollar_error = 1;
 		return (str);
 	}
-	else	
+	else
 		return (str);
 }

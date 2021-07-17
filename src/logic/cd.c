@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	ch_dir(char *av, char **env, t_env *envp)
+int	ch_dir(char *av, t_env *envp)
 {
 	int		res;
 	char	*oldpwd;
@@ -46,7 +46,7 @@ int	ft_cd(char **argv, t_env *sh_env)
 	}
 	if (!argv[1])
 	{
-		ch_dir(&home[5], sh_env->sh_envp, sh_env);
+		ch_dir(&home[5], sh_env);
 		free(home);
 		return (2);
 	}
@@ -54,7 +54,7 @@ int	ft_cd(char **argv, t_env *sh_env)
 	{
 		return (av_2(home, argv, sh_env));
 	}
-	ch_dir(argv[1], sh_env->sh_envp, sh_env);
+	ch_dir(argv[1], sh_env);
 	free(home);
 	return (1);
 }

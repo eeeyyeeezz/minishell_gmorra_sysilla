@@ -5,6 +5,7 @@ void	export_plus(char *av, t_env *env, int index_eq)
 	char	*key;
 	char	*tmp;
 
+	key = NULL;
 	tmp = ft_strndup(av, index_eq - 1);
 	if (!tmp || !(ft_isnu(tmp)))
 	{

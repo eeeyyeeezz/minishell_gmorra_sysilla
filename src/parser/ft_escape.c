@@ -31,6 +31,7 @@ int	count_arguments(char *line, int begin)
 	i = 0;
 	end = 0;
 	count = 0;
+	(void)begin;
 	while (!ft_chr(line[end]) && line[end])
 		end++;
 	while (i < end)

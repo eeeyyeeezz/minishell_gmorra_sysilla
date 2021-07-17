@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	del_in_env(char *key, t_env *env, int index)
+int	del_in_env(t_env *env, int index)
 {
 	char	**new_env;
 	int		i;
@@ -58,7 +58,6 @@ int	find_key_in_env(char *key, t_env *env)
 
 int	ft_unset(char **av, t_env *env)
 {
-	char	*key;
 	int		i;
 	int		index;
 
@@ -76,7 +75,7 @@ int	ft_unset(char **av, t_env *env)
 		index = find_key_in_env(av[i], env);
 		if (index >= 0)
 		{
-			del_in_env(av[i], env, index);
+			del_in_env(env, index);
 		}
 		i++;
 	}
