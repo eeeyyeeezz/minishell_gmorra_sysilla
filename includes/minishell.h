@@ -150,6 +150,15 @@ void					ft_histadd_back(t_history **lst, t_history *new);
 
 // LOGIC
 
+
+int				double_right(char *name);
+int				single_right(char *name);
+int				single_left(char *name);
+char			**until_stop(char *stop);
+void			double_left(char *stop, char **command, t_struct *global);
+void			chld_sig(void);
+int				ft_isnum(char *str);
+void			print_sortmass(char **sort_mass);
 int				pwd(t_env *env);
 void			export_plus(char *av, t_env *env, int index_eq);
 int				ft_isnu(char *s);

@@ -1,29 +1,5 @@
 #include "../../includes/minishell.h"
 
-int	ft_isnum(char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (!(str[i] <= '9' && str[i] >= '0'))
-			j++;
-		i++;
-	}
-	if (j != 0)
-		return (1);
-	return (0);
-}
-
-void	chld_sig(void)
-{
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-}
-
 int	par_process(t_env *env)
 {
 	signal(SIGINT, SIG_IGN);
@@ -32,8 +8,13 @@ int	par_process(t_env *env)
 		write(1, "\n", 1);
 	if (WIFSIGNALED(env->status) != 0 && WTERMSIG(env->status) == SIGQUIT)
 		write(1, "^Quit \n", 8);
-	if (WEXITSTATUS(env->status) == 0)
+	if (WEXITSTATUS(env->status) == 2)
+		env->cn = 1;
+	if (WEXITSTATUS(env->status) == 0 || WEXITSTATUS(env->status) == 1)
+	{
+		env->cn = -1;
 		return (0);
+	}
 	return (1);
 }
 
@@ -48,7 +29,7 @@ int	lnch_pth(char *path_ag, char **args, char **envp, t_env *env)
 		chld_sig();
 		if (execve(path_ag, args, envp) == -1)
 		{
-			exit(1);
+			exit(2);
 		}
 		exit(0);
 	}

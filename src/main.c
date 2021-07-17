@@ -49,8 +49,6 @@ char **lsh_split_line(char *line)
 
 static	void	free_all(t_struct *global, char *line)
 {
-	// if (line)
-	// 	ft_free((void *)&line);
 	if (global->pars.ft_pipes)
 		ft_free((void *)&global->pars.ft_pipes);
 	if (global->pars.ft_cmd)
@@ -148,7 +146,6 @@ int				main(int argc, char **argv, char **envp)
 				free_all(&global, line);
 			else
 			{
-				// print_aboba(global.pars.ft_pipes, "JKJ");
 				if (global.pars.chr[0] == 4)
 					redidirecti(&global);
 				if (global.pars.args[1] == NULL)
