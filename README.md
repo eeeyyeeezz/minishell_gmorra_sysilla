@@ -10,7 +10,8 @@ make fclean // make re
 ```
 *Основные команды bash и краткая шпаргалка по оболочке*
 
-> https://tproger.ru/translations/bash-cheatsheet/ 
+> https://tproger.ru/translations/bash-cheatsheet/
+>  
 > https://losst.ru/osnovnye-komandy-bash
 
 ps. не все команды могут работать  :_)
