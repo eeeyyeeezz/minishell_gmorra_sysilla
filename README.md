@@ -16,4 +16,4 @@ make fclean // make re
 
 ps. не все команды могут работать  :_)
 
-![Alt Text](https://s5.gifyu.com/images/minishell_gif.gif)
+![6704d2f33ec65655a088e2cd0d3812b694b1343d](https://user-images.githubusercontent.com/68189276/141612748-802bf5d8-b2fe-420f-ae9d-38daa87003ac.gif)
